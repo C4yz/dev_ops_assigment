@@ -1,7 +1,18 @@
 import {Component} from "react";
-import {Box, Divider} from "@material-ui/core";
+import * as React from "react";
+import {
+    Box,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Divider,
+    TextField
+} from "@material-ui/core";
 import Button from "@mui/material/Button";
 import { borders } from '@mui/system';
+import NewQuestion from "./NewQuestion";
 
 class Sidebar extends Component{
     constructor(props) {
@@ -9,6 +20,7 @@ class Sidebar extends Component{
         this.state = {
             title : "nothingYet"
         }
+
     }
 
     render() {
@@ -42,7 +54,7 @@ class Sidebar extends Component{
 
         return (
             <div style = {{background:'#2b2f38', width : '100%', height: '100%', padding:5}}>
-                <Button style={{color: "white", background:"#3373ff", padding:15, margin:15}}>Ask a new Question</Button>
+                <NewQuestion/>
                 <Box  sx={{display : 'flex',
                     flexDirection : 'column',
                     flexGrow : 1,
@@ -55,5 +67,6 @@ class Sidebar extends Component{
             </div>
         )
     }
+
 }
 export default Sidebar;
