@@ -12,6 +12,7 @@ class Sidebar extends Component{
     }
 
     render() {
+
         const list = [
             "Dag 1",
             "Dag 2",
@@ -28,6 +29,7 @@ class Sidebar extends Component{
             "#473b31",
             "#473131",
         ]
+        
         for (let i = 0; i < list.length; i++) {
             buttons.push(
                 <Box sx={{p: 0.2 , width : '100%'}}>
