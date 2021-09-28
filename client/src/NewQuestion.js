@@ -1,4 +1,5 @@
 import * as React from 'react';
+import BoardStore from "./stores/BoardStore";
 import {
     Button,
     Dialog,
@@ -16,6 +17,8 @@ class NewQuestion extends Component {
         super(props);
         this.state = {
             open : false,
+            title: '',
+            desc: '',
         }
 
         this.handleClickOpen = () => {
@@ -26,13 +29,28 @@ class NewQuestion extends Component {
             this.setState({open: false})
             //TODO: handle cancel button
         };
-        this.handlePost = () =>{
+        this.handlePost = (event) =>{
             this.setState({open: false})
+            console.log(this.state.title);
+            const boardStore = new BoardStore();
+            const question = {
+                title: this.state.title,
+                desc: this.state.desc,
+                author: "Daniel Styrbæk",
+                date: "Lige fucking nu" 
+            }
+            boardStore.content.push(question);
+            
+
+            
             //TODO: handle post button
         }
     }
 
+
     render() {
+
+        
         return (
             <div>
                 <Button style={{color: "white",
@@ -49,13 +67,12 @@ class NewQuestion extends Component {
                             Your question might have been answered already.<br/>
                             Remember to check board before asking.
                         </DialogContentText>
+                        <form noValidate autoComplete="off" onSubmit={this.handlePost} >
                         <TextField
                             id="TitleInput"
                             label="Title"
-
                             fullWidth
-                            //value={} holder værdi
-                            /*onChange={} TODO: handleChange metode*/
+                            onChange={(e) => this.state.title = e.target.value}
                         />
                         <TextField
                             id="DescriptionInput"
@@ -63,13 +80,16 @@ class NewQuestion extends Component {
                             multiline
                             maxRows={5}
                             fullWidth
-                            //value={} holder værdi
-                            /*onChange={} TODO: handleChange metode*/
+                            onChange={(e) => this.state.title = e.target.value}
                         />
-                    </DialogContent>
-                    <DialogActions>
                         <Button onClick={this.handleClose}>Cancel</Button>
                         <Button onClick={this.handlePost}>Post</Button>
+
+                    </form>
+
+                    </DialogContent>
+                    <DialogActions>
+                        
                     </DialogActions>
                 </Dialog>
             </div>

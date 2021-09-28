@@ -3,6 +3,7 @@ import Topbar from "./Topbar";
 import Sidebar from "./Sidebar";
 import {Grid} from "@material-ui/core";
 import Board from "./Board";
+import { observer } from 'mobx-react-lite';
 
 
 class App extends Component {
