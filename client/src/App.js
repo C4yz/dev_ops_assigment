@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Topbar from "./Topbar";
+import Sidebar from "./Sidebar";
+import {Grid} from "@material-ui/core";
+import Board from "./Board";
 
 class App extends Component {
 state = {
@@ -25,7 +29,21 @@ state = {
 
   render() {
     return (
-      <div className="App">
+      <div className="App" style={{p: 0, background: "#313847"}}>
+        <Topbar/>
+
+        <Grid container xs={12}
+            direction={"row"}>
+            <Grid item xs={2} >
+                <Sidebar/>
+            </Grid>
+            <Grid item xs={10}>
+                <div>
+                    <Board/>
+                </div>
+            </Grid>
+        </Grid>
+
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
