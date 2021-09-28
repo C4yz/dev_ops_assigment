@@ -31,10 +31,12 @@ class Thread extends Component {
         )
     }
 }
+
 class Board extends Component{
     constructor(props) {
         super(props);
         this.state = {
+            title: 'notitle',
             todo: null,
             ongoing: null,
             done: null,
@@ -52,7 +54,7 @@ class Board extends Component{
         console.log(todoCards[0]);
         return (
             <div style={{width: '100%'}}>
-                <h1 style={{color: 'white'}}>Current Board</h1>
+                <h1 style={{color: 'white'}}>{this.state.title}</h1>
 
                 <Box sx={{width: '100%', display:'flex', flexGrow: 1, flexDirection: 'row'}}>
                     <Box sx={{background: "#30656d", borderRadius: 20, m:1, width:'33%' , display: 'flex', flexDirection: 'column'}}>
