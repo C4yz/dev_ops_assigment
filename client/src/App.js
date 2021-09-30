@@ -1,18 +1,16 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
 import Topbar from "./Topbar";
 import Sidebar from "./Sidebar";
-import {Grid} from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import Board from "./Board";
+import { observer } from "mobx-react-lite";
+import BoardStore from "./stores/BoardStore";
 
-class App extends Component {
-state = {
-    data: null
-  };
+const boardStore = new BoardStore();
 
-  componentDidMount() {
-    this.callBackendAPI()
+function App() {
+  /* ComponentDidMount() {
+    callBackendAPI()
       .then(res => this.setState({ data: res.express }))
       .catch(err => console.log(err));
   }
@@ -25,33 +23,23 @@ state = {
       throw Error(body.message) 
     }
     return body;
-  };
+  }; */
 
-  render() {
-    return (
-      <div className="App" style={{p: 0, background: "#313847"}}>
-        <Topbar/>
-          {/*grid to hold sidebar and board*/}
-          <Grid container xs={12}
-            direction={"row"}>
-            <Grid item xs={2} >
-                <Sidebar/>
-            </Grid>
-            <Grid item xs={10}>
-                <div>
-                    <Board/>
-                </div>
-            </Grid>
+  return (
+    <div className="App" style={{ p: 0, background: "#313847" }}>
+      <Topbar store={boardStore} />
+      <Grid container xs={12} direction={"row"}>
+        <Grid item xs={2}>
+          <Sidebar store={boardStore} />
         </Grid>
-
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">{this.state.data}</p>
-      </div>
-    );
-  }
+        <Grid item xs={10}>
+          <div>
+            <Board store={boardStore} />
+          </div>
+        </Grid>
+      </Grid>
+    </div>
+  );
 }
 
 export default App;

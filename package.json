@@ -15,6 +15,9 @@
   "dependencies": {
     "@material-ui/core": "^4.12.3",
     "concurrently": "^6.2.1",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mobx": "^6.3.3",
+    "mobx-react-lite": "^3.2.1",
+    "nodemon": "^2.0.13"
   }
 }
