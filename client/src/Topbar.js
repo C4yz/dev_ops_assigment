@@ -38,29 +38,6 @@ class Topbar extends Component {
         }
         return (
             <div className="Topbar" >
-                {/*<Grid container
-                      direction={"row"}
-                      justifyContent={"flex-start"}
-                      alignItems={"center"}
-                      spacing={0}>
-                    <Grid container xs={10}
-                          direction={"row"}
-                          justifyContent={"flex-start"}
-                          alignItems={"center"}
-                          spacing={0}>
-                        {buttons}
-
-                    </Grid>
-                    <Grid container xs={2}
-                        direction={"row"}
-                        justifyContent={"flex-end"}
-                        alignItems={"center"}>
-                        <Grid item>
-                            <Button>user</Button>
-                        </Grid>
-
-                    </Grid>
-                </Grid>*/}
                 <div style={{background: "#2b2f38", padding: 3,  width: '100%' }}>
                     <Box sx={{ display: 'flex', flexDirection : 'row'}}>
                         <Box sx={{ display: 'flex', //make flexbox (stuff works...)

@@ -31,7 +31,8 @@ state = {
     return (
       <div className="App" style={{p: 0, background: "#313847"}}>
         <Topbar/>
-        <Grid container xs={12}
+          {/*grid to hold sidebar and board*/}
+          <Grid container xs={12}
             direction={"row"}>
             <Grid item xs={2} >
                 <Sidebar/>

@@ -19,7 +19,7 @@ class Thread extends Component {
                 <Card elevation={3}>
                     <CardHeader
                         title={this.state.title}
-                        subheader={this.state.author + ', ' + this.state.date}/>
+                        subheader={'from ' + this.state.author + '<br/>' + this.state.date}/>
                     <CardContent>
                         <Typography>
                             {this.state.desc}
@@ -43,8 +43,6 @@ class Board extends Component{
         }
     }
     render() {
-
-
         const todoCards = [];
 
         todoCards.push(<Thread title={"titel"} desc={"beskrivelse"} author={"Jacob Berg Eriksen"} date={ "dags dato"} />);
