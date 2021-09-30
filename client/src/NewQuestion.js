@@ -27,14 +27,15 @@ function NewQuestion (props){
 
     const handlePost = e =>{
         setOpen(false);
-        console.log(this.state.title);
+        console.log(title);
         const question = {
-            title: this.state.title,
-            desc: this.state.desc,
+            title: title,
+            desc: desc,
             author: "Daniel Styrbæk",
             date: "Lige fucking nu"
         }
-        store.push(question);
+        console.log(store.content);
+        store.content.push(question);
         //TODO: handlePost proper
     }
 
@@ -67,7 +68,7 @@ function NewQuestion (props){
                             multiline
                             maxRows={5}
                             fullWidth
-                            onChange={(e) => setTitle(e.target.value)}
+                            onChange={(e) => setDesc(e.target.value)}
                         />
                         <Button onClick={handleClose}>Cancel</Button>
                         <Button onClick={handlePost}>Post</Button>

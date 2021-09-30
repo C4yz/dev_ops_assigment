@@ -1,24 +1,16 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import Topbar from "./Topbar";
 import Sidebar from "./Sidebar";
-import {Grid} from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import Board from "./Board";
-import { observer } from 'mobx-react-lite';
-import BoardStore from './stores/BoardStore';
+import { observer } from "mobx-react-lite";
+import BoardStore from "./stores/BoardStore";
 
+const boardStore = new BoardStore();
 
-class App extends Component {
-
-boardStore = new BoardStore();
-
-
-state = {
-    data: null
-  };
-
-  
-  componentDidMount() {
-    this.callBackendAPI()
+function App() {
+  /* ComponentDidMount() {
+    callBackendAPI()
       .then(res => this.setState({ data: res.express }))
       .catch(err => console.log(err));
   }
@@ -31,31 +23,23 @@ state = {
       throw Error(body.message) 
     }
     return body;
-  };
+  }; */
 
-  render() {
-    return (
-      <div className="App" style={{p: 0, background: "#313847"}}>
-        <Topbar/>
-        <Grid container xs={12}
-            direction={"row"}>
-            <Grid item xs={2} >
-                <Sidebar store = {this.boardStore}/>
-            </Grid>
-            <Grid item xs={10}>
-                <div>
-                    observer(<Board store = {this.boardStore}/>
-                </div>
-            </Grid>
+  return (
+    <div className="App" style={{ p: 0, background: "#313847" }}>
+      <Topbar store={boardStore} />
+      <Grid container xs={12} direction={"row"}>
+        <Grid item xs={2}>
+          <Sidebar store={boardStore} />
         </Grid>
-
-        <header className="App-header">
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">{this.state.data}</p>
-      </div>
-    );
-  }
+        <Grid item xs={10}>
+          <div>
+            <Board store={boardStore} />
+          </div>
+        </Grid>
+      </Grid>
+    </div>
+  );
 }
 
 export default App;

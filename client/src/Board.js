@@ -84,4 +84,4 @@ function Board(props){
         </div>
     );
 }
-export default Board;
+export default observer(Board);

@@ -6,6 +6,12 @@ function Topbar(props){
     const [currentBoard,setCurrentBoard] = useState("No board selected");
     const [username,setUserName] = useState("s195471");
 
+
+    const onClickHandler = event =>  {
+        console.log("this happens" + event);
+        props.store.changeStore(event);
+    };
+
     const list = [
         "DevOps",
         "Innovation Pilot",
@@ -27,7 +33,7 @@ function Topbar(props){
 
     for (let i = 0; i < list.length; i++) {
         buttons.push(
-            <Button style={{background: color[i%color.length]}} variant={'contained'}>
+            <Button onClick= {() => {onClickHandler(list[i])}} style={{background: color[i%color.length]}} variant={'contained'}>
                 {list[i]}
             </Button>
         )
