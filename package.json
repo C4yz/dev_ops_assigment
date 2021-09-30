@@ -18,6 +18,8 @@
     "concurrently": "^6.2.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "mobx": "^6.3.3",
+    "mobx-react-lite": "^3.2.1",
     "helmet": "^4.6.0",
     "nodemon": "^2.0.13"
   }

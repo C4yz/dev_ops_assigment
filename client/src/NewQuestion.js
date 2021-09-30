@@ -1,4 +1,5 @@
 import * as React from 'react';
+import BoardStore from "./stores/BoardStore";
 import {
     Button,
     Dialog,
@@ -8,54 +9,58 @@ import {
     DialogTitle,
     TextField
 } from "@material-ui/core";
-import {Component} from "react";
+import {Component, useState} from "react";
 
+function NewQuestion (props){
 
-class NewQuestion extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            open : false,
-        }
+    const [open, setOpen] = useState(false);
+    const [title, setTitle] = useState("");
+    const [desc, setDesc] = useState("");
+    const store = props.store;
 
-        this.handleClickOpen = () => {
-            this.setState({open: true})
-        };
-
-        this.handleClose = () => {
-            this.setState({open: false})
-            //TODO: handle cancel button
-        };
-        this.handlePost = () =>{
-            this.setState({open: false})
-            //TODO: handle post button
-        }
+    const handleClickOpen = e => {
+        setOpen(true);
+    };
+    const handleClose = e => {
+        setOpen(false);
     }
 
-    render() {
-        return (
-            <div>
-                <Button style={{color: "white",
-                    background:"#3373ff",
-                    padding:15,
-                    margin:15}}
-                        onClick={this.handleClickOpen}>
-                    Ask a new Question
-                </Button>
-                <Dialog open={this.state.open} onClose={this.handleClose} fullWidth>
-                    <DialogTitle>New question</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText>
-                            Your question might have been answered already.<br/>
-                            Remember to check board before asking.
-                        </DialogContentText>
+    const handlePost = e =>{
+        setOpen(false);
+        console.log(title);
+        const question = {
+            title: title,
+            desc: desc,
+            author: "Daniel Styrbæk",
+            date: "Lige fucking nu"
+        }
+        console.log(store.content);
+        store.content.push(question);
+        //TODO: handlePost proper
+    }
+
+    return (
+        <div>
+            <Button style={{color: "white",
+                background:"#3373ff",
+                padding:15,
+                margin:15}}
+                    onClick={handleClickOpen}>
+                Ask a new Question
+            </Button>
+            <Dialog open={open} onClose={handleClose} fullWidth>
+                <DialogTitle>New question</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Your question might have been answered already.<br/>
+                        Remember to check board before asking.
+                    </DialogContentText>
+                    <form noValidate autoComplete="off" onSubmit={handlePost} >
                         <TextField
                             id="TitleInput"
                             label="Title"
-
                             fullWidth
-                            //value={} holder værdi
-                            /*onChange={} TODO: handleChange metode*/
+                            onChange={(e) => setTitle(e.target.value)}
                         />
                         <TextField
                             id="DescriptionInput"
@@ -63,17 +68,19 @@ class NewQuestion extends Component {
                             multiline
                             maxRows={5}
                             fullWidth
-                            //value={} holder værdi
-                            /*onChange={} TODO: handleChange metode*/
+                            onChange={(e) => setDesc(e.target.value)}
                         />
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={this.handleClose}>Cancel</Button>
-                        <Button onClick={this.handlePost}>Post</Button>
-                    </DialogActions>
-                </Dialog>
-            </div>
-        );
-    }
+                        <Button onClick={handleClose}>Cancel</Button>
+                        <Button onClick={handlePost}>Post</Button>
+
+                    </form>
+
+                </DialogContent>
+                <DialogActions>
+
+                </DialogActions>
+            </Dialog>
+        </div>
+    );
 }
 export default NewQuestion;
