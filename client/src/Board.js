@@ -31,7 +31,7 @@ function Board(props){
 
     return (
         <div style={{ width: "100%" }}>
-            <h1 style={{ color: "white" }}>{title}</h1>
+            <h1 style={{ color: "white", textAlign: 'center' }}>{title}</h1>
             <Box
                 sx={{
                     width: "100%",
