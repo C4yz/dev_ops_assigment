@@ -1,6 +1,7 @@
-import { makeObservable, observable } from "mobx";
+import { makeAutoObservable, observable } from "mobx";
 
 export default class BoardStore {
+  
   content = [
     {
       title: "titel1",
@@ -23,8 +24,11 @@ export default class BoardStore {
   ];
 
   constructor() {
-    makeObservable(this, {
-      content: observable,
-    });
+    makeAutoObservable(this, {}, {autoBind:true});
   }
+
+  
 }
+const boardStore = new BoardStore();
+
+

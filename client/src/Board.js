@@ -9,9 +9,10 @@ import {
   Typography,
 } from "@material-ui/core";
 import BoardStore from "./stores/BoardStore";
-import { observer, useObserver } from 'mobx-react-lite';
+import {observer, useObserver } from 'mobx-react-lite';
 
 class Thread extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -49,13 +50,13 @@ class Board extends Component {
       todo: null,
       ongoing: null,
       done: null,
+      store: this.props.store,
     };
   }
 
   render() {
-    const boardStore = new BoardStore();
     const todoCards = [];
-    boardStore.content.forEach((element) => {
+    this.state.store.content.forEach((element) => {
       todoCards.push(
         <Thread
           title={element.title}

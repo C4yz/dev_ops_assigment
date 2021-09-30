@@ -18,7 +18,8 @@ class Sidebar extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            title : "nothingYet"
+            title : "nothingYet",
+            store : this.props.store,
         }
 
     }
@@ -54,7 +55,7 @@ class Sidebar extends Component{
 
         return (
             <div style = {{background:'#2b2f38', width : '100%', height: '100%', padding:5}}>
-                <NewQuestion/>
+                <NewQuestion store = {this.state.store}/>
                 <Box  sx={{display : 'flex',
                     flexDirection : 'column',
                     flexGrow : 1,

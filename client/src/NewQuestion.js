@@ -19,6 +19,7 @@ class NewQuestion extends Component {
             open : false,
             title: '',
             desc: '',
+            store: this.props.store,
         }
 
         this.handleClickOpen = () => {
@@ -32,14 +33,13 @@ class NewQuestion extends Component {
         this.handlePost = (event) =>{
             this.setState({open: false})
             console.log(this.state.title);
-            const boardStore = new BoardStore();
             const question = {
                 title: this.state.title,
                 desc: this.state.desc,
                 author: "Daniel Styrbæk",
                 date: "Lige fucking nu" 
             }
-            boardStore.content.push(question);
+            this.state.store.content.push(question);
             
 
             

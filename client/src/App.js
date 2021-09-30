@@ -4,13 +4,19 @@ import Sidebar from "./Sidebar";
 import {Grid} from "@material-ui/core";
 import Board from "./Board";
 import { observer } from 'mobx-react-lite';
+import BoardStore from './stores/BoardStore';
 
 
 class App extends Component {
+
+boardStore = new BoardStore();
+
+
 state = {
     data: null
   };
 
+  
   componentDidMount() {
     this.callBackendAPI()
       .then(res => this.setState({ data: res.express }))
@@ -34,11 +40,11 @@ state = {
         <Grid container xs={12}
             direction={"row"}>
             <Grid item xs={2} >
-                <Sidebar/>
+                <Sidebar store = {this.boardStore}/>
             </Grid>
             <Grid item xs={10}>
                 <div>
-                    <Board/>
+                    observer(<Board store = {this.boardStore}/>
                 </div>
             </Grid>
         </Grid>
