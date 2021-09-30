@@ -48,6 +48,7 @@ function Board(props){
                         width: "33%",
                         display: "flex",
                         flexDirection: "column",
+                        alignItems: "center",
                     }}
                 >
                     <h2 style={{ color: "white" }}>No answers yet</h2>
@@ -61,6 +62,7 @@ function Board(props){
                         width: "33%",
                         display: "flex",
                         flexDirection: "column",
+                        alignItems: "center",
                     }}
                 >
                     <h2 style={{ color: "white" }}>Discussing</h2>
@@ -75,6 +77,7 @@ function Board(props){
                         width: "33%",
                         display: "flex",
                         flexDirection: "column",
+                        alignItems: "center",
                     }}
                 >
                     <h2 style={{ color: "white" }}>Finished answer</h2>
