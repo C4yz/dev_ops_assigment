@@ -8,14 +8,15 @@ import {
   IconButton,
   Typography,
 } from "@material-ui/core";
-import BoardStore from "./stores/BoardStore";
+import BoardStore from "../../stores/BoardStore";
 import {observer, useObserver } from 'mobx-react-lite';
-import Thread from "./Thread";
+import Thread from "../Thread";
+import Titlebar from "./Titlebar";
 
 
 
 function Board(props){
-    const [title, setTitle] = useState("noTitleYet");
+    //const [title, setTitle] = useState("noTitleYet");
     const store = props.store;
     const todoCards = [];
     store.content.forEach((element) => {
@@ -31,7 +32,7 @@ function Board(props){
 
     return (
         <div style={{ width: "100%" }}>
-            <h1 style={{ color: "white", textAlign: 'center' }}>{title}</h1>
+            <Titlebar/>
             <Box
                 sx={{
                     width: "100%",

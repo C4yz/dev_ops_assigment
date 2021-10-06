@@ -12,7 +12,7 @@ import {
 } from "@material-ui/core";
 import Button from "@mui/material/Button";
 import { borders } from '@mui/system';
-import NewQuestion from "./NewQuestion";
+import NewQuestion from "../NewQuestion";
 
 function Sidebar(props){
     const list = [
