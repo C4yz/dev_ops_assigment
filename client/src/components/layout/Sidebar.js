@@ -15,13 +15,20 @@ import { borders } from '@mui/system';
 import NewQuestion from "../NewQuestion";
 
 function Sidebar(props){
-    const list = [
+    const store = props.store;
+    const tabs = store.course.tabs;
+    let list = Object.keys(tabs);
+
+    console.log(list);
+
+    
+    /* const list = [
         "Dag 1",
         "Dag 2",
         "Aflevering 1",
         "Eksamen",
         "Hygge",
-    ];
+    ]; */
     const buttons = [];
     const color = [
         "#463147",

@@ -18,8 +18,9 @@ import Titlebar from "./Titlebar";
 function Board(props){
     //const [title, setTitle] = useState("noTitleYet");
     const store = props.store;
+    const threads = props.store.course.tabs.day1.Threads;
     const todoCards = [];
-    store.content.forEach((element) => {
+    threads.forEach((element) => {
         todoCards.push(
             <Thread
                 title={element.title}

@@ -1,0 +1,19 @@
+Frontenden skal laves færdig - uafhængig.
+    - Færdigør endelig layout
+    - implementer routing eller lignende
+    - færdigør endelig funktionalitet
+database skal sættes op - uafhængig.
+    - sæt lortet op
+    - Opret kommunikation med backend
+Backenden, der er vildt meget lort - afhænger lidt af alle andre punkter.
+    - Der er intent ligenu, der skal der være
+    - connection med database
+    - snak sammen med frontend
+    - authentication
+    - Sikkert en masse mere
+Docker på serveren - Noget med ipv6
+    - Lav et image når der er tættere på at være done
+
+Deployment
+    - Sæt vores pipeline op
+
