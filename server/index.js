@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const pool = require("./db");
 const cors = require("cors");
+const e = require('express');
 
 const PORT = process.env.PORT || 6000;
 
@@ -21,13 +22,22 @@ app.get("/all", async (req,res) => {
 })
 
 //Get One
+app.get("/getOne/:id", async (req,res) => {
+    try {
+        const {id} = req.params;
+        const getOne = await pool.query(`SELECT * FROM test WHERE personid = ${id}`);
+        res.json(getOne.rows);
+    } catch (error) {
+        console.error(error.message);
+    }
+})
 
 //Create
 app.post("/create", async (req,res) =>{
     try {
         const {personid} = req.body;
-        const newObj = await pool.query("INSERT INTO test (personid) VALUES($1)", 
-        [personid]);
+        const {name} = req.body;
+        const newObj = await pool.query(`INSERT INTO test (personid,name) VALUES(${personid},'${name}')`);
         res.json(newObj);
     } catch (error) {
         console.error(error.message);
@@ -35,8 +45,26 @@ app.post("/create", async (req,res) =>{
 })
 
 //Update
+app.put("/update/:id", async (req,res) => {
+    try {
+        const {id} = req.params;
+        const updateObj = await pool.query(`UPDATE test SET name = 'Test1' WHERE personid = ${id}`);
+        res.json(updateObj)
+    } catch (error) {
+        console.error(error.message);
+    }
+})
 
 //Delete
+app.delete("/delete/:id", async (req,res) => {
+    try {
+        const {id} = req.params;
+        const delPerson = await pool.query(`DELETE FROM test WHERE personid = ${id}`);
+        res.json("Object was deleted!");
+    } catch (error) {
+        console.error(error.message);
+    }
+})
 
 app.listen(PORT, ()=>{
     console.log(`Server is running on ${PORT}` )
