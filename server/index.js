@@ -13,7 +13,7 @@ app.use(express.json());
 //Get All
 app.get("/all", async (req,res) => {
     try {
-        const getAll = await pool.query("SEÆECT * FROM test");
+        const getAll = await pool.query("SELECT * FROM test");
         res.json(getAll.rows);
     } catch (error) {
         
