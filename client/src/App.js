@@ -32,14 +32,17 @@ function App() {
         <Grid item xs={2}>
           <Sidebar store={boardStore} />
         </Grid>
-        <Grid item xs={10}>
-          <div>
-            <Board store={boardStore} />
-          </div>
-        </Grid>
+        
       </Grid>
     </div>
   );
 }
 
 export default App;
+
+
+/* <Grid item xs={10}>
+          <div>
+            <Board store={boardStore} />
+          </div>
+        </Grid> */

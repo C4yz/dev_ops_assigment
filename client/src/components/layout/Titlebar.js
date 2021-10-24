@@ -4,7 +4,9 @@ import { Box } from "@material-ui/core";
 
 const types = ["No Answers", "fucking test", "yeet"];
 
-function Titlebar() {
+function Titlebar(props) {
+    const {title} = props;
+
     return(
         <Box
         sx={{
@@ -14,7 +16,7 @@ function Titlebar() {
             flexDirection: "row",
         }}
         >
-            <h1 style={{ color: "white", textAlign: 'left', paddingLeft: "20px" }}>{"Yeet"} </h1>
+            <h1 style={{ color: "white", textAlign: 'left', paddingLeft: "20px" }}>{title} </h1>
             <TabGroup labels={types}/>
         </Box>
             
