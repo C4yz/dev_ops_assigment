@@ -1,23 +1,33 @@
 import { Component } from "react";
 import * as React from "react";
 import PropTypes from "prop-types";
+import Titlebar from "./Titlebar";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
 import { useState } from "react";
-import {
-  Box,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Divider,
-  TextField,
-} from "@material-ui/core";
+import {Box,} from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import Button from "@mui/material/Button";
 import { borders } from "@mui/system";
 import NewQuestion from "../NewQuestion";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    backgroundColor: "#2b2f38",
+    display: "flex",
+    height: '100%',
+  },
+  tabs: {
+    borderRight: `1px solid ${theme.palette.divider}`,
+    color: 'white',
+    height: '100%',
+  },
+  tab: {
+    color: 'blue',
+    backGround: 'blue'
+  }
+}));
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -37,6 +47,7 @@ TabPanel.propTypes = {
 };
 
 function Sidebar(props) {
+  const classes = useStyles();
   const store = props.store;
   const tabs = store.course.tabs;
   const [value, setValue] = useState(0);
@@ -63,7 +74,7 @@ function Sidebar(props) {
     "#473b31",
     "#473131",
   ];
-  for (let i = 0; i < list.length; i++) {
+   /*for (let i = 0; i < list.length; i++) {
     buttons.push(
       <Box sx={{ p: 0.2, width: "100%" }}>
         <Button
@@ -75,42 +86,47 @@ function Sidebar(props) {
         </Button>
       </Box>
     );
-  }
+  } */
   return (
     <div
-      style={{
-        background: "#2b2f38",
-        padding: 5,
-      }}
-    >
-      <NewQuestion store={props.store} />
+      className={classes.root}>
       <Box
         sx={{
           display: "flex",
           flexGrow: 1,
           justifyContent: "flex-start",
           alignItems: "flex-start",
+          border: '1px dashed grey',
           p: 1,
-          borderColor: "text.primary",
+          borderColor: "1px dashed grey",
         }}
       >
         <Tabs
+          tabItemContainerStyle={{width: '100px'}}
           orientation="vertical"
           value={value}
           onChange={handleChange}
+          textColor="#FFFFFF"
+          className={classes.tabs}
+          TabIndicatorProps= {{
+            style: {
+              display: "none",
+            },
+          }}
+
         >
-          <Tab label="Day 1" />
+          <Tab className={classes.tab} label="Day 1" />
           <Tab label="Day 2" />
           <Tab label="Day 3" />
         </Tabs>
         <TabPanel value={value} index={0}>
-          Item one
+          <Titlebar title="yeet"/>
         </TabPanel>
         <TabPanel value={value} index={1}>
-          Item two
+          <Titlebar title="somelongtitle"/>
         </TabPanel>
         <TabPanel value={value} index={2}>
-          Item three
+          <Titlebar title="yeet3"/>
         </TabPanel>
       </Box>
     </div>

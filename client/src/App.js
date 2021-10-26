@@ -28,12 +28,8 @@ function App() {
   return (
     <div className="App" style={{ p: 0, background: "#313847" }}>
       <Topbar store={boardStore} />
-      <Grid container xs={12} direction={"row"}>
-        <Grid item xs={2}>
-          <Sidebar store={boardStore} />
-        </Grid>
-        
-      </Grid>
+      <Sidebar store={boardStore} />
+
     </div>
   );
 }
