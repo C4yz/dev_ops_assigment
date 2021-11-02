@@ -11,10 +11,11 @@ app.use(express.json());
 
 //Routes
 
+// Courses
 //Get All
-app.get("/all", async (req,res) => {
+app.get("/allCourses", async (req,res) => {
     try {
-        const getAll = await pool.query("SELECT * FROM test");
+        const getAll = await pool.query("SELECT * FROM courses");
         res.json(getAll.rows);
     } catch (error) {
         
@@ -22,10 +23,10 @@ app.get("/all", async (req,res) => {
 })
 
 //Get One
-app.get("/getOne/:id", async (req,res) => {
+app.get("/getOneCourse/:id", async (req,res) => {
     try {
         const {id} = req.params;
-        const getOne = await pool.query(`SELECT * FROM test WHERE personid = ${id}`);
+        const getOne = await pool.query(`SELECT * FROM courses WHERE courseId = ${id}`);
         res.json(getOne.rows);
     } catch (error) {
         console.error(error.message);
@@ -33,11 +34,12 @@ app.get("/getOne/:id", async (req,res) => {
 })
 
 //Create
-app.post("/create", async (req,res) =>{
+app.post("/createCourse", async (req,res) =>{
     try {
-        const {personid} = req.body;
+        const {courseId} = req.body;
         const {name} = req.body;
-        const newObj = await pool.query(`INSERT INTO test (personid,name) VALUES(${personid},'${name}')`);
+        const {number} = req.body;
+        const newObj = await pool.query(`INSERT INTO courses (courseId,name,number) VALUES(${courseId},'${name}',${number})`);
         res.json(newObj);
     } catch (error) {
         console.error(error.message);
@@ -45,10 +47,10 @@ app.post("/create", async (req,res) =>{
 })
 
 //Update
-app.put("/update/:id", async (req,res) => {
+app.put("/updateCourse/:id", async (req,res) => {
     try {
         const {id} = req.params;
-        const updateObj = await pool.query(`UPDATE test SET name = 'Test1' WHERE personid = ${id}`);
+        const updateObj = await pool.query(`UPDATE courses SET number = '65282' WHERE courseId = ${id}`);
         res.json(updateObj)
     } catch (error) {
         console.error(error.message);
@@ -56,11 +58,35 @@ app.put("/update/:id", async (req,res) => {
 })
 
 //Delete
-app.delete("/delete/:id", async (req,res) => {
+app.delete("/deleteCourse/:id", async (req,res) => {
     try {
         const {id} = req.params;
-        const delPerson = await pool.query(`DELETE FROM test WHERE personid = ${id}`);
+        const delPerson = await pool.query(`DELETE FROM courses WHERE courseId = ${id}`);
         res.json("Object was deleted!");
+    } catch (error) {
+        console.error(error.message);
+    }
+})
+
+// Days
+
+app.get("/getDaysForCourse/:id", async (req,res) => {
+    try {
+        const {id} = req.params;
+        const getDays = await pool.query(`SELECT * FROM days WHERE pCourseId = ${id}`);
+        res.json(getDays.rows);
+    } catch (error) {
+        console.error(error.message);
+    }
+})
+
+app.post("/CreateDay", async (req,res) => {
+    try {
+        //const {name} = req.body;
+        //const {pCourseId} = req.body;
+        var data = JSON.parse(req.body);
+        const createDay = await pool.query(`INSERT INTO days (name,courseid) VALUES(`+data.name+`,`+data.courseid+`);`);
+        res.json(createDay);
     } catch (error) {
         console.error(error.message);
     }
