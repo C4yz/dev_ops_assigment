@@ -9,8 +9,8 @@ function Thread (props){
     //const [comments, setComments] = useState(props.comments)
 
     return (
-        <div>
-            <Box p={1}>
+        <div style={{width: '100%'}}>
+            <Box m={1}>
                 <Card elevation={3}>
                     <CardHeader
                         title={title}

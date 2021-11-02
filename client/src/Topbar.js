@@ -41,19 +41,19 @@ function Topbar(props){
 
     return  (
         <div className="Topbar" >
-            <div style={{background: "#2b2f38", padding: 3,  width: '100%' }}>
-                <Box sx={{ display: 'flex', flexDirection : 'row'}}>
+            <div style={{background: "#2b2f38",  width: '100%' }}>
+                <Box sx={{ display: 'flex', flexDirection : 'row', p:1}}>
                     <Box sx={{ display: 'flex', //make flexbox (stuff works...)
-                        p: 0, //padding = 1
+                        p: 0, //padding
                         flexGrow: 1, //grow box to fill space
                         flexDirection : 'row',
                         justifyContent : 'flex-start'// gravity left
                     }}>
                         {buttons}
                     </Box>
-                    <Box style={{ background: "#7a3131", borderRadius: 20}} sx={{  p: 1 }}>
+                    <Box style={{ background: "#7a3131", borderRadius: 20}} sx={{ p:1 }}>
                         <Button style={{ color: 'white'}}>{username}</Button>
-                        <Typography  style={{ fontSize: 'small', color: 'white'}}>Log Out</Typography>
+                        <Typography  style={{ fontSize: 'small', color: 'white', textAlign: 'center'}}>Log Out</Typography>
                     </Box>
                 </Box>
             </div>
