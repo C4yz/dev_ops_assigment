@@ -69,24 +69,84 @@ app.delete("/deleteCourse/:id", async (req,res) => {
 })
 
 // Days
-
+//get days for one coures
 app.get("/getDaysForCourse/:id", async (req,res) => {
     try {
         const {id} = req.params;
-        const getDays = await pool.query(`SELECT * FROM days WHERE pCourseId = ${id}`);
+        const getDays = await pool.query(`SELECT * FROM days WHERE courseid = ${id}`);
         res.json(getDays.rows);
     } catch (error) {
         console.error(error.message);
     }
 })
-
+//create day for course
 app.post("/CreateDay", async (req,res) => {
     try {
-        //const {name} = req.body;
-        //const {pCourseId} = req.body;
-        var data = JSON.parse(req.body);
-        const createDay = await pool.query(`INSERT INTO days (name,courseid) VALUES(`+data.name+`,`+data.courseid+`);`);
+        const {name} = req.body;
+        const {courseid} = req.body;
+        //var data = JSON.parse(req.body);
+        const createDay = await pool.query(`INSERT INTO days (name,courseid) VALUES('${name}',${courseid});`);
         res.json(createDay);
+    } catch (error) {
+        console.error(error.message);
+    }
+})
+//delete day
+app.delete("/deleteDay/:id", async (req,res) =>{
+    try {
+        const {id} = req.params;
+        await pool.query(`DELETE FROM days WHERE dayid = ${id}`);
+        res.json("Object was deleted!");
+    } catch (error) {
+        console.error(error,message);
+    }
+})
+
+// Cards
+// Get cardsfrom one day
+app.get("/GetCardsFromdDay/:id", async (req,res) => {
+    try {
+        const {id} = req.params;
+        const getCards = await pool.query(`SELECT * FROM cards WHERE dayid = ${id}`);
+        res.json(getCards.rows);
+    } catch (error) {
+        console.error(error.message);
+    }
+})
+//create card
+app.post("/CreateCard", async (req,res) => {
+    try {
+        const {desc} = req.body;
+        const {title} = req.body;
+        const {dayid} = req.body;
+        const {username} = req.body;
+        const createDay = await pool.query(`INSERT INTO cards ("desc","title","dayid","username") VALUES('${desc}','${title}',${dayid},'${username}');`);
+        res.json(createDay);
+    } catch (error) {
+        console.error(error.message);
+    }
+})
+
+// Comments
+// Create comment for day
+app.post("/createComment", async (req,res) =>{
+    try {
+        const {comment} = req.body;
+        const {username} = req.body;
+        const {cardid} = req.body;
+        //var data = JSON.parse(req.body);
+        const createDay = await pool.query(`INSERT INTO comments (comment,username,cardid) VALUES('${comment}','${username}',${cardid});`);
+        res.json(createDay);
+    } catch (error) {
+        console.error(error.message);
+    }
+})
+//get all comments for one card
+app.get("/getCommentsForOneCard/:id", async (req,res) =>{
+    try {
+        const {id} = req.params;
+        const getCards = await pool.query(`SELECT * FROM comments WHERE cardid = ${id}`);
+        res.json(getCards.rows);
     } catch (error) {
         console.error(error.message);
     }
