@@ -1,15 +1,19 @@
 import {Component, useState} from "react";
 import Button from '@mui/material/Button';
 import {Box, Grid, Typography} from "@material-ui/core";
+import { useHistory, withRouter } from "react-router-dom";
 
 function Topbar(props){
     const [currentBoard,setCurrentBoard] = useState("No board selected");
     const [username,setUserName] = useState("s195471");
+    const { history } = props;
 
 
     const onClickHandler = event =>  {
         console.log("this happens" + event);
         props.store.changeStore(event);
+        history.push(`/courses/${event}/2`);
+
     };
 
     const list = [
@@ -60,7 +64,7 @@ function Topbar(props){
         </div>
     )
 }
-export default Topbar;
+export default withRouter(Topbar);
 /*
 class Topbar extends Component {
     constructor(props) {

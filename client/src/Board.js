@@ -11,14 +11,20 @@ import {
 import BoardStore from "./stores/BoardStore";
 import {observer, useObserver } from 'mobx-react-lite';
 import Thread from "./Thread";
+import { useParams } from "react-router-dom";
 
 
 
 function Board(props){
-    const [title, setTitle] = useState("noTitleYet");
     const store = props.store;
     const todoCards = [];
-    store.content.forEach((element) => {
+    let { course, day } = useParams();
+    console.log("hej" + course + " " + day);
+    const tabs = props.store.course.tabs
+
+    const threads = tabs[day].threads;
+
+    threads.forEach((element) => {
         todoCards.push(
             <Thread
                 title={element.title}
@@ -31,7 +37,7 @@ function Board(props){
 
     return (
         <div style={{ width: "100%" }}>
-            <h1 style={{ color: "white", textAlign: 'center' }}>{title}</h1>
+            <h1 style={{ color: "white", textAlign: 'center' }}>{course} {day}</h1>
             <Box
                 sx={{
                     width: "100%",

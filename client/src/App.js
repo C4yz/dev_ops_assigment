@@ -5,6 +5,7 @@ import { Grid } from "@material-ui/core";
 import Board from "./Board";
 import { observer } from "mobx-react-lite";
 import BoardStore from "./stores/BoardStore";
+import { Switch, Route } from "react-router-dom";
 
 const boardStore = new BoardStore();
 
@@ -28,16 +29,22 @@ function App() {
   return (
     <div className="App" style={{ p: 0, background: "#313847" }}>
       <Topbar store={boardStore} />
-      <Grid container xs={12} direction={"row"}>
-        <Grid item xs={2}>
-          <Sidebar store={boardStore} />
-        </Grid>
+
+      <Switch>
+        <Route path="/courses/:course/:day">
+          <Grid container xs={12} direction={"row"}>
+            <Grid item xs={2}>
+              <Sidebar store={boardStore} />
+          </Grid>
         <Grid item xs={10}>
           <div>
             <Board store={boardStore} />
           </div>
         </Grid>
       </Grid>
+        </Route>
+      </Switch>
+      
     </div>
   );
 }
