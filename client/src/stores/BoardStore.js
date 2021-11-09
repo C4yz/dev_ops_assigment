@@ -1,10 +1,10 @@
-import { makeAutoObservable, makeObservable, observable, runInAction } from "mobx";
+import { makeAutoObservable, makeObservable, observable } from "mobx";
 
 export default class BoardStore {
   
   /* placeholder data */
   course = {
-    title: "devops",
+    title: "Yeet",
     tabs: {
       day1: {
         threads: [
@@ -49,15 +49,123 @@ export default class BoardStore {
       },
       day3: {threads: []},
       day4: {threads: []},
-    },
+  },
   };
 
+  courseNames = []
 
+  async populateStore() {
+    const courses = await this.getCourses();
+
+    // TODO:  potential risk async // await */
+    this.courseNames = courses;
+    console.log(courses);
+    const id = courses[0].courseid;
+    const days = await this.getDays(id);
+
+    this.course.title = courses[0].name;
+    let temp = {};
+
+    for (const day of days) {
+      const content = await this.getCards(day.dayid);
+      temp[day.name] = {threads: content };
+    }
+
+    this.course.tabs = temp;
+
+      /* TODO get comments */
+  }
+
+  async changeStore(name) {
+    console.log('start');
+    let id;
+    this.courseNames.forEach(element => {
+      console.log(name + element.name)
+      if (Object.values(element).includes(name)) {
+        console.log("hello two electic boogalu")
+        id = element.courseid;
+        
+      }})
+
+    const days = await this.getDays(id);
+
+    this.course.title = name;
+    let temp = {};
+
+    for (const day of days) {
+      const content = await this.getCards(day.dayid);
+      temp[day.name] = {threads: content };
+    }
+
+    this.course.tabs = temp;
+
+    console.log(); 
+
+
+    }
+
+    
+
+
+  
+
+  async getComments(id) {
+    try {
+      const res = await fetch(`http://localhost:5000/getCommentsForOneCard/${id}`)
+      const parsed = await res.json();
+      return parsed;
+    } catch (error) {
+      console.log("shits on fire comments");
+    }
+  }
+
+  async getCards(id) {
+    try {
+      const res = await fetch(`http://localhost:5000/GetCardsFromdDay/${id}`)
+      const parsed = await res.json();
+      console.log(parsed);
+      return parsed;
+    } catch (error) {
+      console.log("shits on fire cards");
+    }
+  }
+
+  async getDays(id) {
+    try {
+      const res = await fetch(`http://localhost:5000/getDaysForCourse/${id}`)
+      const parsed = await res.json();
+      console.log(parsed);
+      return parsed;
+    } catch (error) {
+      console.log("shits on fire days");
+    }
+  }
+
+  async getCourse(id) {
+    try {
+      const res = await fetch(`http://localhost:5000/getOneCourse/${id}`)
+      const parsed = await res.json();
+      console.log(parsed);
+      return parsed;
+    } catch (error) {
+      console.log("shits on fire");
+    }
+  }
+
+  async getCourses() {
+    try {
+      const res = await fetch("http://localhost:5000/allCourses");
+      const parsed = await res.json();
+      return parsed; 
+    } catch (error) {
+      
+    }
+  }
 
   constructor() {
-    makeObservable(this, {
-		course : observable,
-	})
+    makeAutoObservable(this, {}, {
+    autoBind: true,
+  })
   }
 
   

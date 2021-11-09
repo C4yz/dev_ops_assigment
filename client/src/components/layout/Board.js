@@ -16,24 +16,23 @@ import { useParams } from "react-router-dom";
 
 
 function Board(props){
-    const store = props.store;
     const todoCards = [];
     let { course, day } = useParams();
-    console.log("hej" + course + " " + day);
     const tabs = props.store.course.tabs
 
     const threads = tabs[day].threads;
+    console.log("title " + props.store.course.title);
 
     threads.forEach((element) => {
         todoCards.push(
             <Thread
                 title={element.title}
                 desc={element.desc}
-                author={element.author}
+                author={element.username}
                 date={element.date}
             />
         );
-    });
+    }); 
 
     return (
         <div style={{ width: "100%" }}>
