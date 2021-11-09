@@ -11,8 +11,7 @@ function Topbar(props){
 
     const onClickHandler = event =>  {
         console.log("this happens" + event);
-        props.store.changeStore(event);
-        history.push(`/courses/${event}/2`);
+        history.push(`/courses/${event}/day1`);
 
     };
 
