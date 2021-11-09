@@ -2,18 +2,11 @@ import {Component} from "react";
 import * as React from "react";
 import {
     Box,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
-    Divider,
-    TextField
 } from "@material-ui/core";
 import Button from "@mui/material/Button";
 import { borders } from '@mui/system';
-import NewQuestion from "./NewQuestion";
-import { useHistory, useParams, withRouter } from "react-router-dom";
+import NewQuestion from "../NewQuestion";
+import {useParams, withRouter } from "react-router-dom";
 
 
 function Sidebar(props){

@@ -2,6 +2,7 @@ import { makeAutoObservable, makeObservable, observable, runInAction } from "mob
 
 export default class BoardStore {
   
+  /* placeholder data */
   course = {
     title: "devops",
     tabs: {

@@ -8,9 +8,9 @@ import {
   IconButton,
   Typography,
 } from "@material-ui/core";
-import BoardStore from "./stores/BoardStore";
+import BoardStore from "../../stores/BoardStore";
 import {observer, useObserver } from 'mobx-react-lite';
-import Thread from "./Thread";
+import Thread from "../Thread";
 import { useParams } from "react-router-dom";
 
 

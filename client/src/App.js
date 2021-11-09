@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import Topbar from "./Topbar";
-import Sidebar from "./Sidebar";
+import Topbar from "./components/layout/Topbar";
+import Sidebar from "./components/layout/Sidebar";
 import { Grid } from "@material-ui/core";
-import Board from "./Board";
+import Board from "./components/layout/Board";
 import { observer } from "mobx-react-lite";
 import BoardStore from "./stores/BoardStore";
 import { Switch, Route } from "react-router-dom";
