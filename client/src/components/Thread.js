@@ -6,7 +6,6 @@ function Thread (props){
     const [desc, setDesc] = useState(props.desc);
     const [author, setAuthor] = useState(props.author);
     const [date, setDate] = useState(props.date);
-    //const [comments, setComments] = useState(props.comments)
 
     return (
         <div style={{width: '100%'}}>

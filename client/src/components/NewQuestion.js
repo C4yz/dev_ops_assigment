@@ -1,5 +1,5 @@
 import * as React from 'react';
-import BoardStore from "./stores/BoardStore";
+import BoardStore from "../stores/BoardStore";
 import {
     Button,
     Dialog,
