@@ -5,13 +5,13 @@ services:
     build:
       context: ./server
       dockerfile: ./Dockerfile
-    image: "devops_server"
+    image: "mocompres/devops_server"
     ports:
       - "6000:6000"
   client:
     build:
       context: ./client
       dockerfile: ./Dockerfile
-    image: "devops_client"
+    image: "mocompres/devops_client"
     ports:
       - "3000:3000"
