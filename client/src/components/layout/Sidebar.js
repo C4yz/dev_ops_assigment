@@ -2,19 +2,19 @@ import {Component} from "react";
 import * as React from "react";
 import {
     Box,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
-    Divider,
-    TextField
 } from "@material-ui/core";
 import Button from "@mui/material/Button";
 import { borders } from '@mui/system';
-import NewQuestion from "./NewQuestion";
+import NewQuestion from "../NewQuestion";
+import {useParams, withRouter } from "react-router-dom";
+
 
 function Sidebar(props){
+    let { course } = useParams();
+    const { history } = props;
+    const store = props.store;
+    const tabs = store.course.tabs;
+
     const list = [
         "Dag 1",
         "Dag 2",
@@ -31,15 +31,22 @@ function Sidebar(props){
         "#473b31",
         "#473131",
     ]
-    for (let i = 0; i < list.length; i++) {
+
+    const onClickHandler = event =>  {
+        history.push(`/courses/${course}/${event}`);
+    }
+
+    Object.keys(tabs).forEach((element) => {
+        console.log(element)
         buttons.push(
             <Box sx={{p: 0.2 , width : '100%'}}>
-                <Button variant={'contained'}
+                <Button onClick= {() => {onClickHandler(element)}}
+                        variant={'contained'}
                         fullWidth={true}
-                        style={{justifyContent: "flex-start", background: color[i]}}>{list[i]}</Button>
+                        style={{justifyContent: "flex-start"}}>{element}</Button>
             </Box>
         )
-    }
+    })
     return (
         <div style = {{background:'#2b2f38', width : '100%', height: '100%', padding:5}}>
             <NewQuestion store = {props.store}/>
@@ -56,4 +63,4 @@ function Sidebar(props){
     )
 }
 
-export default Sidebar;
+export default withRouter(Sidebar);
