@@ -11,6 +11,6 @@ RUN ls
 RUN npm install --production
 COPY . .
 
-EXPOSE 6000
+EXPOSE 5000
 
 CMD ["node", "index.js"]
