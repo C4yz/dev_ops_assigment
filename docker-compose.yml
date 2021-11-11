@@ -7,7 +7,7 @@ services:
       dockerfile: ./Dockerfile
     image: "mocompres/devops_server"
     ports:
-      - "6000:6000"
+      - "5000:5000"
   client:
     build:
       context: ./client
