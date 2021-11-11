@@ -4,7 +4,7 @@ const pool = require("./db");
 const cors = require("cors");
 const e = require('express');
 
-const PORT = process.env.PORT || 6000;
+const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
@@ -73,7 +73,7 @@ app.delete("/deleteCourse/:id", async (req,res) => {
 app.get("/getDaysForCourse/:id", async (req,res) => {
     try {
         const {id} = req.params;
-        const getDays = await pool.query(`SELECT * FROM days WHERE courseid = ${id}`);
+        const getDays = await pool.query(`SELECT * FROM days WHERE courseid = ${id} ORDER BY dayid`);
         res.json(getDays.rows);
     } catch (error) {
         console.error(error.message);

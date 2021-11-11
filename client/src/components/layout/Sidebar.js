@@ -15,13 +15,6 @@ function Sidebar(props){
     const store = props.store;
     const tabs = store.course.tabs;
 
-    const list = [
-        "Dag 1",
-        "Dag 2",
-        "Aflevering 1",
-        "Eksamen",
-        "Hygge",
-    ];
     const buttons = [];
     const color = [
         "#463147",
@@ -37,7 +30,6 @@ function Sidebar(props){
     }
 
     Object.keys(tabs).forEach((element) => {
-        console.log(element)
         buttons.push(
             <Box sx={{p: 0.2 , width : '100%'}}>
                 <Button onClick= {() => {onClickHandler(element)}}

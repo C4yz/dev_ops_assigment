@@ -6,21 +6,26 @@ import { useHistory, withRouter } from "react-router-dom";
 function Topbar(props){
     const [currentBoard,setCurrentBoard] = useState("No board selected");
     const [username,setUserName] = useState("s195471");
-    const { history } = props;
+    const { history, store } = props;
+
+    const list = [
+        
+    ];
+
+    store.courseNames.forEach(element => {
+        list.push(element.name);
+    });
 
 
     const onClickHandler = event =>  {
-        console.log("this happens" + event);
-        history.push(`/courses/${event}/day1`);
+        store.changeStore(event);
+        
+        history.push(`/courses/${event}/Day 1`);
+        
 
     };
 
-    const list = [
-        "DevOps",
-        "Innovation Pilot",
-        "CDIO",
-        "Algoritmer og datastrukturer",
-    ];
+    
     const color = [
         "#463147",
         "#314147",
