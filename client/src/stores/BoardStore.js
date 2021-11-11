@@ -56,7 +56,6 @@ export default class BoardStore {
   courseNames = [];
 
 
-
   async populateStore() {
     const courses = await this.getCourses();
 
@@ -70,12 +69,35 @@ export default class BoardStore {
     this.course.courseid = courses[0].id;
     let temp = {};
 
-    for (const day of days) {
+    /*for (const day of days) {
       const content = await this.getCards(day.dayid);
       temp[day.name] = {dayid: day.dayid, threads: content };
     }
 
-    this.course.tabs = temp;
+    this.course.tabs = temp;*/
+    let tempDays = {};
+
+    //iterate through days
+    for (const day of days) {
+      //get cards of a certain day
+      const cards = await this.getCards(day.dayid);
+      let tempCards = [];
+      //iterate through cards of certain day
+      for (const card of cards) {
+        //get comments of certain card
+        const comments = await this.getComments(card.cardid);
+        //push card with comments onto tempcards for that day
+        tempCards.push({cardid: card.cardid, desc: card.desc, title: card.title,
+          date: card.date, username: card.username, status: card.status, comments: comments });
+        /*tempCards[card.cardid] = [{cardid: card.cardid, desc: card.desc, title: card.title,
+          date: card.date, username: card.username, status: card.status, comments: comments }];*/
+      }
+      //push day with cards onto tempdays for this
+      tempDays[day.name] = {dayid: day.dayid, threads: tempCards };
+    }
+    //replace store days
+    this.course.tabs = tempDays;
+    console.log(tempDays)
 
       /* TODO get comments */
   }
@@ -95,18 +117,29 @@ export default class BoardStore {
     const days = await this.getDays(id);
 
     this.course.title = name;
-    let temp = {};
+    let tempDays = {};
 
+    //iterate through days
     for (const day of days) {
-      const content = await this.getCards(day.dayid);
-      temp[day.name] = {dayid: day.dayid, threads: content };
+      //get cards of a certain day
+      const cards = await this.getCards(day.dayid);
+      let tempCards = [];
+      //iterate through cards of certain day
+      for (const card of cards) {
+        //get comments of certain card
+        const comments = await this.getComments(card.cardid);
+        //push card with comments onto tempcards for that day
+        tempCards.push({cardid: card.cardid, desc: card.desc, title: card.title,
+          date: card.date, username: card.username, status: card.status, comments: comments });
+        /*tempCards[card.cardid] = [{cardid: card.cardid, desc: card.desc, title: card.title,
+          date: card.date, username: card.username, status: card.status, comments: comments }];*/
+      }
+      //push day with cards onto tempdays for this
+      tempDays[day.name] = {dayid: day.dayid, threads: tempCards };
     }
-
-    this.course.tabs = temp;
-
-    console.log(); 
-
-
+    //replace store days
+    this.course.tabs = tempDays;
+    console.log(tempDays)
     }
 
   async addQuestion(dayName, title, desc, username){
@@ -143,9 +176,6 @@ export default class BoardStore {
     //this.course.tabs[dayName].threads = this.getCards(this.course.tabs[dayName].dayid);
 
   }
-
-
-  
 
   async getComments(id) {
     try {

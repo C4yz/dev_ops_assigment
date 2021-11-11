@@ -23,16 +23,34 @@ function Board(props){
     const threads = tabs[day].threads;
     console.log("title " + props.store.course.title);
 
-    threads.forEach((element) => {
+    console.log("jbe" + threads);
+
+    for (const element of threads) {
         todoCards.push(
             <Thread
                 title={element.title}
                 desc={element.desc}
                 author={element.username}
                 date={element.date}
+                cardid={element.cardid}
+                status={element.status}
+                comments={element.comments}
             />
         );
-    }); 
+    }
+    /*threads.forEach((element) => {
+        todoCards.push(
+            <Thread
+                title={element.title}
+                desc={element.desc}
+                author={element.username}
+                date={element.date}
+                cardid={element.cardid}
+                status={element.status}
+                comments={element.comments}
+            />
+        );
+    });*/
 
     return (
         <div style={{ width: "100%" }}>

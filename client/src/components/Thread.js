@@ -16,7 +16,8 @@ function Thread (props){
                         subheader={author + ", " + date}
                     />
                     <CardContent>
-                        <Typography>{desc}</Typography>
+                        <Typography variant={"body1"}>{props.desc}</Typography>
+                        <Typography variant={"body2"}><br/>There are {props.comments.length} comments</Typography>
                     </CardContent>
                 </Card>
             </Box>
