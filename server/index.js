@@ -9,6 +9,10 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+/*
+This is a comment for testing if the server can see if there is any changes to the github repo
+*/
+
 //Routes
 
 // Courses
