@@ -5,6 +5,7 @@ export default class BoardStore {
   /* placeholder data */
   course = {
     title: "Yeet",
+    courseid: "lakæsjdf",
     tabs: {
       day1: {
         threads: [
@@ -52,7 +53,9 @@ export default class BoardStore {
   },
   };
 
-  courseNames = []
+  courseNames = [];
+
+
 
   async populateStore() {
     const courses = await this.getCourses();
@@ -60,15 +63,16 @@ export default class BoardStore {
     // TODO:  potential risk async // await */
     this.courseNames = courses;
     console.log(courses);
+
     const id = courses[0].courseid;
     const days = await this.getDays(id);
-
     this.course.title = courses[0].name;
+    this.course.courseid = courses[0].id;
     let temp = {};
 
     for (const day of days) {
       const content = await this.getCards(day.dayid);
-      temp[day.name] = {threads: content };
+      temp[day.name] = {dayid: day.dayid, threads: content };
     }
 
     this.course.tabs = temp;
@@ -80,11 +84,12 @@ export default class BoardStore {
     console.log('start');
     let id;
     this.courseNames.forEach(element => {
-      console.log(name + element.name)
+      console.log("searching courses" + name + " " + element.name)
       if (Object.values(element).includes(name)) {
-        console.log("hello two electic boogalu")
+        console.log("found course in coursenames " + element.name);
         id = element.courseid;
-        
+        this.course.courseid = element.id;
+        this.course.title = element.name;
       }})
 
     const days = await this.getDays(id);
@@ -94,7 +99,7 @@ export default class BoardStore {
 
     for (const day of days) {
       const content = await this.getCards(day.dayid);
-      temp[day.name] = {threads: content };
+      temp[day.name] = {dayid: day.dayid, threads: content };
     }
 
     this.course.tabs = temp;
@@ -104,7 +109,40 @@ export default class BoardStore {
 
     }
 
-    
+  async addQuestion(dayName, title, desc, username){
+    console.log("addquestion called in store")
+    const data = {
+      title: title,
+      desc: desc,
+      username: username,
+      dayid: this.course.tabs[dayName].dayid,
+    }
+    console.log("data: " + JSON.stringify(data));
+    //push to db
+    try {
+      console.log("trying fetch")
+      fetch(`http://localhost:5000/CreateCard`, {
+        method: 'POST', // or 'PUT'
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+          .then(response => response.json())
+          .then(data => {
+            console.log('Success:', data);
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+    }catch (e) {
+      console.log("error: " + e);
+    }
+
+    //TODO: update the store cards since new one is in db
+    //this.course.tabs[dayName].threads = this.getCards(this.course.tabs[dayName].dayid);
+
+  }
 
 
   

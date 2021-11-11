@@ -82,6 +82,7 @@ app.get("/getDaysForCourse/:id", async (req,res) => {
 //create day for course
 app.post("/CreateDay", async (req,res) => {
     try {
+        console.log("/CreateDay has been reached")
         const {name} = req.body;
         const {courseid} = req.body;
         //var data = JSON.parse(req.body);
