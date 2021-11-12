@@ -10,70 +10,66 @@ import {
 } from "@material-ui/core";
 import * as React from "react";
 import Thread from "./Thread";
+import {useState} from "react";
+import BoardStore from "../stores/BoardStore";
 
 function ThreadDialog (props){
+    const [open, setOpen] = useState(true);
+    const [newComment, setNewComment] = useState("");
 
-    const handleClickOpen = e => {
-        setOpen(true);
-    };
     const handleClose = e => {
+        console.log("threaddialog handleclose");
+        props.handleClose();
         setOpen(false);
-    }
+    };
 
     const handlePost = e =>{
+        console.log("dialog posting comment")
+        props.props.store.addComment(newComment, "commentUser", props.props.cardid, props.props.status);
         setOpen(false);
-        /*const question = {
-            title: title,
-            desc: desc,
-            author: "DummyUser"
-        }
-        console.log(store.content);
-        store.content.push(question);*/
-        //TODO: handlePost proper
-        console.log("handlepost called:")
-        store.addQuestion(day, title, desc, "DummyUser")
-    }
+    };
 
     const comments = [];
-    comments.forEach((element) => {
-        todoCards.push(
-            <Thread
-                title={element.title}
-                desc={element.desc}
-                author={element.username}
-                date={element.date}
-                cardid={element.cardid}
-                status={element.status}
-            />
+
+    props.props.comments.forEach((tempComment) => {
+        comments.push(<Box
+                borderBottom={1}
+                borderColor="primary.second"
+            >
+                <Typography variant={"h5"}>{tempComment.username}</Typography>
+                <Typography variant={"caption"}>{tempComment.date}</Typography>
+                <Typography variant={"body1"}>{tempComment.comment}</Typography>
+            </Box>
+
         );
     });
 
     return (
-        <Dialog open={true} onClose={handleClose} fullWidth>
-            <DialogTitle>{props.title}</DialogTitle>
-            <DialogContent>
+        <Dialog open={open} onClose={handleClose} fullWidth>
+            {/*Question*/}
+            <DialogTitle>
+                <Typography variant={"h4"}>{props.props.title}</Typography>
+                <Typography variant={"body1"}>By {props.props.username}</Typography>
+                <br/>
+                <Typography variant={"h6"}>{props.props.desc}</Typography>
+            </DialogTitle>
+            {/*commentsection*/}
+            <DialogContent dividers={true}>
                 <DialogContentText>
-                    {props.desc}
-                    <br/>
-                    {props.comments}
+                    {comments}
                 </DialogContentText>
-                <form noValidate autoComplete="off" onSubmit={handlePost} >
-                    <TextField
-                        id="DescriptionInput"
-                        label="Description"
-                        multiline
-                        maxRows={5}
-                        fullWidth
-                        onChange={(e) => setDesc(e.target.value)}
-                    />
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handlePost}>Post</Button>
-
-                </form>
-
+                <TextField
+                    id="commentInput"
+                    label="New comment"
+                    multiline
+                    maxRows={5}
+                    fullWidth
+                    onChange={(e) => setNewComment(e.target.value)}
+                />
             </DialogContent>
             <DialogActions>
-
+                <Button onClick={handleClose}>Close</Button>
+                <Button onClick={handlePost}>Post New Comment</Button>
             </DialogActions>
         </Dialog>
     );

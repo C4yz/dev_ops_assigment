@@ -177,6 +177,46 @@ export default class BoardStore {
 
   }
 
+  async addComment(comment, username, cardid, cardStatusBefore){
+    if(cardStatusBefore == 1 ){
+      console.log("cardstatus was " + cardStatusBefore + " so updating to 2");
+      try {
+        const res = await fetch(`http://localhost:5000/UpdateCardStatus2/${cardid}`);
+        const parsed = await res.json();
+        console.log("cardstatusupdate res: " + JSON.stringify(parsed));
+      } catch (error) {
+        console.log("shits on fire comments");
+      }
+    }
+    console.log("addComment called in store")
+    const data = {
+      comment: comment,
+      username: username,
+      cardid: cardid,
+    };
+    console.log("comment data: " + JSON.stringify(data));
+    //push to db
+    try {
+      console.log("trying fetch")
+      fetch(`http://localhost:5000/CreateComment`, {
+        method: 'POST', // or 'PUT'
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+          .then(response => response.json())
+          .then(data => {
+            console.log('Success:', data);
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+    }catch (e) {
+      console.log("error: " + e);
+    }
+  }
+
   async getComments(id) {
     try {
       const res = await fetch(`http://localhost:5000/getCommentsForOneCard/${id}`)

@@ -25,7 +25,7 @@ function NewQuestion (props){
     };
     const handleClose = e => {
         setOpen(false);
-    }
+    };
 
     const handlePost = e =>{
         setOpen(false);
@@ -36,10 +36,9 @@ function NewQuestion (props){
         }
         console.log(store.content);
         store.content.push(question);*/
-        //TODO: handlePost proper
         console.log("handlepost called:")
         store.addQuestion(day, title, desc, "DummyUser")
-    }
+    };
 
     return (
         <div>
