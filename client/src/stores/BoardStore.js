@@ -1,4 +1,4 @@
-import { makeAutoObservable, makeObservable, observable } from "mobx";
+import { makeAutoObservable, makeObservable, observable, runInAction } from "mobx";
 
 export default class BoardStore {
   
@@ -56,6 +56,18 @@ export default class BoardStore {
   courseNames = [];
 
 
+  count = {
+    count: {
+      count: {
+        count: 0
+      }
+    }
+  }
+
+  updateCount = () => {
+    this.count.count.count.count += 1;
+  }
+
   async populateStore() {
     const courses = await this.getCourses();
 
@@ -65,15 +77,19 @@ export default class BoardStore {
 
     const id = courses[0].courseid;
     const days = await this.getDays(id);
-    this.course.title = courses[0].name;
-    this.course.courseid = courses[0].id;
+
+    runInAction(() => {
+      this.course.title = courses[0].name;
+      this.course.courseid = courses[0].id;
+    })
+    
+    
     let temp = {};
 
     /*for (const day of days) {
       const content = await this.getCards(day.dayid);
       temp[day.name] = {dayid: day.dayid, threads: content };
     }
-
     this.course.tabs = temp;*/
     let tempDays = {};
 
@@ -96,8 +112,11 @@ export default class BoardStore {
       tempDays[day.name] = {dayid: day.dayid, threads: tempCards };
     }
     //replace store days
+   
     this.course.tabs = tempDays;
     console.log(tempDays)
+
+    });
 
       /* TODO get comments */
   }
@@ -116,8 +135,14 @@ export default class BoardStore {
 
     const days = await this.getDays(id);
 
-    this.course.title = name;
+    runInAction(() => {
+      this.course.title = name;
+    })
+    
+    let temp = {};
+
     let tempDays = {};
+
 
     //iterate through days
     for (const day of days) {
@@ -238,7 +263,6 @@ export default class BoardStore {
     }
     //TODO: update store after updating DB
   }
-
   async getComments(id) {
     try {
       const res = await fetch(`http://localhost:5000/getCommentsForOneCard/${id}`)
@@ -293,9 +317,7 @@ export default class BoardStore {
   }
 
   constructor() {
-    makeAutoObservable(this, {}, {
-    autoBind: true,
-  })
+    makeAutoObservable(this)
   }
 
   
