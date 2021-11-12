@@ -127,17 +127,17 @@ app.post("/CreateCard", async (req,res) => {
         console.error(error.message);
     }
 })
-// Update card status to 1
-app.get("/UpdateCardStatus2/:id", async (req,res) => {
+
+app.put("/UpdateCardStatus", async (req,res) => {
     try {
-        const {id} = req.params;
-        const updateStatus = await pool.query(`UPDATE cards SET status='2' WHERE cardid = ${id}`);
+        const {cardid} = req.body;
+        const {status} = req.body;
+        const updateStatus = await pool.query(`UPDATE cards SET status=${status} WHERE cardid = ${cardid}`);
         res.json(updateStatus);
     } catch (error) {
         console.error(error.message);
     }
 })
-
 
 // Comments
 // Create comment for day
