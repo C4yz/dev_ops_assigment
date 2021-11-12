@@ -1,3 +1,4 @@
+import { json } from "express";
 import { makeAutoObservable, makeObservable, observable, runInAction } from "mobx";
 
 export default class BoardStore {
@@ -51,16 +52,12 @@ export default class BoardStore {
       day4: {threads: []},
     },
   };
-
-
-
   constructor() {
     makeObservable(this, {
 		course : observable,
 	})
-  }
+  }  
 
   
 }
-
 
