@@ -236,6 +236,7 @@ export default class BoardStore {
     }catch (e) {
       console.log("error: " + e);
     }
+    //TODO: update store after updating DB
   }
 
   async getComments(id) {
