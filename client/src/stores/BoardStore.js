@@ -1,10 +1,11 @@
-import { makeAutoObservable, makeObservable, observable } from "mobx";
+import { makeAutoObservable, makeObservable, observable, runInAction } from "mobx";
 
 export default class BoardStore {
   
   /* placeholder data */
   course = {
     title: "Yeet",
+    courseid: "lakæsjdf",
     tabs: {
       day1: {
         threads: [
@@ -52,7 +53,20 @@ export default class BoardStore {
   },
   };
 
-  courseNames = []
+  courseNames = [];
+
+
+  count = {
+    count: {
+      count: {
+        count: 0
+      }
+    }
+  }
+
+  updateCount = () => {
+    this.count.count.count.count += 1;
+  }
 
   async populateStore() {
     const courses = await this.getCourses();
@@ -60,55 +74,192 @@ export default class BoardStore {
     // TODO:  potential risk async // await */
     this.courseNames = courses;
     console.log(courses);
+
     const id = courses[0].courseid;
     const days = await this.getDays(id);
 
-    this.course.title = courses[0].name;
+    runInAction(() => {
+      this.course.title = courses[0].name;
+      this.course.courseid = courses[0].id;
+    })
+    
+    
     let temp = {};
 
-    for (const day of days) {
+    /*for (const day of days) {
       const content = await this.getCards(day.dayid);
-      temp[day.name] = {threads: content };
+      temp[day.name] = {dayid: day.dayid, threads: content };
     }
+    this.course.tabs = temp;*/
+    let tempDays = {};
 
-    this.course.tabs = temp;
+    //iterate through days
+    for (const day of days) {
+      //get cards of a certain day
+      const cards = await this.getCards(day.dayid);
+      let tempCards = [];
+      //iterate through cards of certain day
+      for (const card of cards) {
+        //get comments of certain card
+        const comments = await this.getComments(card.cardid);
+        //push card with comments onto tempcards for that day
+        tempCards.push({cardid: card.cardid, desc: card.desc, title: card.title,
+          date: card.date, username: card.username, status: card.status, comments: comments });
+        /*tempCards[card.cardid] = [{cardid: card.cardid, desc: card.desc, title: card.title,
+          date: card.date, username: card.username, status: card.status, comments: comments }];*/
+      }
+      //push day with cards onto tempdays for this
+      tempDays[day.name] = {dayid: day.dayid, threads: tempCards };
+    }
+    //replace store days
+   
+    this.course.tabs = tempDays;
+    console.log(tempDays)
 
-      /* TODO get comments */
-  }
+    }
 
   async changeStore(name) {
     console.log('start');
     let id;
     this.courseNames.forEach(element => {
-      console.log(name + element.name)
+      console.log("searching courses" + name + " " + element.name)
       if (Object.values(element).includes(name)) {
-        console.log("hello two electic boogalu")
+        console.log("found course in coursenames " + element.name);
         id = element.courseid;
-        
+        this.course.courseid = element.id;
+        this.course.title = element.name;
       }})
 
     const days = await this.getDays(id);
 
-    this.course.title = name;
+    runInAction(() => {
+      this.course.title = name;
+    })
+    
     let temp = {};
 
+    let tempDays = {};
+
+
+    //iterate through days
     for (const day of days) {
-      const content = await this.getCards(day.dayid);
-      temp[day.name] = {threads: content };
+      //get cards of a certain day
+      const cards = await this.getCards(day.dayid);
+      let tempCards = [];
+      //iterate through cards of certain day
+      for (const card of cards) {
+        //get comments of certain card
+        const comments = await this.getComments(card.cardid);
+        //push card with comments onto tempcards for that day
+        tempCards.push({cardid: card.cardid, desc: card.desc, title: card.title,
+          date: card.date, username: card.username, status: card.status, comments: comments });
+        /*tempCards[card.cardid] = [{cardid: card.cardid, desc: card.desc, title: card.title,
+          date: card.date, username: card.username, status: card.status, comments: comments }];*/
+      }
+      //push day with cards onto tempdays for this
+      tempDays[day.name] = {dayid: day.dayid, threads: tempCards };
+    }
+    //replace store days
+    this.course.tabs = tempDays;
+    console.log(tempDays)
     }
 
-    this.course.tabs = temp;
-
-    console.log(); 
-
-
+  async addQuestion(dayName, title, desc, username){
+    console.log("addquestion called in store")
+    const data = {
+      title: title,
+      desc: desc,
+      username: username,
+      dayid: this.course.tabs[dayName].dayid,
+    }
+    console.log("data: " + JSON.stringify(data));
+    //push to db
+    try {
+      console.log("trying fetch")
+      fetch(`http://localhost:5000/CreateCard`, {
+        method: 'POST', // or 'PUT'
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+          .then(response => response.json())
+          .then(data => {
+            console.log('Success:', data);
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+    }catch (e) {
+      console.log("error: " + e);
     }
 
-    
+    //TODO: update the store cards since new one is in db
+    //this.course.tabs[dayName].threads = this.getCards(this.course.tabs[dayName].dayid);
 
-
-  
-
+  }
+  async updateCardStatus(cardid, status){
+    console.log("updateCardStatus called in store");
+    const data = {
+      cardid: cardid,
+      status: status,
+    };
+    console.log("update status data: " + JSON.stringify(data));
+    //push to db
+    try {
+      console.log("trying fetch")
+      fetch(`http://localhost:5000/UpdateCardStatus`, {
+        method: 'PUT', // or 'PUT'
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+          .then(response => response.json())
+          .then(data => {
+            console.log('Success:', data);
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+    }catch (e) {
+      console.log("error: " + e);
+    }
+  }
+  async addComment(comment, username, cardid, cardStatusBefore){
+    if(cardStatusBefore == 1 ){
+      console.log("cardstatus was " + cardStatusBefore + " so updating to 2");
+      this.updateCardStatus(cardid, 2);
+    }
+    console.log("addComment called in store")
+    const data = {
+      comment: comment,
+      username: username,
+      cardid: cardid,
+    };
+    console.log("comment data: " + JSON.stringify(data));
+    //push to db
+    try {
+      console.log("trying fetch")
+      fetch(`http://localhost:5000/CreateComment`, {
+        method: 'POST', // or 'PUT'
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+          .then(response => response.json())
+          .then(data => {
+            console.log('Success:', data);
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+    }catch (e) {
+      console.log("error: " + e);
+    }
+    //TODO: update store after updating DB
+  }
   async getComments(id) {
     try {
       const res = await fetch(`http://130.225.170.203:5000/getCommentsForOneCard/${id}`)
@@ -163,9 +314,7 @@ export default class BoardStore {
   }
 
   constructor() {
-    makeAutoObservable(this, {}, {
-    autoBind: true,
-  })
+    makeAutoObservable(this)
   }
 
   

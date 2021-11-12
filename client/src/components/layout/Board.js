@@ -12,27 +12,68 @@ import BoardStore from "../../stores/BoardStore";
 import {observer, useObserver } from 'mobx-react-lite';
 import Thread from "../Thread";
 import { useParams } from "react-router-dom";
+import { autorun } from "mobx";
 
 
 
 function Board(props){
-    const todoCards = [];
+
+    const todoCards1 = [];
+    const todoCards2 = [];
+    const todoCards3 = [];
     let { course, day } = useParams();
     const tabs = props.store.course.tabs
 
     const threads = tabs[day].threads;
     console.log("title " + props.store.course.title);
 
-    threads.forEach((element) => {
-        todoCards.push(
-            <Thread
-                title={element.title}
-                desc={element.desc}
-                author={element.username}
-                date={element.date}
-            />
-        );
-    }); 
+    console.log("jbe" + threads);
+
+    for (const element of threads) {
+        if(element.status == 1){
+            todoCards1.push(
+                <Thread
+                    title={element.title}
+                    desc={element.desc}
+                    username={element.username}
+                    date={element.date}
+                    cardid={element.cardid}
+                    status={element.status}
+                    comments={element.comments}
+                    store={props.store}
+                />
+            );
+        }
+        else if(element.status == 2){
+            todoCards2.push(
+                <Thread
+                    title={element.title}
+                    desc={element.desc}
+                    username={element.username}
+                    date={element.date}
+                    cardid={element.cardid}
+                    status={element.status}
+                    comments={element.comments}
+                    store={props.store}
+                />
+            );
+        }
+        else if(element.status == 3){
+            todoCards3.push(
+                <Thread
+                    title={element.title}
+                    desc={element.desc}
+                    username={element.username}
+                    date={element.date}
+                    cardid={element.cardid}
+                    status={element.status}
+                    comments={element.comments}
+                    store={props.store}
+                />
+            );
+        }
+
+    }
 
     return (
         <div style={{ width: "100%" }}>
@@ -57,7 +98,7 @@ function Board(props){
                     }}
                 >
                     <h2 style={{ color: "white" }}>No answers yet</h2>
-                    {todoCards}
+                    {todoCards1}
                 </Box>
                 <Box
                     sx={{
@@ -71,8 +112,8 @@ function Board(props){
                     }}
                 >
                     <h2 style={{ color: "white" }}>Discussing</h2>
-                    {todoCards}
-                    {todoCards}
+                    {todoCards2}
+
                 </Box>
                 <Box
                     sx={{
@@ -86,7 +127,7 @@ function Board(props){
                     }}
                 >
                     <h2 style={{ color: "white" }}>Finished answer</h2>
-                    {todoCards}
+                    {todoCards3}
                 </Box>
             </Box>
         </div>

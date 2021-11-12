@@ -10,6 +10,7 @@ import {
     TextField
 } from "@material-ui/core";
 import {Component, useState} from "react";
+import {useParams} from "react-router-dom";
 
 function NewQuestion (props){
 
@@ -17,27 +18,27 @@ function NewQuestion (props){
     const [title, setTitle] = useState("");
     const [desc, setDesc] = useState("");
     const store = props.store;
+    let { course, day } = useParams();
 
     const handleClickOpen = e => {
         setOpen(true);
     };
     const handleClose = e => {
         setOpen(false);
-    }
+    };
 
     const handlePost = e =>{
         setOpen(false);
-        console.log(title);
-        const question = {
+        /*const question = {
             title: title,
             desc: desc,
-            author: "Daniel Styrbæk",
-            date: "Lige fucking nu"
+            author: "DummyUser"
         }
         console.log(store.content);
-        store.content.push(question);
-        //TODO: handlePost proper
-    }
+        store.content.push(question);*/
+        console.log("handlepost called:")
+        store.addQuestion(day, title, desc, "DummyUser")
+    };
 
     return (
         <div>
