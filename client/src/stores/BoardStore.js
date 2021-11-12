@@ -1,4 +1,4 @@
-import { makeAutoObservable, makeObservable, observable } from "mobx";
+import { makeAutoObservable, makeObservable, observable, runInAction } from "mobx";
 
 export default class BoardStore {
   
@@ -54,6 +54,18 @@ export default class BoardStore {
 
   courseNames = []
 
+  count = {
+    count: {
+      count: {
+        count: 0
+      }
+    }
+  }
+
+  updateCount = () => {
+    this.count.count.count.count += 1;
+  }
+
   async populateStore() {
     const courses = await this.getCourses();
 
@@ -63,7 +75,11 @@ export default class BoardStore {
     const id = courses[0].courseid;
     const days = await this.getDays(id);
 
-    this.course.title = courses[0].name;
+    runInAction(() => {
+      this.course.title = courses[0].name;
+    })
+    
+    
     let temp = {};
 
     for (const day of days) {
@@ -71,7 +87,10 @@ export default class BoardStore {
       temp[day.name] = {threads: content };
     }
 
+    runInAction(() => {
     this.course.tabs = temp;
+
+    });
 
       /* TODO get comments */
   }
@@ -89,7 +108,10 @@ export default class BoardStore {
 
     const days = await this.getDays(id);
 
-    this.course.title = name;
+    runInAction(() => {
+      this.course.title = name;
+    })
+    
     let temp = {};
 
     for (const day of days) {
@@ -97,15 +119,15 @@ export default class BoardStore {
       temp[day.name] = {threads: content };
     }
 
-    this.course.tabs = temp;
+    runInAction(()=> {
+      this.course.tabs = temp;
+
+    })
 
     console.log(); 
 
 
     }
-
-    
-
 
   
 
@@ -163,9 +185,7 @@ export default class BoardStore {
   }
 
   constructor() {
-    makeAutoObservable(this, {}, {
-    autoBind: true,
-  })
+    makeAutoObservable(this)
   }
 
   

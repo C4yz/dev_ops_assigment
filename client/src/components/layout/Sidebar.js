@@ -6,10 +6,11 @@ import {
 import Button from "@mui/material/Button";
 import { borders } from '@mui/system';
 import NewQuestion from "../NewQuestion";
+import {observer, useObserver } from 'mobx-react-lite';
 import {useParams, withRouter } from "react-router-dom";
 
 
-function Sidebar(props){
+function Sidebar (props){
     let { course } = useParams();
     const { history } = props;
     const store = props.store;
@@ -27,6 +28,7 @@ function Sidebar(props){
 
     const onClickHandler = event =>  {
         history.push(`/courses/${course}/${event}`);
+        console.log(JSON.stringify(tabs[event].threads));
     }
 
     Object.keys(tabs).forEach((element) => {
@@ -55,4 +57,4 @@ function Sidebar(props){
     )
 }
 
-export default withRouter(Sidebar);
+export default withRouter(observer(Sidebar));

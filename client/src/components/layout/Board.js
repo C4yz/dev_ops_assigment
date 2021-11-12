@@ -12,16 +12,22 @@ import BoardStore from "../../stores/BoardStore";
 import {observer, useObserver } from 'mobx-react-lite';
 import Thread from "../Thread";
 import { useParams } from "react-router-dom";
+import { autorun } from "mobx";
 
 
 
 function Board(props){
     const todoCards = [];
-    let { course, day } = useParams();
-    const tabs = props.store.course.tabs
+    let { day } = useParams();
+    const course = props.store.course.title;
+    let tabs = props.store.course.tabs;
 
     const threads = tabs[day].threads;
     console.log("title " + props.store.course.title);
+
+    autorun(() => {
+        tabs = props.store.course.tabs;
+    })
 
     threads.forEach((element) => {
         todoCards.push(
@@ -72,7 +78,7 @@ function Board(props){
                 >
                     <h2 style={{ color: "white" }}>Discussing</h2>
                     {todoCards}
-                    {todoCards}
+
                 </Box>
                 <Box
                     sx={{
