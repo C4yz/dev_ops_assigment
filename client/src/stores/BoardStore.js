@@ -162,7 +162,7 @@ export default class BoardStore {
     //replace store days
     this.course.tabs = tempDays;
     console.log(tempDays)
-    }
+  }
 
   async addQuestion(dayName, title, desc, username){
     console.log("addquestion called in store")
