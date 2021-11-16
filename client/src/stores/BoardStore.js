@@ -116,7 +116,7 @@ export default class BoardStore {
     this.course.tabs = tempDays;
     console.log(tempDays)
 
-    }
+  }
 
   async changeStore(name) {
     console.log('start');

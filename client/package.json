@@ -50,6 +50,8 @@
   "devDependencies": {
     "@mui/material": "^5.1.0",
     "chai": "^4.3.4",
+    "chai-json-pattern": "^1.1.0",
+    "chai-json-schema": "^1.5.1",
     "mocha": "^9.1.3"
   }
 }
