@@ -117,7 +117,7 @@ export default class BoardStore {
     this.course.tabs = tempDays;
     console.log(tempDays)
 
-    }
+  }
 
   async changeStore(name) {
     console.log('start');
@@ -163,7 +163,7 @@ export default class BoardStore {
     //replace store days
     this.course.tabs = tempDays;
     console.log(tempDays)
-    }
+  }
 
   async addQuestion(dayName, title, desc, username){
     console.log("addquestion called in store")
@@ -209,7 +209,7 @@ export default class BoardStore {
     //push to db
     try {
       console.log("trying fetch")
-      fetch(`http://localhost:5000/UpdateCardStatus`, {
+      fetch(`http://130.225.170.203:5000/UpdateCardStatus`, {
         method: 'PUT', // or 'PUT'
         headers: {
           'Content-Type': 'application/json',
@@ -242,7 +242,7 @@ export default class BoardStore {
     //push to db
     try {
       console.log("trying fetch")
-      fetch(`http://localhost:5000/CreateComment`, {
+      fetch(`http://130.225.170.203:5000/CreateComment`, {
         method: 'POST', // or 'PUT'
         headers: {
           'Content-Type': 'application/json',
