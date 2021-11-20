@@ -6,21 +6,28 @@ import { useHistory, withRouter } from "react-router-dom";
 function Topbar(props){
     const [currentBoard,setCurrentBoard] = useState("No board selected");
     const [username,setUserName] = useState("s195471");
-    const { history } = props;
+    const { history, store } = props;
+    const count = store.count.count.count.count;
+
+    const list = [
+        
+    ];
+
+    store.courseNames.forEach(element => {
+        list.push(element.name);
+    });
 
 
     const onClickHandler = event =>  {
-        console.log("this happens" + event);
-        history.push(`/courses/${event}/day1`);
+        store.changeStore(event);
+        console.log("hiya")
+        store.updateCount(); 
+        history.push(`/courses/${event}/Day 1`);
+        
 
     };
 
-    const list = [
-        "DevOps",
-        "Innovation Pilot",
-        "CDIO",
-        "Algoritmer og datastrukturer",
-    ];
+    
     const color = [
         "#463147",
         "#314147",
@@ -54,6 +61,7 @@ function Topbar(props){
                     }}>
                         {buttons}
                     </Box>
+                    <Typography variant="h5"> {count} </Typography>
                     <Box style={{ background: "#7a3131", borderRadius: 20}} sx={{ p:1 }}>
                         <Button style={{ color: 'white'}}>{username}</Button>
                         <Typography  style={{ fontSize: 'small', color: 'white', textAlign: 'center'}}>Log Out</Typography>

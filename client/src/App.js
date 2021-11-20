@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useEffect, useState } from "react";
 import Topbar from "./components/layout/Topbar";
 import Sidebar from "./components/layout/Sidebar";
 import { Grid } from "@material-ui/core";
@@ -6,25 +6,22 @@ import Board from "./components/layout/Board";
 import { observer } from "mobx-react-lite";
 import BoardStore from "./stores/BoardStore";
 import { Switch, Route } from "react-router-dom";
+//import { watchOptions } from "nodemon/lib/config/defaults";
 
 const boardStore = new BoardStore();
+//boardStore.populateStore();
 
 function App() {
-  /* ComponentDidMount() {
-    callBackendAPI()
-      .then(res => this.setState({ data: res.express }))
-      .catch(err => console.log(err));
-  }
-    // fetching the GET route from the Express server which matches the GET route from server.js
-  callBackendAPI = async () => {
-    const response = await fetch('/express_backend');
-    const body = await response.json();
+  const [store, setStore] = useState();
+  
 
-    if (response.status !== 200) {
-      throw Error(body.message) 
-    }
-    return body;
-  }; */
+  useEffect(() => {
+    boardStore.populateStore().then(() => {
+      console.log("useEffect");
+      setStore(boardStore);
+    })
+    
+  }, []) ;
 
   return (
     <div className="App" style={{ p: 0, background: "#313847" }}>
@@ -49,4 +46,4 @@ function App() {
   );
 }
 
-export default App;
+export default observer(App);

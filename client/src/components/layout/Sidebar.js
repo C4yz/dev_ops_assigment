@@ -6,22 +6,16 @@ import {
 import Button from "@mui/material/Button";
 import { borders } from '@mui/system';
 import NewQuestion from "../NewQuestion";
+import {observer, useObserver } from 'mobx-react-lite';
 import {useParams, withRouter } from "react-router-dom";
 
 
-function Sidebar(props){
+function Sidebar (props){
     let { course } = useParams();
     const { history } = props;
     const store = props.store;
     const tabs = store.course.tabs;
 
-    const list = [
-        "Dag 1",
-        "Dag 2",
-        "Aflevering 1",
-        "Eksamen",
-        "Hygge",
-    ];
     const buttons = [];
     const color = [
         "#463147",
@@ -34,10 +28,10 @@ function Sidebar(props){
 
     const onClickHandler = event =>  {
         history.push(`/courses/${course}/${event}`);
+        console.log(JSON.stringify(tabs[event].threads));
     }
 
     Object.keys(tabs).forEach((element) => {
-        console.log(element)
         buttons.push(
             <Box sx={{p: 0.2 , width : '100%'}}>
                 <Button onClick= {() => {onClickHandler(element)}}
@@ -63,4 +57,4 @@ function Sidebar(props){
     )
 }
 
-export default withRouter(Sidebar);
+export default withRouter(observer(Sidebar));

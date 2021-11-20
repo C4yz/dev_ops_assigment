@@ -1,0 +1,17 @@
+version: '2'
+
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: ./Dockerfile
+    image: "mocompres/devops_server"
+    ports:
+      - "5000:5000"
+  client:
+    build:
+      context: ./client
+      dockerfile: ./Dockerfile
+    image: "mocompres/devops_client"
+    ports:
+      - "3000:3000"
