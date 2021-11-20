@@ -3,6 +3,10 @@ const app = express();
 const pool = require("./db");
 const cors = require("cors");
 const e = require('express');
+const axios = require('axios');
+const { redirect } = require('express/lib/response');
+const http = require('http');
+
 
 const PORT = process.env.PORT || 5000;
 
@@ -10,6 +14,62 @@ app.use(cors());
 app.use(express.json());
 
 //Routes
+
+app.get("/login", async(req, res) => {
+    
+    
+
+   console.log("sometihng i")
+    try {
+
+     
+     const requestToken = req.query.ticket;
+        console.log("reqest " + requestToken);
+        
+        axios({
+            method: 'get',
+            url: "https://auth.dtu.dk/dtu/?service=http://localhost:5000/redirect",
+            headers: {
+                accept: 'application/json'
+            },
+            redirect: 'follow'
+        }).then((response) => {
+            //console.log(response.query);
+            //console.log("HIIIIIYAAAAA");
+            console.log("test");
+            res.redirect("/redirect");
+            
+        }) 
+    } catch (error) {
+    } 
+})
+
+
+app.get("/redirect", async(req, res) => {
+    try {
+    console.log(req.query.ticket);
+    return req.query.ticket;
+
+    } catch (error) {
+        console.log("some faul")        
+    }
+    //console.log("HIIIYAAA");
+    
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Courses
 //Get All

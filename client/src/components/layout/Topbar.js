@@ -27,6 +27,13 @@ function Topbar(props){
 
     };
 
+    const loginHandler = async () => {
+        console.log("login call");
+        const res = await fetch(`http://localhost:5000/login`)
+        console.log("sikker?")
+        console.log(res);
+    }
+
     
     const color = [
         "#463147",
@@ -61,11 +68,11 @@ function Topbar(props){
                     }}>
                         {buttons}
                     </Box>
-                    <Typography variant="h5"> {count} </Typography>
                     <Box style={{ background: "#7a3131", borderRadius: 20}} sx={{ p:1 }}>
-                        <Button style={{ color: 'white'}}>{username}</Button>
+                        <Button onClick ={()=> {loginHandler()}} style={{ color: 'white'}} >{username}</Button>
                         <Typography  style={{ fontSize: 'small', color: 'white', textAlign: 'center'}}>Log Out</Typography>
                     </Box>
+
                 </Box>
             </div>
         </div>
