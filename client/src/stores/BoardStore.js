@@ -176,7 +176,7 @@ export default class BoardStore {
     //push to db
     try {
       console.log("trying fetch")
-      fetch(`http://localhost:5000/CreateCard`, {
+      fetch(`/api/CreateCard`, {
         method: 'POST', // or 'PUT'
         headers: {
           'Content-Type': 'application/json',
@@ -208,7 +208,7 @@ export default class BoardStore {
     //push to db
     try {
       console.log("trying fetch")
-      fetch(`http://localhost:5000/UpdateCardStatus`, {
+      fetch(`/api/UpdateCardStatus`, {
         method: 'PUT', // or 'PUT'
         headers: {
           'Content-Type': 'application/json',
@@ -241,7 +241,7 @@ export default class BoardStore {
     //push to db
     try {
       console.log("trying fetch")
-      fetch(`http://localhost:5000/CreateComment`, {
+      fetch(`/api/CreateComment`, {
         method: 'POST', // or 'PUT'
         headers: {
           'Content-Type': 'application/json',
@@ -262,7 +262,7 @@ export default class BoardStore {
   }
   async getComments(id) {
     try {
-      const res = await fetch(`http://localhost:5000/getCommentsForOneCard/${id}`)
+      const res = await fetch(`/api/getCommentsForOneCard/${id}`)
       const parsed = await res.json();
       return parsed;
     } catch (error) {
@@ -272,7 +272,7 @@ export default class BoardStore {
 
   async getCards(id) {
     try {
-      const res = await fetch(`http://localhost:5000/GetCardsFromdDay/${id}`)
+      const res = await fetch(`/api/GetCardsFromdDay/${id}`)
       const parsed = await res.json();
       console.log(parsed);
       return parsed;
@@ -283,7 +283,7 @@ export default class BoardStore {
 
   async getDays(id) {
     try {
-      const res = await fetch(`http://localhost:5000/getDaysForCourse/${id}`)
+      const res = await fetch(`/api/getDaysForCourse/${id}`)
       const parsed = await res.json();
       console.log(parsed);
       return parsed;
@@ -294,7 +294,7 @@ export default class BoardStore {
 
   async getCourse(id) {
     try {
-      const res = await fetch(`http://localhost:5000/getOneCourse/${id}`)
+      const res = await fetch(`/api/getOneCourse/${id}`)
       const parsed = await res.json();
       console.log(parsed);
       return parsed;
@@ -305,7 +305,7 @@ export default class BoardStore {
 
   async getCourses() {
     try {
-      const res = await fetch("http://localhost:5000/allCourses");
+      const res = await fetch("/api/allCourses");
       const parsed = await res.json();
       return parsed; 
     } catch (error) {

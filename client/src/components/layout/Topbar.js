@@ -29,7 +29,7 @@ function Topbar(props){
 
     const loginHandler = async () => {
         console.log("login call");
-        const res = await fetch(`http://localhost:5000/login`)
+        const res = await fetch(`/api/login`, {mode: "cors"});
         console.log("sikker?")
         console.log(res);
     }

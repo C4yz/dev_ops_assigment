@@ -11,6 +11,7 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "concurrently": "^6.2.1",
+    "http-proxy-middleware": "^2.0.1",
     "mobx": "^6.3.3",
     "mobx-react-lite": "^3.2.1",
     "npm": "^7.24.1",
@@ -26,7 +27,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://localhost:5000/",
   "eslintConfig": {
     "extends": [
       "react-app",
