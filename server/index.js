@@ -3,11 +3,16 @@ const app = express();
 const pool = require("./db");
 const cors = require("cors");
 const e = require('express');
+const https = require('https');
 
 const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
+
+/*
+This is a comment for testing if the server can see if there is any changes to the github repo
+*/
 
 //Routes
 
@@ -82,6 +87,7 @@ app.get("/getDaysForCourse/:id", async (req,res) => {
 //create day for course
 app.post("/CreateDay", async (req,res) => {
     try {
+        console.log("/CreateDay has been reached")
         const {name} = req.body;
         const {courseid} = req.body;
         //var data = JSON.parse(req.body);
@@ -127,9 +133,20 @@ app.post("/CreateCard", async (req,res) => {
     }
 })
 
+app.put("/UpdateCardStatus", async (req,res) => {
+    try {
+        const {cardid} = req.body;
+        const {status} = req.body;
+        const updateStatus = await pool.query(`UPDATE cards SET status=${status} WHERE cardid = ${cardid}`);
+        res.json(updateStatus);
+    } catch (error) {
+        console.error(error.message);
+    }
+})
+
 // Comments
 // Create comment for day
-app.post("/createComment", async (req,res) =>{
+app.post("/CreateComment", async (req,res) =>{
     try {
         const {comment} = req.body;
         const {username} = req.body;
