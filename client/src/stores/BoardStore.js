@@ -279,9 +279,18 @@ export default class BoardStore {
   }
   async getComments(id) {
     try {
-      const res = await fetch(`http://130.225.170.203:5000/getCommentsForOneCard/${id}`)
+      await fetch(`http://130.225.170.203:5000/getCommentsForOneCard/${id}`)
+      .then(response => {
+        if(!response.ok){
+          throw Error ("Could not get the data from ther server")
+        }
+        response.json();
+      })
+      
+
+      /*const res = await fetch(`http://130.225.170.203:5000/getCommentsForOneCard/${id}`)
       const parsed = await res.json();
-      return parsed;
+      return parsed;*/
     } catch (error) {
       console.log("shits on fire comments");
     }
