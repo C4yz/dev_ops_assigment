@@ -36,8 +36,10 @@ function Board(props){
                 }}
             >
                 <Box
+                    border={10}
+                    borderColor={'#30656d'}
                     sx={{
-                        background: "#30656d",
+                        background: "",
                         borderRadius: 20,
                         m: 1,
                         width: "33%",
@@ -63,8 +65,10 @@ function Board(props){
                     }
                 </Box>
                 <Box
+                    border={10}
+                    borderColor={'#c7c700'}
                     sx={{
-                        background: "#c7c700",
+                        background: "",
                         borderRadius: 20,
                         m: 1,
                         width: "33%",
@@ -91,8 +95,10 @@ function Board(props){
 
                 </Box>
                 <Box
+                    border={10}
+                    borderColor={'#4b893c'}
                     sx={{
-                        background: "#4b893c",
+                        background: "",
                         borderRadius: 20,
                         m: 1,
                         width: "33%",
