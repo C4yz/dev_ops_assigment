@@ -56,7 +56,6 @@ export default class BoardStore {
 
   courseNames = [];
 
-
   count = {
     count: {
       count: {
@@ -71,7 +70,7 @@ export default class BoardStore {
 
   async populateStore() {
     const courses = await this.getCourses();
-
+    console.log(courses)
     // TODO:  potential risk async // await */
     this.courseNames = courses;
     console.log(courses);
@@ -83,8 +82,7 @@ export default class BoardStore {
       this.course.title = courses[0].name;
       this.course.courseid = courses[0].id;
     })
-    
-    
+
     let temp = {};
 
     /*for (const day of days) {
@@ -143,6 +141,7 @@ export default class BoardStore {
 
 
     //iterate through days
+    //FIXME Move to backend
     for (const day of days) {
       //get cards of a certain day
       const cards = await this.getCards(day.dayid);

@@ -3,11 +3,6 @@ import React, {useState} from "react";
 import ThreadDialog from "./ThreadDialog";
 
 function Thread (props){
-    const [title, setTitle] = useState(props.title);
-    const [desc, setDesc] = useState(props.desc);
-    const [username, setAuthor] = useState(props.username);
-    const [date, setDate] = useState(props.date);
-
     const [open, setOpen] = useState(false);
     const [dialog, setDialog] = useState();
     const handleClick = e => {
@@ -32,12 +27,13 @@ function Thread (props){
             <Box m={1} onClick={handleClick}>
                 <Card elevation={3}>
                     <CardHeader
-                        title={title}
-                        subheader={username + ", " + date}
+                        title={props.title}
+                        subheader={props.username + ", " + props.date}
                     />
                     <CardContent>
                         <Typography variant={"body1"}>{props.desc}</Typography>
-                        <Typography variant={"body2"}><br/>There are {props.comments.length} comments</Typography>
+                        <Typography variant={"body2"}><br/>There are {props.comments.length
+                        } comments</Typography>
                     </CardContent>
                 </Card>
             </Box>
