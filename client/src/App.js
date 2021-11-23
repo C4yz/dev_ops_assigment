@@ -6,6 +6,7 @@ import Board from "./components/layout/Board";
 import { observer } from "mobx-react-lite";
 import BoardStore from "./stores/BoardStore";
 import { Switch, Route } from "react-router-dom";
+import LoginPage from "./components/LoginPage";
 //import { watchOptions } from "nodemon/lib/config/defaults";
 
 const boardStore = new BoardStore();
@@ -24,24 +25,25 @@ function App() {
   }, []) ;
 
   return (
-    <div className="App" style={{ p: 0, background: "#313847" }}>
-      <Topbar store={boardStore} />
-
+    <div className="App" style={{ p: 0, background: "#313847", minHeight: "100vh", height: "100%", width: "100%" }}>
       <Switch>
+        <Route exact path="/">
+          <LoginPage/>
+        </Route>
         <Route path="/courses/:course/:day">
+          <Topbar store={boardStore}/>
           <Grid container xs={12} direction={"row"}>
             <Grid item xs={2}>
-              <Sidebar store={boardStore} />
+              <Sidebar store={boardStore}/>
+            </Grid>
+            <Grid item xs={10}>
+              <div>
+                <Board store={boardStore}/>
+              </div>
+            </Grid>
           </Grid>
-        <Grid item xs={10}>
-          <div>
-            <Board store={boardStore} />
-          </div>
-        </Grid>
-      </Grid>
         </Route>
       </Switch>
-      
     </div>
   );
 }
