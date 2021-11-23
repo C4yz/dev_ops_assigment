@@ -1,6 +1,7 @@
 //import { json } from "express";
 import { makeAutoObservable, makeObservable, observable, runInAction } from "mobx";
 import { useState } from "react";
+import errorMessage from "../errorHandeling";
 
 export default class BoardStore {
   
@@ -198,7 +199,7 @@ export default class BoardStore {
             console.error('Error:', error);
           });
     }catch (e) {
-      console.log("error: " + e);
+      console.log(e);
     }
 
     //TODO: update the store cards since new one is in db
@@ -235,7 +236,7 @@ export default class BoardStore {
             console.error('Error:', error);
           });
     }catch (e) {
-      console.log("error: " + e);
+      console.log(e);
     }
   }
   async addComment(comment, username, cardid, cardStatusBefore){
@@ -273,69 +274,75 @@ export default class BoardStore {
             console.error( error);
           });
     }catch (e) {
-      console.log("error: " + e);
+      console.log(e);
     }
     //TODO: update store after updating DB
   }
   async getComments(id) {
     try {
-      await fetch(`http://130.225.170.203:5000/getCommentsForOneCard/${id}`)
-      .then(response => {
-        if(!response.ok){
-          throw Error ("Could not get the data from ther server")
-        }
-        response.json();
-      })
-      
-
-      /*const res = await fetch(`http://130.225.170.203:5000/getCommentsForOneCard/${id}`)
+      const res = await fetch(`http://130.225.170.203:5000/getCommentsForOneCard/${id}`)
+      if(!res.ok){
+        throw Error ("Could not get the data from ther server")
+      }
       const parsed = await res.json();
-      return parsed;*/
+      return parsed;
     } catch (error) {
-      console.log("shits on fire comments");
+      console.log(error);
     }
   }
 
   async getCards(id) {
     try {
       const res = await fetch(`http://130.225.170.203:5000/GetCardsFromdDay/${id}`)
+      if(!res.ok){
+        throw Error ("Could not get the data from ther server")
+      }
       const parsed = await res.json();
       console.log(parsed);
       return parsed;
     } catch (error) {
-      console.log("shits on fire cards");
+      console.log(error);
     }
   }
 
   async getDays(id) {
     try {
       const res = await fetch(`http://130.225.170.203:5000/getDaysForCourse/${id}`)
+      if(!res.ok){
+        throw Error ("Could not get the data from ther server")
+      }
       const parsed = await res.json();
       console.log(parsed);
       return parsed;
     } catch (error) {
-      console.log("shits on fire days");
+      console.log(error);
     }
   }
 
   async getCourse(id) {
     try {
       const res = await fetch(`http://130.225.170.203:5000/getOneCourse/${id}`)
+      if(!res.ok){
+        throw Error ("Could not get the data from ther server")
+      }
       const parsed = await res.json();
       console.log(parsed);
       return parsed;
     } catch (error) {
-      console.log("shits on fire");
+      console.log(error);
     }
   }
 
   async getCourses() {
     try {
       const res = await fetch("http://130.225.170.203:5000/allCourses");
+      if(!res.ok){
+        throw Error ("Could not get the data from ther server")
+      }
       const parsed = await res.json();
       return parsed; 
     } catch (error) {
-      
+      console.log(error)
     }
   }
 
