@@ -1,3 +1,4 @@
+//import { json } from "express";
 import { makeAutoObservable, makeObservable, observable, runInAction } from "mobx";
 
 export default class BoardStore {
@@ -116,7 +117,7 @@ export default class BoardStore {
     this.course.tabs = tempDays;
     console.log(tempDays)
 
-    }
+  }
 
   async changeStore(name) {
     console.log('start');
@@ -162,7 +163,7 @@ export default class BoardStore {
     //replace store days
     this.course.tabs = tempDays;
     console.log(tempDays)
-    }
+  }
 
   async addQuestion(dayName, title, desc, username){
     console.log("addquestion called in store")
@@ -319,5 +320,4 @@ export default class BoardStore {
 
   
 }
-
 
