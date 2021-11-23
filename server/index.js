@@ -6,53 +6,23 @@ const e = require('express');
 const axios = require('axios');
 const { redirect } = require('express/lib/response');
 const http = require('http');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+const auth = require('./middleware/validate');
 
 
 const PORT = process.env.PORT || 5000;
 
-/*app.use(function (req, res, next) {
 
-    // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', '*');
-
-    // Request methods you wish to allow
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-
-    // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-
-    // Set to true if you need the website to include cookies in the requests sent
-    // to the API (e.g. in case you use sessions)
-    res.setHeader('Access-Control-Allow-Credentials', true);
-
-    // Pass to next layer of middleware
-    next();
-});*/
-
-//app.use(cors());
-app.options('*', cors());
+app.use(cors());
 app.use(express.json());
 
 //Routes
 
 app.get("/login", async(req, res) => {
 
-     // Website you wish to allow to connect
-     //res.setHeader('Access-Control-Allow-Origin', '*');
-
-     // Request methods you wish to allow
-     //res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
- 
-     // Request headers you wish to allow
-     //res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
- 
-     // Set to true if you need the website to include cookies in the requests sent
-     // to the API (e.g. in case you use sessions)
-     //res.setHeader('Access-Control-Allow-Credentials', true);
-    
+    res.setHeader('Access-Control-Allow-Origin', '*');
     res.redirect(301, "https://auth.dtu.dk/dtu/?service=http://localhost:5000/redirect");
-
-   console.log("sometihng i")
 
 })
 
@@ -60,7 +30,28 @@ app.get("/login", async(req, res) => {
 app.get("/redirect", async(req, res) => {
     try {
     console.log(req.query.ticket);
-    return req.query.ticket;
+
+    axios.get("https://auth.dtu.dk/dtu/validate?service=http://localhost:5000/redirect", {
+        params: {
+            ticket: req.query.ticket
+        }
+    }).then((response) => {
+        console.log(response.data);
+
+        var str = response.data.split('\n');
+        console.log(str);
+        if(str[0] === 'yes') {
+            const token = jwt.sign(
+                {studentnumber: str[1]},
+                process.env.JWT_TOKEN,
+                {
+                    expiresIn: "2h"
+                }
+
+            )
+        };
+    });
+    // return req.query.ticket;
 
     } catch (error) {
         console.log("some faul")        
@@ -68,6 +59,8 @@ app.get("/redirect", async(req, res) => {
     //console.log("HIIIYAAA");
     
 })
+
+
 
 
 
