@@ -276,7 +276,7 @@ export default class BoardStore {
   }
   async getComments(id) {
     try {
-      const res = await fetch(`http://130.225.170.203/api/getCommentsForOneCard/${id}`)
+      const res = await fetch(`http://localhost:5000/getCommentsForOneCard/${id}`)
       if(!res.ok){
         throw Error ("Could not get the data from ther server. Status: " + res.status + " " + res.statusText)
       }
@@ -289,7 +289,7 @@ export default class BoardStore {
 
   async getCards(id) {
     try {
-      const res = await fetch(`http://130.225.170.203/api/GetCardsFromdDay/${id}`)
+      const res = await fetch(`http://localhost:5000/GetCardsFromdDay/${id}`)
       if(!res.ok){
         throw Error ("Could not get the data from ther server. Status: " + res.status + " " + res.statusText)
       }
@@ -303,7 +303,7 @@ export default class BoardStore {
 
   async getDays(id) {
     try {
-      const res = await fetch(`http://130.225.170.203/api/getDaysForCourse/${id}`)
+      const res = await fetch(`http://localhost:5000/getDaysForCourse/${id}`)
       if(!res.ok){
         throw Error ("Could not get the data from ther server. Status: " + res.status + " " + res.statusText)
       }
@@ -317,7 +317,7 @@ export default class BoardStore {
 
   async getCourse(id) {
     try {
-      const res = await fetch(`http://130.225.170.203/api/getOneCourse/${id}`)
+      const res = await fetch(`http://localhost:5000/getOneCourse/${id}`)
       if(!res.ok){
         throw Error ("Could not get the data from ther server. Status: " + res.status + " " + res.statusText)
       }
@@ -331,7 +331,7 @@ export default class BoardStore {
 
   async getCourses() {
     try {
-      const res = await fetch("http://130.225.170.203/api/allCourses");
+      const res = await fetch("http://localhost:5000/allCourses");
       if(!res.ok){
         throw Error ("Could not get the data from ther server. Status: " + res.status + " " + res.statusText)
       }
