@@ -22,8 +22,6 @@ function Board(props){
 
     const threads = tabs[day].threads;
 
-
-
     return (
         <div style={{ width: "100%" }}>
             <h1 style={{ color: "white", textAlign: 'center' }}>{course} {day}</h1>

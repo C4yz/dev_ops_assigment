@@ -7,6 +7,7 @@ import { observer } from "mobx-react-lite";
 import BoardStore from "./stores/BoardStore";
 import { Switch, Route } from "react-router-dom";
 import LoginPage from "./components/LoginPage";
+
 //import { watchOptions } from "nodemon/lib/config/defaults";
 
 const boardStore = new BoardStore();
