@@ -38,9 +38,7 @@ function App() {
               <Sidebar store={boardStore}/>
             </Grid>
             <Grid item xs={10}>
-              <div>
-                <Board store={boardStore}/>
-              </div>
+              <Board store={boardStore}/>
             </Grid>
           </Grid>
         </Route>
