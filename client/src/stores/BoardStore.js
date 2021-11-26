@@ -179,7 +179,7 @@ export default class BoardStore {
     //push to db
     try {
       console.log("trying fetch")
-      fetch(`http://localhost:5000/CreateCard`, {
+      fetch(`http://130.225.170.203/api/CreateCard`, {
         method: 'POST', // or 'PUT'
         headers: {
           'Content-Type': 'application/json',
@@ -188,7 +188,7 @@ export default class BoardStore {
       })
           .then(response => {
             if(!response.ok){
-              throw Error ("Could not post the data to the server")
+              throw Error ("Could not post the data from ther server. Status: " + response.status + " " + response.statusText)
             }
             response.json()
           })
@@ -216,7 +216,7 @@ export default class BoardStore {
     //push to db
     try {
       console.log("trying fetch")
-      fetch(`http://130.225.170.203:5000/UpdateCardStatus`, {
+      fetch(`http://130.225.170.203/api/UpdateCardStatus`, {
         method: 'PUT', // or 'PUT'
         headers: {
           'Content-Type': 'application/json',
@@ -225,7 +225,7 @@ export default class BoardStore {
       })
           .then(response => {
             if(!response.ok){
-              throw Error ("Could not post the data to the server")
+              throw Error ("Could not post the data from ther server. Status: " + response.status + " " + response.statusText)
             }
             response.json()
           })
@@ -254,7 +254,7 @@ export default class BoardStore {
     //push to db
     try {
       console.log("trying fetch")
-      fetch(`http://130.225.170.203:5000/CreateComment`, {
+      fetch(`http://130.225.170.203/api/CreateComment`, {
         method: 'POST', // or 'PUT'
         headers: {
           'Content-Type': 'application/json',
@@ -263,7 +263,7 @@ export default class BoardStore {
       })
           .then(response => {
             if(!response.ok){
-              throw Error ("Could not post the data to the server")
+              throw Error ("Could not post the data from ther server. Status: " + response.status + " " + response.statusText)
             }
             response.json()
           })
@@ -280,9 +280,9 @@ export default class BoardStore {
   }
   async getComments(id) {
     try {
-      const res = await fetch(`http://130.225.170.203:5000/getCommentsForOneCard/${id}`)
+      const res = await fetch(`http://130.225.170.203/api/getCommentsForOneCard/${id}`)
       if(!res.ok){
-        throw Error ("Could not get the data from ther server")
+        throw Error ("Could not get the data from ther server. Status: " + res.status + " " + res.statusText)
       }
       const parsed = await res.json();
       return parsed;
@@ -293,9 +293,9 @@ export default class BoardStore {
 
   async getCards(id) {
     try {
-      const res = await fetch(`http://130.225.170.203:5000/GetCardsFromdDay/${id}`)
+      const res = await fetch(`http://130.225.170.203/api/GetCardsFromdDay/${id}`)
       if(!res.ok){
-        throw Error ("Could not get the data from ther server")
+        throw Error ("Could not get the data from ther server. Status: " + res.status + " " + res.statusText)
       }
       const parsed = await res.json();
       console.log(parsed);
@@ -307,9 +307,9 @@ export default class BoardStore {
 
   async getDays(id) {
     try {
-      const res = await fetch(`http://130.225.170.203:5000/getDaysForCourse/${id}`)
+      const res = await fetch(`http://130.225.170.203/api/getDaysForCourse/${id}`)
       if(!res.ok){
-        throw Error ("Could not get the data from ther server")
+        throw Error ("Could not get the data from ther server. Status: " + res.status + " " + res.statusText)
       }
       const parsed = await res.json();
       console.log(parsed);
@@ -321,9 +321,9 @@ export default class BoardStore {
 
   async getCourse(id) {
     try {
-      const res = await fetch(`http://130.225.170.203:5000/getOneCourse/${id}`)
+      const res = await fetch(`http://130.225.170.203/api/getOneCourse/${id}`)
       if(!res.ok){
-        throw Error ("Could not get the data from ther server")
+        throw Error ("Could not get the data from ther server. Status: " + res.status + " " + res.statusText)
       }
       const parsed = await res.json();
       console.log(parsed);
@@ -335,9 +335,9 @@ export default class BoardStore {
 
   async getCourses() {
     try {
-      const res = await fetch("http://130.225.170.203:5000/allCourses");
+      const res = await fetch("http://130.225.170.203/api/allCourses");
       if(!res.ok){
-        throw Error ("Could not get the data from ther server")
+        throw Error ("Could not get the data from ther server. Status: " + res.status + " " + res.statusText)
       }
       const parsed = await res.json();
       return parsed; 
@@ -349,7 +349,5 @@ export default class BoardStore {
   constructor() {
     makeAutoObservable(this)
   }
-
   
 }
-
