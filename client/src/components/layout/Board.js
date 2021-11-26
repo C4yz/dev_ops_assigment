@@ -18,11 +18,9 @@ import { autorun } from "mobx";
 
 function Board(props){
     let { course, day } = useParams();
-    const tabs = props.store.course.tabs
+    const tabs = props.store.course.tabs;
 
     const threads = tabs[day].threads;
-
-
 
     return (
         <div style={{ width: "100%" }}>
