@@ -27,7 +27,9 @@ function Board(props){
     }
 
     if (props.store.state == "empty") {
-        props.store.changeStore(course);
+        if(course){
+            props.store.changeStore(course);
+        }
         return (
             <div style={{width: "100%"}}>
                 <h1 style={{ color: "white", textAlign: 'center' }}>loading</h1>
