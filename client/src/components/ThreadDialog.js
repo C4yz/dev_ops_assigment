@@ -37,6 +37,7 @@ function ThreadDialog (props){
 
     const comments = [];
 
+    /*create comments */
     props.props.comments.forEach((tempComment) => {
         comments.push(<Box
                 borderBottom={1}

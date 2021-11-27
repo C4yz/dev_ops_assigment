@@ -211,7 +211,6 @@ export default class BoardStore {
   async moveCardToFinish(cardid, status) {
     await this.updateCardStatus(cardid, status);
     await this.changeStore(this.course.title);
-
   }
 
 
