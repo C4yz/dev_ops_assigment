@@ -21,9 +21,9 @@ function Thread (props){
     };
 
     return (
-        <div style={{width: '100%'}} >
+        <div id={props.cardid} style={{width: '100%'}} >
             {dialog}
-            <Box m={1} onClick={handleClick}>
+            <Box  m={1} onClick={handleClick} >
                 <Card elevation={3}>
                     <CardHeader
                         title={props.title}

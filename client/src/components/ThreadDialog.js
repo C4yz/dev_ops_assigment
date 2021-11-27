@@ -5,13 +5,14 @@ import {
     CardHeader, Dialog, DialogActions,
     DialogContent,
     DialogContentText,
-    DialogTitle, TextField,
+    DialogTitle, IconButton, TextField,
     Typography
 } from "@material-ui/core";
 import * as React from "react";
 import Thread from "./Thread";
 import {useState} from "react";
 import BoardStore from "../stores/BoardStore";
+import {Close} from '@material-ui/icons';
 
 function ThreadDialog (props){
     const [open, setOpen] = useState(true);
@@ -24,9 +25,14 @@ function ThreadDialog (props){
     };
 
     const handlePost = e =>{
-        console.log("dialog posting comment")
-        props.props.store.addComment(newComment, "commentUser", props.props.cardid, props.props.status);
-        setOpen(false);
+        if(newComment == ""){
+            console.log("NO TEXT IN NEW COMMENT")
+        }
+        else{
+            console.log("dialog posting comment")
+            props.props.store.addComment(newComment, "commentUser", props.props.cardid, props.props.status);
+            setOpen(false);
+        }
     };
 
     const comments = [];
@@ -44,6 +50,38 @@ function ThreadDialog (props){
         );
     });
 
+    const handleMoveToFinish = e =>{
+        console.log("we are in the handlemovetofinish!")
+        props.props.store.moveCardToFinish(props.props.cardid, 3);
+    };
+
+    const moveToFinishedButton = () => {
+        if(props.props.status === 2){
+            return <Button onClick={handleMoveToFinish}>Move to finished questions</Button>
+        }
+        return <div></div>;
+    };
+
+    const postCommentButton = () => {
+        if(props.props.status !== 3){
+            return <Button onClick={handlePost}>Post New Comment</Button>
+        }
+        return <div></div>;
+    };
+    const newCommentTextField = () =>{
+        if(props.props.status !== 3){
+            return <TextField
+                id="commentInput"
+                label="New comment"
+                multiline
+                maxRows={5}
+                fullWidth
+                onChange={(e) => setNewComment(e.target.value)}
+            />
+        }
+        return <div></div>;
+    }
+
     return (
         <Dialog open={open} onClose={handleClose} fullWidth>
             {/*Question*/}
@@ -58,18 +96,12 @@ function ThreadDialog (props){
                 <DialogContentText>
                     {comments}
                 </DialogContentText>
-                <TextField
-                    id="commentInput"
-                    label="New comment"
-                    multiline
-                    maxRows={5}
-                    fullWidth
-                    onChange={(e) => setNewComment(e.target.value)}
-                />
+                {newCommentTextField() /*editable comment field if not finished thread*/}
             </DialogContent>
             <DialogActions>
+                {moveToFinishedButton()/*movetofinish button if not finished thread*/}
                 <Button onClick={handleClose}>Close</Button>
-                <Button onClick={handlePost}>Post New Comment</Button>
+                {postCommentButton()/*post comment button if not finished thread*/}
             </DialogActions>
         </Dialog>
     );
