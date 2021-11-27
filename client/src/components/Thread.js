@@ -20,7 +20,6 @@ function Thread (props){
         }
     };
 
-
     return (
         <div style={{width: '100%'}} >
             {dialog}

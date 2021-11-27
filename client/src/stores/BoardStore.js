@@ -1,5 +1,7 @@
 //import { json } from "express";
 import { makeAutoObservable, makeObservable, observable, runInAction } from "mobx";
+import { useState } from "react";
+import errorMessage from "../errorHandeling";
 
 export default class BoardStore {
   
@@ -74,7 +76,6 @@ export default class BoardStore {
       this.course.courseid = courses[0].id;
       
     })
-
     let temp = {};
 
     /*for (const day of days) {
@@ -136,7 +137,6 @@ export default class BoardStore {
 
 
     //iterate through days
-    //FIXME Move to backend
     for (const day of days) {
       //get cards of a certain day
       const cards = await this.getCards(day.dayid);
@@ -179,7 +179,12 @@ export default class BoardStore {
         },
         body: JSON.stringify(data),
       })
-          .then(response => response.json())
+          .then(response => {
+            if(!response.ok){
+              throw Error ("Could not post the data from ther server. Status: " + response.status + " " + response.statusText)
+            }
+            response.json()
+          })
           .then(data => {
             console.log('Success:', data);
           })
@@ -187,7 +192,7 @@ export default class BoardStore {
             console.error('Error:', error);
           });
     }catch (e) {
-      console.log("error: " + e);
+      console.log(e);
     }
 
     //TODO: update the store cards since new one is in db
@@ -211,7 +216,12 @@ export default class BoardStore {
         },
         body: JSON.stringify(data),
       })
-          .then(response => response.json())
+          .then(response => {
+            if(!response.ok){
+              throw Error ("Could not post the data from ther server. Status: " + response.status + " " + response.statusText)
+            }
+            response.json()
+          })
           .then(data => {
             console.log('Success:', data);
           })
@@ -219,7 +229,7 @@ export default class BoardStore {
             console.error('Error:', error);
           });
     }catch (e) {
-      console.log("error: " + e);
+      console.log(e);
     }
   }
   async addComment(comment, username, cardid, cardStatusBefore){
@@ -244,75 +254,93 @@ export default class BoardStore {
         },
         body: JSON.stringify(data),
       })
-          .then(response => response.json())
+          .then(response => {
+            if(!response.ok){
+              throw Error ("Could not post the data from ther server. Status: " + response.status + " " + response.statusText)
+            }
+            response.json()
+          })
           .then(data => {
             console.log('Success:', data);
           })
           .catch((error) => {
-            console.error('Error:', error);
+            console.error( error);
           });
     }catch (e) {
-      console.log("error: " + e);
+      console.log(e);
     }
     //TODO: update store after updating DB
   }
   async getComments(id) {
     try {
       const res = await fetch(`http://130.225.170.203/api/getCommentsForOneCard/${id}`)
+      if(!res.ok){
+        throw Error ("Could not get the data from ther server. Status: " + res.status + " " + res.statusText)
+      }
       const parsed = await res.json();
       return parsed;
     } catch (error) {
-      console.log("shits on fire comments");
+      console.log(error);
     }
   }
 
   async getCards(id) {
     try {
       const res = await fetch(`http://130.225.170.203/api/GetCardsFromdDay/${id}`)
+      if(!res.ok){
+        throw Error ("Could not get the data from ther server. Status: " + res.status + " " + res.statusText)
+      }
       const parsed = await res.json();
       console.log(parsed);
       return parsed;
     } catch (error) {
-      console.log("shits on fire cards");
+      console.log(error);
     }
   }
 
   async getDays(id) {
     try {
       const res = await fetch(`http://130.225.170.203/api/getDaysForCourse/${id}`)
+      if(!res.ok){
+        throw Error ("Could not get the data from ther server. Status: " + res.status + " " + res.statusText)
+      }
       const parsed = await res.json();
       console.log(parsed);
       return parsed;
     } catch (error) {
-      console.log("shits on fire days");
+      console.log(error);
     }
   }
 
   async getCourse(id) {
     try {
       const res = await fetch(`http://130.225.170.203/api/getOneCourse/${id}`)
+      if(!res.ok){
+        throw Error ("Could not get the data from ther server. Status: " + res.status + " " + res.statusText)
+      }
       const parsed = await res.json();
       console.log(parsed);
       return parsed;
     } catch (error) {
-      console.log("shits on fire");
+      console.log(error);
     }
   }
 
   async getCourses() {
     try {
       const res = await fetch("http://130.225.170.203/api/allCourses");
+      if(!res.ok){
+        throw Error ("Could not get the data from ther server. Status: " + res.status + " " + res.statusText)
+      }
       const parsed = await res.json();
       return parsed; 
     } catch (error) {
-      
+      console.log(error)
     }
   }
 
   constructor() {
     makeAutoObservable(this)
   }
-
   
 }
-
