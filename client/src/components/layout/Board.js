@@ -14,7 +14,6 @@ import BoardStore from "../../stores/BoardStore";
 import {observer, useObserver } from 'mobx-react-lite';
 import Thread from "../Thread";
 import { useParams } from "react-router-dom";
-import { autorun } from "mobx";
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -43,17 +42,37 @@ function a11yProps(index) {
 }
 function Board(props){
     let { course, day } = useParams();
-    const tabs = props.store.course.tabs;
-    const [value, setValue] = useState(0);
 
-    const handleTabChange = (event, newValue) => {
-      setValue(newValue);
-    };
+    if (props.store.state == "error") {
+        return (
+            <div style={{width: "100%"}}>
+                <h1 style={{ color: "white", textAlign: 'center' }}>owh njow shomwthing whent wrong uwu</h1>
+            </div>
+        )
+    }
 
+    if (props.store.state == "empty") {
+        if(course){
+            props.store.changeStore(course);
+        }
+        return (
+            <div style={{width: "100%"}}>
+                <h1 style={{ color: "white", textAlign: 'center' }}>loading</h1>
+            </div>
+        )
+    } else if (props.store.state == "pending") {
+        return (
+            <div style={{width: "100%"}}>
+                <h1 style={{ color: "white", textAlign: 'center' }}>loading</h1>
+            </div>
+        )
+    } else if (props.store.state == "done") {
+    
+    const tabs = props.store.course.tabs
     const threads = tabs[day].threads;
 
     return (
-        <div style={{width: "100%", height: "100%", alignItems: "center", display: "flex", flexDirection: "column"}}>
+        <div style={{width: "100%", height: "100%", alignItems: "center", display: "flex", flexDirection: "column"}} id="boardContainer">
             <h1 style={{ color: "white", textAlign: 'center' }}>{course} {day}</h1>
             <Box sx={{color: "white", width:"100%"}}>
                 <Tabs centered={true} indicatorColor="secondary" value={value} onChange={handleTabChange} aria-label="basic tabs" >
@@ -260,5 +279,8 @@ function Board(props){
             </Box>*/}
         </div>
     );
+    }
+    //dekopler vi ikke threads fra store her?
+    
 }
 export default observer(Board);

@@ -57,19 +57,11 @@ export default class BoardStore {
   };
 
   courseNames = [];
-  count = {
-    count: {
-      count: {
-        count: 0
-      }
-    }
-  }
 
-  updateCount = () => {
-    this.count.count.count.count += 1;
-  }
+  state = "empty" // "done", "pending", "error", "empty"
 
   async populateStore() {
+    this.state = "pending"
     const courses = await this.getCourses();
     console.log(courses)
     // TODO:  potential risk async // await */
@@ -82,6 +74,7 @@ export default class BoardStore {
     runInAction(() => {
       this.course.title = courses[0].name;
       this.course.courseid = courses[0].id;
+      
     })
     let temp = {};
 
@@ -113,12 +106,15 @@ export default class BoardStore {
     //replace store days
    
     this.course.tabs = tempDays;
+    this.state = "done";
     console.log(tempDays)
 
   }
 
   async changeStore(name) {
+    console.log("token", localStorage.getItem("portal-jwt-Token"));
     console.log('start');
+    this.state = "pending";
     let id;
     this.courseNames.forEach(element => {
       console.log("searching courses" + name + " " + element.name)
@@ -160,6 +156,7 @@ export default class BoardStore {
     }
     //replace store days
     this.course.tabs = tempDays;
+    this.state = "done";
     console.log(tempDays)
   }
 
@@ -276,7 +273,7 @@ export default class BoardStore {
   }
   async getComments(id) {
     try {
-      const res = await fetch(`http://localhost:5000/getCommentsForOneCard/${id}`)
+      const res = await fetch(`http://130.225.170.203/api/getCommentsForOneCard/${id}`)
       if(!res.ok){
         throw Error ("Could not get the data from ther server. Status: " + res.status + " " + res.statusText)
       }
@@ -289,7 +286,7 @@ export default class BoardStore {
 
   async getCards(id) {
     try {
-      const res = await fetch(`http://localhost:5000/GetCardsFromdDay/${id}`)
+      const res = await fetch(`http://130.225.170.203/api/GetCardsFromdDay/${id}`)
       if(!res.ok){
         throw Error ("Could not get the data from ther server. Status: " + res.status + " " + res.statusText)
       }
@@ -303,7 +300,7 @@ export default class BoardStore {
 
   async getDays(id) {
     try {
-      const res = await fetch(`http://localhost:5000/getDaysForCourse/${id}`)
+      const res = await fetch(`http://130.225.170.203/api/getDaysForCourse/${id}`)
       if(!res.ok){
         throw Error ("Could not get the data from ther server. Status: " + res.status + " " + res.statusText)
       }
@@ -317,7 +314,7 @@ export default class BoardStore {
 
   async getCourse(id) {
     try {
-      const res = await fetch(`http://localhost:5000/getOneCourse/${id}`)
+      const res = await fetch(`http://130.225.170.203/api/getOneCourse/${id}`)
       if(!res.ok){
         throw Error ("Could not get the data from ther server. Status: " + res.status + " " + res.statusText)
       }
@@ -331,7 +328,7 @@ export default class BoardStore {
 
   async getCourses() {
     try {
-      const res = await fetch("http://localhost:5000/allCourses");
+      const res = await fetch("http://130.225.170.203/api/allCourses");
       if(!res.ok){
         throw Error ("Could not get the data from ther server. Status: " + res.status + " " + res.statusText)
       }
