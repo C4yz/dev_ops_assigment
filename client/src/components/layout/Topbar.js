@@ -48,7 +48,7 @@ function Topbar(props){
 
     return  (
         <div className="Topbar" >
-            <div style={{background: "#2b2f38",  width: '100%' }}>
+            <div style={{background: "#2b2f38",  width: '100%' }} id="topbarContainer">
                 <Box sx={{ display: 'flex', flexDirection : 'row', p:1}}>
                     <Box sx={{ display: 'flex', //make flexbox (stuff works...)
                         p: 0, //padding
