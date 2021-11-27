@@ -42,6 +42,8 @@ function a11yProps(index) {
 }
 function Board(props){
     let { course, day } = useParams();
+    const [value, setValue] = useState(0);
+
 
     if (props.store.state == "error") {
         return (
@@ -70,6 +72,10 @@ function Board(props){
     
     const tabs = props.store.course.tabs
     const threads = tabs[day].threads;
+
+    const handleTabChange = (event, newValue) => {
+      setValue(newValue);
+    };
 
     return (
         <div style={{width: "100%", height: "100%", alignItems: "center", display: "flex", flexDirection: "column"}} id="boardContainer">
