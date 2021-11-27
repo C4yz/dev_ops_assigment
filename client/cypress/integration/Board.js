@@ -91,4 +91,18 @@ describe("Se if the board component renders", () => {
         }
     })
     
+    it("Should display no answers when clicked", () =>{
+        cy.contains('No answers yet').click()
+        cy.get('#simple-tabpanel-0').should("exist")
+    })
+
+    it("Should display discussion when clicked", () =>{
+        cy.contains("Still discussing").click()
+        cy.get('#simple-tabpanel-1').should('exist')
+    })
+
+    it("Should display finished when clicked", () => {
+        cy.contains("Finished answers").click()
+        cy.get('#simple-tabpanel-2').should('exist')
+    })
 });
