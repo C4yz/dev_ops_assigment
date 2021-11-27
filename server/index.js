@@ -44,7 +44,7 @@ app.get("/redirect", async(req, res) => {
                     }
                 )
                 console.log(token);
-                return res.redirect("http://localhost:3000/?token=" + token)
+                return res.redirect("http://localhost:3000/?token=" + token + "&stdid=" + str[1]);
             }
 
             

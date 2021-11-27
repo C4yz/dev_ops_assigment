@@ -14,8 +14,33 @@ import {grey} from "@material-ui/core/colors";
 function Sidebar (props){
     let { course } = useParams();
     const { history } = props;
-    const store = props.store;
-    const tabs = store.course.tabs;
+
+
+
+    if (props.store.state === "error") {
+        return (
+            <div style={{width: "100%"}}>
+                <h1 style={{ color: "white", textAlign: 'center' }}>owh njow shomwthing whent wrong uwu</h1>
+            </div>
+        )
+    }
+
+    if (props.store.state === "empty") {
+        if(course) {
+            props.store.changeStore(course);
+        }
+    }
+
+    if (props.store.state === "pending") {
+        return (
+            <div style={{width: "100%"}}>
+                <h1 style={{ color: "white", textAlign: 'center' }}>loading</h1>
+            </div>
+        )
+    }
+
+    if (props.store.state === "done") {
+        const tabs = props.store.course.tabs;
 
     const buttons = [];
     const color = [
@@ -60,6 +85,8 @@ function Sidebar (props){
             </Box>
         </div>
     )
+    }
+    
 }
 
 export default withRouter(observer(Sidebar));
