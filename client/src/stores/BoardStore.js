@@ -125,6 +125,11 @@ export default class BoardStore {
         this.course.title = element.name;
       }})
 
+    if (!id) {
+      console.log("No course with that name was found");
+      return
+    }
+
     const days = await this.getDays(id);
 
     runInAction(() => {
