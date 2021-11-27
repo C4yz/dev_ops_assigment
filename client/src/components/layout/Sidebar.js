@@ -8,6 +8,7 @@ import { borders } from '@mui/system';
 import NewQuestion from "../NewQuestion";
 import {observer, useObserver } from 'mobx-react-lite';
 import {useParams, withRouter } from "react-router-dom";
+import {grey} from "@material-ui/core/colors";
 
 
 function Sidebar (props){
@@ -28,29 +29,33 @@ function Sidebar (props){
 
     const onClickHandler = event =>  {
         history.push(`/courses/${course}/${event}`);
+
         console.log(JSON.stringify(tabs[event].threads));
     }
 
     Object.keys(tabs).forEach((element) => {
         buttons.push(
-            <Box sx={{p: 0.2 , width : '100%'}}>
+            <Box sx={{width : '100%', mb: 0.7 }}>
                 <Button onClick= {() => {onClickHandler(element)}}
-                        variant={'contained'}
+                        variant={'outlined'}
                         fullWidth={true}
-                        style={{justifyContent: "flex-start"}}>{element}</Button>
+                        style={{justifyContent: "flex-start", color: "white"}}
+                        color={"primary"}>{element}</Button>
             </Box>
         )
     })
     return (
-        <div style = {{background:'#2b2f38', width : '100%', height: '100%', padding:5}}>
+        <div style = {{background:'#2b2f38', width : '100%', height: '100%', alignItems: "center", display: "flex", flexDirection: "column"}}>
             <NewQuestion store = {props.store}/>
             <Box  sx={{display : 'flex',
                 flexDirection : 'column',
                 flexGrow : 1,
                 justifyContent : 'flex-start',
                 alignItems : 'flex-start',
-                p:1,
-                borderColor: 'text.primary'}}>
+                height: "100%",
+                width: "100%",
+                px:1,
+            }}>
                 {buttons}
             </Box>
         </div>
