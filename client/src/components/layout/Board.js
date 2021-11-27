@@ -12,12 +12,35 @@ import BoardStore from "../../stores/BoardStore";
 import {observer, useObserver } from 'mobx-react-lite';
 import Thread from "../Thread";
 import { useParams } from "react-router-dom";
-import { autorun } from "mobx";
 
 
 
 function Board(props){
     let { course, day } = useParams();
+
+    if (props.store.state == "error") {
+        return (
+            <div style={{width: "100%"}}>
+                <h1 style={{ color: "white", textAlign: 'center' }}>owh njow shomwthing whent wrong uwu</h1>
+            </div>
+        )
+    }
+
+    if (props.store.state == "empty") {
+        props.store.changeStore(course);
+        return (
+            <div style={{width: "100%"}}>
+                <h1 style={{ color: "white", textAlign: 'center' }}>loading</h1>
+            </div>
+        )
+    } else if (props.store.state == "pending") {
+        return (
+            <div style={{width: "100%"}}>
+                <h1 style={{ color: "white", textAlign: 'center' }}>loading</h1>
+            </div>
+        )
+    } else if (props.store.state == "done") {
+    
     const tabs = props.store.course.tabs
 
     const threads = tabs[day].threads;
@@ -126,5 +149,8 @@ function Board(props){
             </Box>
         </div>
     );
+    }
+    //dekopler vi ikke threads fra store her?
+    
 }
 export default observer(Board);

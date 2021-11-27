@@ -6,7 +6,8 @@ import { useHistory, withRouter } from "react-router-dom";
 function LoginPage(props){
     const { history } = props;
     const onClickHandler = event =>  {
-        history.push(`/courses/DevOps/Day 1`);
+        window.location.href = "http://localhost:5000/login";
+        //history.push(`/courses/DevOps/Day 1`);
     };
 
     return  (
