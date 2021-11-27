@@ -1,9 +1,14 @@
+require('dotenv').config();
+
 const express = require('express');
 const app = express();
 const pool = require("./db");
 const cors = require("cors");
 const e = require('express');
 const https = require('https');
+const axios = require('axios');
+const jwt = require('jsonwebtoken');
+const auth = require('./middleware/validate');
 
 const PORT = process.env.PORT || 5000;
 
@@ -15,10 +20,49 @@ This is a comment for testing if the server can see if there is any changes to t
 */
 
 //Routes
+app.get("/login", async(req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.redirect(301, "https://auth.dtu.dk/dtu/?service=http://localhost:5000/redirect");
+})
+
+
+app.get("/redirect", async(req, res) => {
+    console.log(req.query.ticket);
+    try {
+        axios.get("https://auth.dtu.dk/dtu/validate?service=http://localhost:5000/redirect", {
+            params: {
+                ticket: req.query.ticket
+            }
+        }).then((response) => {
+            var str = response.data.split('\n');
+            if(str[0] === 'yes') {
+                const token = jwt.sign(
+                    {studentnumber: str[1]},
+                    process.env.JWT_TOKEN,
+                    {
+                        expiresIn: "2h"
+                    }
+                )
+                console.log(token);
+                return res.redirect("http://localhost:3000/?token=" + token)
+            }
+
+            
+        });
+    } catch (error) {
+        //TODO: Do proper error
+        console.log("error in redirect");
+    }
+})
+
+
+app.get("/testAPI", auth, (req, res) => {
+    res.status(200).send("Test succesful");
+})
 
 // Courses
 //Get All
-app.get("/allCourses", async (req,res) => {
+app.get("/allCourses",  async (req,res) => {
     try {
         const getAll = await pool.query("SELECT * FROM courses");
         res.json(getAll.rows);

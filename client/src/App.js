@@ -11,7 +11,6 @@ import LoginPage from "./components/LoginPage";
 //import { watchOptions } from "nodemon/lib/config/defaults";
 
 const boardStore = new BoardStore();
-//boardStore.populateStore();
 
 function App() {
   const [store, setStore] = useState();
