@@ -91,6 +91,9 @@ describe("Se if the board component renders", () => {
         }
     })
     
+});
+
+describe("Se if the buttons on the board works", () => {
     it("Should display no answers when clicked", () =>{
         cy.contains('No answers yet').click()
         cy.get('#simple-tabpanel-0').should("exist")
@@ -105,4 +108,4 @@ describe("Se if the board component renders", () => {
         cy.contains("Finished answers").click()
         cy.get('#simple-tabpanel-2').should('exist')
     })
-});
+})
