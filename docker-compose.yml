@@ -6,12 +6,17 @@ services:
       context: ./server
       dockerfile: ./Dockerfile
     image: "mocompres/devops_server"
-    ports:
-      - "5000:5000"
   client:
     build:
       context: ./client
       dockerfile: ./Dockerfile
     image: "mocompres/devops_client"
+
+  nginxserver:
+    build:
+      context: ./nginx
+      dockerfile: ./Dockerfile
+    image: "mocompres/nginx_proxy"
     ports:
-      - "3000:3000"
+      - "80:80"
+  
