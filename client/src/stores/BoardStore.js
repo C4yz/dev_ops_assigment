@@ -113,6 +113,7 @@ export default class BoardStore {
 
   async changeStore(name) {
     console.log("token", localStorage.getItem("portal-jwt-Token"));
+    console.log("studentid", localStorage.getItem("studentid"));
     console.log('start');
     this.state = "pending";
     let id;
@@ -124,6 +125,11 @@ export default class BoardStore {
         this.course.courseid = element.id;
         this.course.title = element.name;
       }})
+
+    if (!id) {
+      console.log("No course with that name was found");
+      return
+    }
 
     const days = await this.getDays(id);
 
