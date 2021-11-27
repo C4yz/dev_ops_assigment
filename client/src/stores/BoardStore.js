@@ -113,6 +113,7 @@ export default class BoardStore {
 
   async changeStore(name) {
     console.log("token", localStorage.getItem("portal-jwt-Token"));
+    console.log("studentid", localStorage.getItem("studentid"));
     console.log('start');
     this.state = "pending";
     let id;
