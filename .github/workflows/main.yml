@@ -37,7 +37,6 @@ jobs:
         run: |
           docker build ./client -t mocompres/devops_client
           
-          
       - name: Build docker image server
         run: |
           docker build ./server -t mocompres/devops_server
