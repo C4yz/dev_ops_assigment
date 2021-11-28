@@ -41,8 +41,13 @@ jobs:
       - name: Build docker image server
         run: |
           docker build ./server -t mocompres/devops_server
+
+      - name: Build docker image nginx reverse proxy
+        run: |
+          docker build ./nginx -t mocompres/nginx_proxy
           
       - name: Docker push
         run: |
           docker push mocompres/devops_client
           docker push mocompres/devops_server
+          docker push mocompres/nginx_proxy
