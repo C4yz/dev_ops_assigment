@@ -7,7 +7,7 @@ describe("Se if the landing page renders", () => {
     it("Should login when button is clicked", () => {
         cy.contains("Click here to login").should("exist")
 
-        cy.request({
+        /*cy.request({
             url:"http://localhost:5000/login"
             //followRedirect: true
         }).then((response) => {
@@ -16,7 +16,7 @@ describe("Se if the landing page renders", () => {
         })
 
         //cy.request('https://auth.dtu.dk/dtu/?service=http://localhost:5000/redirect')
-        /*cy.get("input[type=email]").type("s195455")
+        cy.get("input[type=email]").type("s195455")
         cy.get("input[type=password]").type("Yhp84kxj")
         cy.contains("Log på").click()
         cy.get("#boardContainer").should("exist")*/
