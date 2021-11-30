@@ -5,7 +5,6 @@ import { useHistory, withRouter } from "react-router-dom";
 
 function Topbar(props){
     const [currentBoard,setCurrentBoard] = useState("No board selected");
-    const [username,setUserName] = useState("s195471");
     const { history, store } = props;
 
     const list = [
@@ -59,7 +58,7 @@ function Topbar(props){
                         {buttons}
                     </Box>
                     <Box style={{ background: "#7a3131", borderRadius: 20}} sx={{ p:1 }}>
-                        <Button style={{ color: 'white'}}>{username}</Button>
+                        <Button style={{ color: 'white'}}>{localStorage.getItem("studentid")}</Button>
                         <Typography  style={{ fontSize: 'small', color: 'white', textAlign: 'center'}}>Log Out</Typography>
                     </Box>
                 </Box>

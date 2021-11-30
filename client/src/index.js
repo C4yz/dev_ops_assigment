@@ -21,8 +21,6 @@ if (token!=null && token.length>0){
   //Store token and redirect to baseURL
   localStorage.setItem("portal-jwt-Token",token);
   localStorage.setItem("studentid", studentid);
-  console.log(token);
-  console.log("yes");
   window.location.replace("http://localhost:3000/courses/DevOps/Day 1");
 }
 

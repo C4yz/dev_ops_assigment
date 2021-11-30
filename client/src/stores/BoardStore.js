@@ -191,9 +191,11 @@ export default class BoardStore {
             }
             console.log(response.json());
           })
-          .then(data => {
+          .then(async data => {
             console.log(data)
             console.log('Success:', data);
+			await this.changeStore(this.course.title);
+
           })
           .catch((error) => {
             console.error('Error:', error);
@@ -205,7 +207,6 @@ export default class BoardStore {
     //TODO: update the store cards since new one is in db
     //this.course.tabs[dayName].threads = this.getCards(this.course.tabs[dayName].dayid);
     //reload
-    await this.changeStore(this.course.title);
   }
 
   async moveCardToFinish(cardid, status) {
@@ -275,8 +276,10 @@ export default class BoardStore {
             }
             response.json()
           })
-          .then(data => {
+          .then(async data => {
             console.log('Success:', data);
+    		await this.changeStore(this.course.title);
+
           })
           .catch((error) => {
             console.error( error);
@@ -286,7 +289,6 @@ export default class BoardStore {
     }
     //TODO: update store after updating DB
     //updating store
-    await this.changeStore(this.course.title);
   }
 
   async getComments(id) {
