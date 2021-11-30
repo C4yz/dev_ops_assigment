@@ -1,13 +1,7 @@
 version: '2'
 
 services:
-  server-prime:
-    build:
-      context: ./server
-      dockerfile: ./Dockerfile
-    image: "mocompres/devops_server"
-
-  server-second: 
+  server:
     build:
       context: ./server
       dockerfile: ./Dockerfile
