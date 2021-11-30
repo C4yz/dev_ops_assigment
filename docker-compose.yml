@@ -1,11 +1,18 @@
 version: '2'
 
 services:
-  server:
+  server-prime:
     build:
       context: ./server
       dockerfile: ./Dockerfile
     image: "mocompres/devops_server"
+
+  server-second: 
+    build:
+      context: ./server
+      dockerfile: ./Dockerfile
+    image: "mocompres/devops_server"
+  
   client:
     build:
       context: ./client
@@ -13,10 +20,9 @@ services:
     image: "mocompres/devops_client"
 
   nginxserver:
-    build:
-      context: ./nginx
-      dockerfile: ./Dockerfile
-    image: "mocompres/nginx_proxy"
+    image: "nginx"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
     ports:
       - "80:80"
   
