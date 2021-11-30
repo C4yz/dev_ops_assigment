@@ -1,9 +1,3 @@
-require('dotenv').config();
-import { sign } from 'jsonwebtoken';
-
-//C:\Users\bruger\Desktop\Mapper\dev_ops_assigment\.env
-//C:\Users\bruger\Desktop\Mapper\dev_ops_assigment\client\cypress\integration\loginPage.js
-
 describe("Se if the landing page renders", () => {
     it("Should render correctly", () =>{
         cy.visit("/")
@@ -11,20 +5,15 @@ describe("Se if the landing page renders", () => {
     });
 
     it("Login button should exist", () => {
-        cy.contains("Click here to login").should("exist")
+        cy.contains("Click here to login").click()
+
+        //cy.visit("https://auth.dtu.dk/dtu/?service=http://localhost:5000/redirect")
 
     });
 
     it("Should validate the token if correct", () => {
-        const token = sign(
-            {studentnumber: "s195455"},
-            process.env.JWT_TOKEN,
-            {
-                expiresIn: "2h"
-            }
-        )
 
-        cy.request("http://localhost:5000/testAPI?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdHVkZW50bnVtYmVyIjoiczE5NTQ1NSIsImlhdCI6MTYzODI3MDA1NCwiZXhwIjoxNjM4Mjc3MjU0fQ.FCuZ8KtgbHvY8BBgHrspXyYmrDa4hgER9cAMkj45vlA")
+        cy.request("http://localhost:5000/testAPI?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdHVkZW50bnVtYmVyIjoiczE5NTQ1NSIsImlhdCI6MTYzODI3NzY0OSwiZXhwIjoxNjM4Mjg0ODQ5fQ.gs9XCNyUP7ttn_j-st3D0ao7FtFcGtXknOhl3IULgoY")
         .then((response) => {
             expect(response.status).to.eq(200)
         })
@@ -33,7 +22,7 @@ describe("Se if the landing page renders", () => {
 
     it("Should not validte the token", () => {
         cy.request({
-            url:"http://localhost:5000/testAPI?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdHVkZW50bnVtYmVyIjoiczE5NTQ1NSIsImlhdCI6MTYzODI3MDA1NCwiZXhwIjoxNjM4Mjc3MjU0fQ.FCuZ8KtgbHvY8BBgHrspXyYmrDa4hgER9cAMkj45vlb",
+            url:"http://localhost:5000/testAPI?token=HuberBubber",
             failOnStatusCode: false
         })
         .then((response) => {
