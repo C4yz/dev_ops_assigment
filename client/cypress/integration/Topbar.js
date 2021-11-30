@@ -1,5 +1,4 @@
-
-describe("Se if the board component renders", () => {
+describe("Se if the topbar reders correcly", () => {
     const courses = [
         {
             "name": "DevOps",
@@ -32,13 +31,12 @@ describe("Se if the board component renders", () => {
             "courseid": 12
         }
     ]
-
-    it("should render correctly", () => {
+    before(() =>{
         cy.visit("courses/DevOps/Day%201")
-        cy.get("#boardContainer").should("exist")
+        cy.get("#topbarContainer").should("exist")
     })
 
-    it("should have the right data", () => {
+    it("Should render all the courses in the topbar", () => {
         cy.request('http://130.225.170.203/api/allCourses')
         .its('body')
         .should('deep.eq', courses)
@@ -47,22 +45,11 @@ describe("Se if the board component renders", () => {
             cy.contains(courses[i].name).should("exist")
         }
     })
-    
-});
 
-describe("Se if the buttons on the board works", () => {
-    it("Should display no answers when clicked", () =>{
-        cy.contains('No answers yet').click()
-        cy.get('#simple-tabpanel-0').should("exist")
-    })
-
-    it("Should display discussion when clicked", () =>{
-        cy.contains("Still discussing").click()
-        cy.get('#simple-tabpanel-1').should('exist')
-    })
-
-    it("Should display finished when clicked", () => {
-        cy.contains("Finished answers").click()
-        cy.get('#simple-tabpanel-2').should('exist')
+    it("Should redirect to the right board when clicked", () => {
+        for(let i = 0; i < courses.length; i++){
+            cy.contains(courses[i].name).click()
+            cy.contains(courses[i].name+" Day 1")
+        }
     })
 })

@@ -70,7 +70,7 @@ function Sidebar (props){
         )
     })
     return (
-        <div style = {{background:'#2b2f38', width : '100%', height: '100%', alignItems: "center", display: "flex", flexDirection: "column"}}>
+        <div style = {{background:'#2b2f38', width : '100%', height: '100%', alignItems: "center", display: "flex", flexDirection: "column"}} id="sidebarContainer">
             <NewQuestion store = {props.store}/>
             <Box  sx={{display : 'flex',
                 flexDirection : 'column',

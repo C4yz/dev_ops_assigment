@@ -166,7 +166,7 @@ export default class BoardStore {
     console.log(tempDays)
   }
 
-  async addQuestion(dayName, title, desc, username){
+  async addQuestion(dayName, title, desc, username, course){
     console.log("addquestion called in store")
     const data = {
       title: title,
@@ -193,6 +193,7 @@ export default class BoardStore {
           })
           .then(data => {
             console.log('Success:', data);
+            this.changeStore(course)
           })
           .catch((error) => {
             console.error('Error:', error);
