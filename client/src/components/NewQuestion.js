@@ -37,7 +37,7 @@ function NewQuestion (props){
         console.log(store.content);
         store.content.push(question);*/
         console.log("handlepost called:")
-        store.addQuestion(day, title, desc, "DummyUser")
+        store.addQuestion(day, title, desc, "DummyUser", course)
     };
 
     return (
@@ -71,8 +71,8 @@ function NewQuestion (props){
                             fullWidth
                             onChange={(e) => setDesc(e.target.value)}
                         />
-                        <Button onClick={handleClose}>Cancel</Button>
-                        <Button onClick={handlePost}>Post</Button>
+                        <Button onClick={handleClose} id="cancelButton" >Cancel</Button>
+                        <Button onClick={handlePost} id="postButton" >Post</Button>
 
                     </form>
 

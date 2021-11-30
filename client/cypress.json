@@ -1,4 +1,6 @@
 {
     "baseUrl": "http://localhost:3000",
-    "pluginsFile": false
+    "pluginsFile": false,
+    "chromeWebSecurity": false,
+    "projectId": "3mpu8c"
 }
