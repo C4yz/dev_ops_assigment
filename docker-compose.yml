@@ -25,7 +25,7 @@ services:
     image: "nginx"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./nginx/ssl/:/etc/ssl/
+      - ./nginx/ssl/:/etc/nginx/ssl/
       - /home/deploy/logs/:/var/log/nginx/
     ports:
       - "80:80"
