@@ -62,7 +62,7 @@ app.get("/testAPI", auth, (req, res) => {
 
 // Courses
 //Get All
-app.get("/allCourses",  async (req,res) => {
+app.get("/api/allCourses", async (req,res) => {
     try {
         const getAll = await pool.query("SELECT * FROM courses");
         res.json(getAll.rows);
@@ -72,7 +72,7 @@ app.get("/allCourses",  async (req,res) => {
 })
 
 //Get One
-app.get("/getOneCourse/:id", async (req,res) => {
+app.get("/api/getOneCourse/:id", async (req,res) => {
     try {
         const {id} = req.params;
         const getOne = await pool.query(`SELECT * FROM courses WHERE courseId = ${id}`);
@@ -83,7 +83,7 @@ app.get("/getOneCourse/:id", async (req,res) => {
 })
 
 //Create
-app.post("/createCourse", async (req,res) =>{
+app.post("/api/createCourse", async (req,res) =>{
     try {
         const {courseId} = req.body;
         const {name} = req.body;
@@ -96,7 +96,7 @@ app.post("/createCourse", async (req,res) =>{
 })
 
 //Update
-app.put("/updateCourse/:id", async (req,res) => {
+app.put("/api/updateCourse/:id", async (req,res) => {
     try {
         const {id} = req.params;
         const updateObj = await pool.query(`UPDATE courses SET number = '65282' WHERE courseId = ${id}`);
@@ -107,7 +107,7 @@ app.put("/updateCourse/:id", async (req,res) => {
 })
 
 //Delete
-app.delete("/deleteCourse/:id", async (req,res) => {
+app.delete("/api/deleteCourse/:id", async (req,res) => {
     try {
         const {id} = req.params;
         const delPerson = await pool.query(`DELETE FROM courses WHERE courseId = ${id}`);
@@ -119,7 +119,7 @@ app.delete("/deleteCourse/:id", async (req,res) => {
 
 // Days
 //get days for one coures
-app.get("/getDaysForCourse/:id", async (req,res) => {
+app.get("/api/getDaysForCourse/:id", async (req,res) => {
     try {
         const {id} = req.params;
         const getDays = await pool.query(`SELECT * FROM days WHERE courseid = ${id} ORDER BY dayid`);
@@ -129,7 +129,7 @@ app.get("/getDaysForCourse/:id", async (req,res) => {
     }
 })
 //create day for course
-app.post("/CreateDay", async (req,res) => {
+app.post("/api/CreateDay", async (req,res) => {
     try {
         console.log("/CreateDay has been reached")
         const {name} = req.body;
@@ -142,7 +142,7 @@ app.post("/CreateDay", async (req,res) => {
     }
 })
 //delete day
-app.delete("/deleteDay/:id", async (req,res) =>{
+app.delete("/api/deleteDay/:id", async (req,res) =>{
     try {
         const {id} = req.params;
         await pool.query(`DELETE FROM days WHERE dayid = ${id}`);
@@ -154,7 +154,7 @@ app.delete("/deleteDay/:id", async (req,res) =>{
 
 // Cards
 // Get cardsfrom one day
-app.get("/GetCardsFromdDay/:id", async (req,res) => {
+app.get("/api/GetCardsFromdDay/:id", async (req,res) => {
     try {
         const {id} = req.params;
         const getCards = await pool.query(`SELECT * FROM cards WHERE dayid = ${id}`);
@@ -164,7 +164,7 @@ app.get("/GetCardsFromdDay/:id", async (req,res) => {
     }
 })
 //create card
-app.post("/CreateCard", async (req,res) => {
+app.post("/api/CreateCard", async (req,res) => {
     try {
         const {desc} = req.body;
         const {title} = req.body;
@@ -177,7 +177,7 @@ app.post("/CreateCard", async (req,res) => {
     }
 })
 
-app.put("/UpdateCardStatus", async (req,res) => {
+app.put("/api/UpdateCardStatus", async (req,res) => {
     try {
         const {cardid} = req.body;
         const {status} = req.body;
@@ -190,7 +190,7 @@ app.put("/UpdateCardStatus", async (req,res) => {
 
 // Comments
 // Create comment for day
-app.post("/CreateComment", async (req,res) =>{
+app.post("/api/CreateComment", async (req,res) =>{
     try {
         const {comment} = req.body;
         const {username} = req.body;
@@ -203,7 +203,7 @@ app.post("/CreateComment", async (req,res) =>{
     }
 })
 //get all comments for one card
-app.get("/getCommentsForOneCard/:id", async (req,res) =>{
+app.get("/api/getCommentsForOneCard/:id", async (req,res) =>{
     try {
         const {id} = req.params;
         const getCards = await pool.query(`SELECT * FROM comments WHERE cardid = ${id}`);
@@ -217,6 +217,6 @@ app.listen(PORT, ()=>{
     console.log(`Server is running on ${PORT}` )
 });
 
-app.get('/express_backend', (req, res) => {
+app.get('/api/express_backend', (req, res) => {
     res.send({express: 'YOUR EXPRESS BACKEND IS CONNECTED TO REACT'});
 });
