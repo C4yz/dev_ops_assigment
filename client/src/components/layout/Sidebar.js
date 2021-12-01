@@ -65,7 +65,8 @@ function Sidebar (props){
                         variant={'outlined'}
                         fullWidth={true}
                         style={{justifyContent: "flex-start", color: "white"}}
-                        color={"primary"}>{element}</Button>
+                        color={"primary"}
+                >{element}</Button>
             </Box>
         )
     })

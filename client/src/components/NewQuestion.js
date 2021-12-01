@@ -37,7 +37,7 @@ function NewQuestion (props){
         console.log(store.content);
         store.content.push(question);*/
         console.log("handlepost called:")
-        store.addQuestion(day, title, desc, "DummyUser", course)
+        store.addQuestion(day, title, desc, localStorage.getItem("studentid"));
     };
 
     return (

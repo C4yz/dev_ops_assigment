@@ -189,11 +189,13 @@ export default class BoardStore {
             if(!response.ok){
               throw Error ("Could not post the data from ther server. Status: " + response.status + " " + response.statusText)
             }
-            response.json()
+            console.log(response.json());
           })
-          .then(data => {
+          .then(async data => {
+            console.log(data)
             console.log('Success:', data);
-            this.changeStore(course)
+			await this.changeStore(this.course.title);
+
           })
           .catch((error) => {
             console.error('Error:', error);
@@ -204,8 +206,15 @@ export default class BoardStore {
 
     //TODO: update the store cards since new one is in db
     //this.course.tabs[dayName].threads = this.getCards(this.course.tabs[dayName].dayid);
-
+    //reload
   }
+
+  async moveCardToFinish(cardid, status) {
+    await this.updateCardStatus(cardid, status);
+    await this.changeStore(this.course.title);
+  }
+
+
   async updateCardStatus(cardid, status){
     console.log("updateCardStatus called in store");
     const data = {
@@ -267,8 +276,10 @@ export default class BoardStore {
             }
             response.json()
           })
-          .then(data => {
+          .then(async data => {
             console.log('Success:', data);
+    		await this.changeStore(this.course.title);
+
           })
           .catch((error) => {
             console.error( error);
@@ -277,7 +288,9 @@ export default class BoardStore {
       console.log(e);
     }
     //TODO: update store after updating DB
+    //updating store
   }
+
   async getComments(id) {
     try {
       const res = await fetch(`http://130.225.170.203/api/getCommentsForOneCard/${id}`)

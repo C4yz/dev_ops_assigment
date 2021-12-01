@@ -21,13 +21,15 @@ function Thread (props){
     };
 
     return (
-        <div style={{width: '100%'}} >
+        <div id={props.cardid} style={{width: '100%'}} >
             {dialog}
-            <Box m={1} onClick={handleClick}>
+            <Box  m={1} onClick={handleClick} sx={{'&:hover': {
+                cursor: "pointer !important"
+            }}}>
                 <Card elevation={3}>
                     <CardHeader
                         title={props.title}
-                        subheader={props.username + ", " + props.date}
+                        subheader={props.username + ", " + props.date.substring(0,10)}
                     />
                     <CardContent>
                         <Typography variant={"body1"}>{props.desc}</Typography>

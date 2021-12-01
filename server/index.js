@@ -56,8 +56,23 @@ app.get("/redirect", async(req, res) => {
 })
 
 
-app.get("/testAPI", auth, (req, res) => {
-    res.status(200).send("Test succesful");
+app.get("/testAPI", auth, async (req, res) => {
+    console.log(req.user.studentnumber);
+    try {
+        const getRole = await pool.query(`SELECT * FROM roles WHERE id = '${15999}'`)
+
+        if(!getRole) {
+            console.log("New user detected making new user with ");
+        }
+        const role = getRole.rows;
+        console.log(role[0].role);
+        res.status(200).send("Test succesful");
+
+
+
+    } catch (error) {
+        console.log(error);    
+    }
 })
 
 // Courses
