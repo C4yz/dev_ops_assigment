@@ -30,26 +30,10 @@ function ThreadDialog (props){
         }
         else{
             console.log("dialog posting comment")
-            props.props.store.addComment(newComment, "commentUser", props.props.cardid, props.props.status);
+            props.props.store.addComment(newComment, localStorage.getItem("studentid"), props.props.cardid, props.props.status);
             setOpen(false);
         }
     };
-
-    const comments = [];
-
-    /*create comments */
-    props.props.comments.forEach((tempComment) => {
-        comments.push(<Box
-                borderBottom={1}
-                borderColor="primary.second"
-            >
-                <Typography variant={"h5"}>{tempComment.username}</Typography>
-                <Typography variant={"caption"}>{tempComment.date}</Typography>
-                <Typography variant={"body1"}>{tempComment.comment}</Typography>
-            </Box>
-
-        );
-    });
 
     const handleMoveToFinish = e =>{
         console.log("we are in the handlemovetofinish!")
@@ -77,6 +61,7 @@ function ThreadDialog (props){
                 multiline
                 maxRows={5}
                 fullWidth
+                style={{width:"95%", alignSelf: "center"}}
                 onChange={(e) => setNewComment(e.target.value)}
             />
         }
@@ -95,10 +80,16 @@ function ThreadDialog (props){
             {/*commentsection*/}
             <DialogContent dividers={true}>
                 <DialogContentText>
-                    {comments}
+                    {props.props.comments.map((tempComment) => (
+                        <Box borderBottom={1} borderColor="primary.second">
+                            <Typography variant={"body1"} color={"textPrimary"}>{tempComment.username}</Typography>
+                            <Typography variant={"caption"}>{tempComment.date.substring(0,10)}</Typography>
+                            <Typography variant={"body1"}>{tempComment.comment}</Typography>
+                        </Box>
+                    ))}
                 </DialogContentText>
-                {newCommentTextField() /*editable comment field if not finished thread*/}
             </DialogContent>
+            {newCommentTextField() /*editable comment field if not finished thread*/}
             <DialogActions>
                 {moveToFinishedButton()/*movetofinish button if not finished thread*/}
                 <Button onClick={handleClose}>Close</Button>

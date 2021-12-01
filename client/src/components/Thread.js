@@ -29,7 +29,7 @@ function Thread (props){
                 <Card elevation={3}>
                     <CardHeader
                         title={props.title}
-                        subheader={props.username + ", " + props.date}
+                        subheader={props.username + ", " + props.date.substring(0,10)}
                     />
                     <CardContent>
                         <Typography variant={"body1"}>{props.desc}</Typography>
