@@ -8,7 +8,10 @@ const e = require('express');
 const https = require('https');
 const axios = require('axios');
 const jwt = require('jsonwebtoken');
+
+
 const auth = require('./middleware/validate');
+const logger = require('./logger/logger');
 
 const PORT = process.env.PORT || 5000;
 
@@ -229,9 +232,12 @@ app.get("/api/getCommentsForOneCard/:id", async (req,res) =>{
 })
 
 app.listen(PORT, ()=>{
-    console.log(`Server is running on ${PORT}` )
+    logger.info(`server is running on ${PORT}`);
+    logger.verbose('verbose log');
+    //console.log(`Server is running on ${PORT}` )
 });
 
 app.get('/api/express_backend', (req, res) => {
+    logger.verbose({message: 'here is some data', data: res.code});
     res.send({express: 'YOUR EXPRESS BACKEND IS CONNECTED TO REACT'});
 });
