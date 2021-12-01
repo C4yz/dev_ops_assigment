@@ -23,7 +23,9 @@ function Thread (props){
     return (
         <div id={props.cardid} style={{width: '100%'}} >
             {dialog}
-            <Box  m={1} onClick={handleClick} >
+            <Box  m={1} onClick={handleClick} sx={{'&:hover': {
+                cursor: "pointer !important"
+            }}}>
                 <Card elevation={3}>
                     <CardHeader
                         title={props.title}
