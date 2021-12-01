@@ -20,10 +20,6 @@ describe("Se if the topbar reders correcly", () => {
     })
 
     it("Should render all the courses in the topbar", () => {
-        /*cy.request('http://130.225.170.203/api/allCourses')
-        .its('body')
-        .should('deep.eq', courses)*/
-
         for(let i = 0; i < courses.length; i++){
             cy.contains(courses[i].name).should("exist")
         }
