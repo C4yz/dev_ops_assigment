@@ -1,4 +1,4 @@
-import { sign } from 'jsonwebtoken';
+import { sign, verify } from 'jsonwebtoken';
 
 describe("Se if the landing page renders", () => {
 
@@ -23,6 +23,7 @@ describe("Se if the landing page renders", () => {
                 expiresIn: "2h"
             }
         )
+        //verify(token, Cypress.env("JWT_TOKEN"))
 
         cy.request("http://localhost:5000/testAPI?token="+token)
         .then((response) => {
