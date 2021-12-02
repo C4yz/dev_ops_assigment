@@ -78,7 +78,7 @@ function Board(props){
         };
 
         return (
-            <div style={{width: "100%", height: "100%", alignItems: "center", display: "flex", flexDirection: "column"}} id="boardContainer">
+            <div style={{width: "100%", height: "100%", alignItems: "center", display: "flex", flexDirection: "column"}} id={"boardContainer"}>
                 <h1 style={{ color: "white", textAlign: 'center' }}>{course} {day}</h1>
                 <Box sx={{color: "white", width:"100%"}}>
                     <Tabs centered={true} indicatorColor="secondary" value={value} onChange={handleTabChange} aria-label="basic tabs" >
