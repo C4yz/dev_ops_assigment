@@ -13,7 +13,7 @@ jobs:
           start: npm run start
           wait-on: 'http://localhost:3000'
           browser: chrome
-          recrod: true
+          record: true
         env:
           #comment moving the secrets
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
