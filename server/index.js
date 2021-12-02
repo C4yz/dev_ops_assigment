@@ -37,30 +37,57 @@ app.get("/redirect", async(req, res) => {
                 ticket: req.query.ticket
             }
         }).then(async (response) => {
+            let token;
+            let role;
             var str = response.data.split('\n');
             if(str[0] === 'yes') {
-                const getRole = await pool.query(`SELECT * FROM roles WHERE id = s145861`)
-                console.log(getRole.rows);
-                logger.verbose({message: 'getroles', data: JSON.parse(JSON.stringify(getRole.rows))});
-                const role = getRole.rows
-                const token = jwt.sign(
-                    {studentnumber: str[1],
-                    role: role[0].role || 'user'
-                    },
-                    process.env.JWT_TOKEN,
-                    {
-                        expiresIn: "2h"
+                try {
+                role = await pool.query(`SELECT * FROM roles WHERE id = '${str[1]}'`)
+                } catch (error) {
+                    logger.error({message: 'Error getting roles from server', data: error})
+                }
+                if(typeof role !== 'undefined') {
+                    logger.info({message: 'getRole is defined'})
+                    token = jwt.sign(
+                        {studentnumber: str[1],
+                        role: role.rows[0].role || 'user'
+                        },
+                        process.env.JWT_TOKEN,
+                        {
+                            expiresIn: "2h"
+                        }
+                    )
+                } else {
+                    logger.info({message: 'New user detected creating new user in database'})
+                    try {
+                        await pool.query(`INSERT INTO "public"."roles" ("id", "role") VALUES ('${str[1]}', 'user');`)
+                    } catch (error) {
+                        logger.error({message: 'Error creating new user in database', data: error})
+                        let err =  new Error(error)
+                        err.http_code = 500;
+                        err.stack = error
+                        throw err;
                     }
-                )
-                console.log(token);
-                return res.redirect("http://localhost:3000/?token=" + token + "&stdid=" + str[1]);
+                    token = jwt.sign(
+                        {studentnumber: str[1],
+                        role: role.rows[0].role || 'user'
+                        },
+                        process.env.JWT_TOKEN,
+                        {
+                            expiresIn: "2h"
+                        }
+                    )
+                }
+                
+                logger.verbose({message: 'token', data: token});
+                return res.redirect("http://localhost:3000/?token=" + token + "&stdid=" + str[1] + "&role=" + role.rows[0].role);
             }
 
             
         });
     } catch (error) {
-        //TODO: Do proper error
-        console.log("error in redirect");
+        logger.error({message: error.message, data: error.stack})
+        res.status(error.http_code).send('Error in redirect');
     }
 })
 
@@ -77,56 +104,59 @@ app.get("/testAPI", auth, async (req, res) => {
 //Get All
 app.get("/api/allCourses", async (req,res) => {
     try {
-        const getAll = await pool.query("SELECT * FROM courses");
-        res.json(getAll.rows);
+        var getAll = await pool.query("SELECT * FROM courses");
+        res.status(200).json(getAll.rows);
     } catch (error) {
-        
+        logger.error({message: `Error while getting all courses`, data: error})
+        res.status(404).send(error.message);
     }
 })
 
 //Get One
 app.get("/api/getOneCourse/:id", async (req,res) => {
     try {
-        const {id} = req.params;
-        const getOne = await pool.query(`SELECT * FROM courses WHERE courseId = ${id}`);
-        res.json(getOne.rows);
+        var {id} = req.params;
+        var getOne = await pool.query(`SELECT * FROM courses WHERE courseId = ${id}`);
+        res.status(200).json(getOne.rows);
     } catch (error) {
-        console.error(error.message);
+        logger.error({message: `Error while getting course with id: ${id}`, data: error})
+        res.status(404).send(error.message);
     }
 })
 
 //Create
 app.post("/api/createCourse", async (req,res) =>{
     try {
-        const {courseId} = req.body;
-        const {name} = req.body;
-        const {number} = req.body;
+        var {courseId, name, number} = req.body;
         const newObj = await pool.query(`INSERT INTO courses (courseId,name,number) VALUES(${courseId},'${name}',${number})`);
-        res.json(newObj);
+        res.status(200).json(newObj);
     } catch (error) {
-        console.error(error.message);
+        logger.error({message: `Error creating course with id: ${id}`, data: error})
+        res.status(500).send(error.message);
     }
 })
 
 //Update
 app.put("/api/updateCourse/:id", async (req,res) => {
     try {
-        const {id} = req.params;
-        const updateObj = await pool.query(`UPDATE courses SET number = '65282' WHERE courseId = ${id}`);
-        res.json(updateObj)
+        var {id} = req.params;
+        var updateObj = await pool.query(`UPDATE courses SET number = '65282' WHERE courseId = ${id}`);
+        res.status(200).json(updateObj)
     } catch (error) {
-        console.error(error.message);
+        logger.error({message: `Error updating course with id: ${id}`, data: error})
+        res.status(500).send(error.message);
     }
 })
 
 //Delete
 app.delete("/api/deleteCourse/:id", async (req,res) => {
     try {
-        const {id} = req.params;
-        const delPerson = await pool.query(`DELETE FROM courses WHERE courseId = ${id}`);
-        res.json("Object was deleted!");
+        var {id} = req.params;
+        var delPerson = await pool.query(`DELETE FROM courses WHERE courseId = ${id}`);
+        res.status(200).send("Object was deleted!");
     } catch (error) {
-        console.error(error.message);
+        logger.error({message: `Error deleting course with id: ${id}`, data: error})
+        res.status(500).send(error.message);
     }
 })
 
@@ -134,34 +164,37 @@ app.delete("/api/deleteCourse/:id", async (req,res) => {
 //get days for one coures
 app.get("/api/getDaysForCourse/:id", async (req,res) => {
     try {
-        const {id} = req.params;
-        const getDays = await pool.query(`SELECT * FROM days WHERE courseid = ${id} ORDER BY dayid`);
+        var {id} = req.params;
+        var getDays = await pool.query(`SELECT * FROM days WHERE courseid = ${id} ORDER BY dayid`);
         res.json(getDays.rows);
     } catch (error) {
-        console.error(error.message);
+        logger.error({message: `Error while getting days for course ${id}`, data: error})
+        res.status(404).send(error.message);
     }
 })
 //create day for course
 app.post("/api/CreateDay", async (req,res) => {
     try {
         console.log("/CreateDay has been reached")
-        const {name} = req.body;
-        const {courseid} = req.body;
+        var {name} = req.body;
+        var {courseid} = req.body;
         //var data = JSON.parse(req.body);
-        const createDay = await pool.query(`INSERT INTO days (name,courseid) VALUES('${name}',${courseid});`);
-        res.json(createDay);
+        var createDay = await pool.query(`INSERT INTO days (name,courseid) VALUES('${name}',${courseid});`);
+        res.status(200).json(createDay);
     } catch (error) {
-        console.error(error.message);
+        logger.error({message: `Error while creating day ${id}`, data: error})
+        res.status(500).send(error.message);
     }
 })
 //delete day
 app.delete("/api/deleteDay/:id", async (req,res) =>{
     try {
-        const {id} = req.params;
+        var {id} = req.params;
         await pool.query(`DELETE FROM days WHERE dayid = ${id}`);
-        res.json("Object was deleted!");
+        res.status(200).json("Object was deleted!");
     } catch (error) {
-        console.error(error,message);
+        logger.error({message: `Error while deleting day ${id}`, data: error})
+        res.status(500).send(error.message);
     }
 })
 
@@ -169,35 +202,35 @@ app.delete("/api/deleteDay/:id", async (req,res) =>{
 // Get cardsfrom one day
 app.get("/api/GetCardsFromdDay/:id", async (req,res) => {
     try {
-        const {id} = req.params;
-        const getCards = await pool.query(`SELECT * FROM cards WHERE dayid = ${id}`);
-        res.json(getCards.rows);
+        var {id} = req.params;
+        var getCards = await pool.query(`SELECT * FROM cards WHERE dayid = ${id}`);
+        res.status(200).json(getCards.rows);
     } catch (error) {
-        console.error(error.message);
+        logger.error({message: 'Error while getting cards', data: error});
+        res.status(404).send(`Error occured while getting cards for day ${id}`);
     }
 })
 //create card
 app.post("/api/CreateCard", async (req,res) => {
     try {
-        const {desc} = req.body;
-        const {title} = req.body;
-        const {dayid} = req.body;
-        const {username} = req.body;
-        const createDay = await pool.query(`INSERT INTO cards ("desc","title","dayid","username") VALUES('${desc}','${title}',${dayid},'${username}');`);
-        res.json(createDay);
+        var {desc, title, dayid, username} = req.body;
+        var createDay = await pool.query(`INSERT INTO cards ("desc","title","dayid","username") VALUES('${desc}','${title}',${dayid},'${username}');`);
+        logger.info({message: 'Created card for day:', data: { dayid}})
+        res.status(200).send('created card');
     } catch (error) {
-        console.error(error.message);
+        logger.error({message: `Error occured while creating card for day ${dayid}`, data: error})
+        res.status(500).send('Error while creating card')
     }
 })
 
 app.put("/api/UpdateCardStatus", async (req,res) => {
     try {
-        const {cardid} = req.body;
-        const {status} = req.body;
-        const updateStatus = await pool.query(`UPDATE cards SET status=${status} WHERE cardid = ${cardid}`);
-        res.json(updateStatus);
+        var {cardid, status} = req.body;
+        var updateStatus = await pool.query(`UPDATE cards SET status=${status} WHERE cardid = ${cardid}`);
+        res.status(200).send('updated card');
     } catch (error) {
-        console.error(error.message);
+        logger.error({message: 'Error occured while updating card', data: error});
+        res.status(500).send('Error occured while updating card status', error)
     }
 })
 
@@ -205,37 +238,27 @@ app.put("/api/UpdateCardStatus", async (req,res) => {
 // Create comment for day
 app.post("/api/CreateComment", async (req,res) =>{
     try {
-        const {comment} = req.body;
-        const {username} = req.body;
-        const {cardid} = req.body;
-        //var data = JSON.parse(req.body);
-        const createDay = await pool.query(`INSERT INTO comments (comment,username,cardid) VALUES('${comment}','${username}',${cardid});`);
+        var {comment, username, cardid} = req.body;
+        var createDay = await pool.query(`INSERT INTO comments (comment,username,cardid) VALUES('${comment}','${username}',${cardid});`);
         res.json(createDay);
     } catch (error) {
-        console.error(error.message);
+        logger.error({message: `An error occured while creating comment for card with id ${cardid}`, data: error})
+        res.status(500).send(error.message);
     }
 })
 //get all comments for one card
 app.get("/api/getCommentsForOneCard/:id", async (req,res) =>{
     try {
-        const {id} = req.params;
-        const getCards = await pool.query(`SELECT * FROM comments WHERE cardid = ${id}`);
+        var {id} = req.params;
+        var getCards = await pool.query(`SELECT * FROM comments WHERE cardid = ${id}`);
         logger.verbose({message: 'cards retrieved'});
-        res.json(getCards.rows);
+        res.status(200).json(getCards.rows);
     } catch (error) {
         logger.error({message: `An error occured while retrieving comments for card with id ${id}`, data: error })
-        res.status(error.response.status)
-        return res.send(error.message);
+        res.status(404).send(error.message);
     }
 })
 
 app.listen(PORT, ()=>{
     logger.info(`server is running on ${PORT}`);
-    logger.verbose('verbose log');
-    //console.log(`Server is running on ${PORT}` )
-});
-
-app.get('/api/express_backend', (req, res) => {
-    logger.verbose({message: 'here is some data', data: res.code});
-    res.send({express: 'YOUR EXPRESS BACKEND IS CONNECTED TO REACT'});
 });
