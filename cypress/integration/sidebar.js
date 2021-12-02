@@ -1,9 +1,9 @@
-describe("Se if new question renders corectly", () => {
+before(() => {
+    cy.visit("courses/DevOps/Day%201")
+    cy.wait(5000)
+})
 
-    beforeEach(() => {
-        cy.visit("courses/DevOps/Day%201")
-        cy.wait(5000)
-    })
+describe("Se if new question renders corectly", () => {
 
     it("Should post a question to the database", () => {
         cy.get("#sidebarContainer").should("exist")
@@ -29,6 +29,11 @@ describe("Se if new question renders corectly", () => {
         cy.contains("New question").should('exist')
     })
 });
+
+before(() => {
+    cy.visit("courses/DevOps/Day%201")
+    cy.wait(5000)
+})
 
 describe("Se if it renders correctly", () => {
 

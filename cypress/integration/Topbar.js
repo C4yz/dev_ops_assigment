@@ -1,24 +1,24 @@
+const courses = []
+    
+before(() =>{
+    cy.visit("courses/DevOps/Day%201")
+    cy.wait(5000)
+    cy.get("#topbarContainer").should("exist")
+
+    cy.intercept(
+        {
+            method:"GET",
+            url:"http://130.225.170.203/api/allCourses"
+        },
+        [],
+        (req) => {
+            courses = req.body
+        }
+    )
+
+})
+
 describe("Se if the topbar reders correcly", () => {
-    
-    const courses = []
-    
-    beforeEach(() =>{
-        cy.visit("courses/DevOps/Day%201")
-        cy.wait(5000)
-        cy.get("#topbarContainer").should("exist")
-
-        cy.intercept(
-            {
-                method:"GET",
-                url:"http://130.225.170.203/api/allCourses"
-            },
-            [],
-            (req) => {
-                courses = req.body
-            }
-        )
-
-    })
 
     it("Should render all the courses in the topbar", () => {
         for(let i = 0; i < courses.length; i++){

@@ -1,10 +1,9 @@
+before(() => {
+    cy.visit("courses/DevOps/Day%201")
+    cy.wait(5000)
+})
 
 describe("Se if the board component renders", () => {
-
-    beforeEach(() => {
-        cy.visit("courses/DevOps/Day%201")
-        cy.wait(5000)
-    })
 
     it("should render the board correctly", () => {
         cy.get("#boardContainer").should("exist")
@@ -27,6 +26,12 @@ describe("Se if the board component renders", () => {
     })
     
 });
+
+before(() => {
+    cy.visit("courses/DevOps/Day%201")
+    cy.wait(5000)
+})
+
 
 describe("Se if the buttons on the board works", () => {
     it("Should display no answers when clicked", () =>{
