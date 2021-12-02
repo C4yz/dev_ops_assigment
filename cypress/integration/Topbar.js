@@ -2,7 +2,7 @@ describe("Se if the topbar reders correcly", () => {
     
     const courses = []
     
-    before(() =>{
+    beforeEach(() =>{
         cy.visit("courses/DevOps/Day%201")
         cy.get("#topbarContainer").should("exist")
 

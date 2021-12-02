@@ -1,5 +1,3 @@
-import { sign, verify } from 'jsonwebtoken';
-
 describe("Se if the landing page renders", () => {
 
     it("Should render correctly", () =>{

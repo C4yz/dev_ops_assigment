@@ -1,6 +1,10 @@
 describe("Se if new question renders corectly", () => {
-    it("Should post a question to the database", () => {
+
+    beforeEach(() => {
         cy.visit("courses/DevOps/Day%201")
+    })
+
+    it("Should post a question to the database", () => {
         cy.get("#sidebarContainer").should("exist")
     });
 

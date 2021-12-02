@@ -1,7 +1,7 @@
 
 describe("Se if the board component renders", () => {
 
-    before(() =>{
+    beforeEach(() => {
         cy.visit("courses/DevOps/Day%201")
     })
 
