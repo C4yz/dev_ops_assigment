@@ -29,8 +29,7 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           build: npm run build
-          start: npm run start
-          path: ./client
+          start: npm ci
 
   
   deployment:
