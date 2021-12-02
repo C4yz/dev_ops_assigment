@@ -62,9 +62,9 @@ function Sidebar (props){
     });
 
   return (
-        <div style = {{/*background:'#2b2f38',*/ width : '100%', height: '100%', alignItems: "center", display: "flex", flexDirection: "column"}} id="sidebarContainer">
+        <div style = {{/*background:'#2b2f38',*/ width : '100%', height: '100%', alignItems: "center", display: "flex", flexDirection: "column"}} id={"sidebarContainer"}>
             <NewQuestion store = {props.store}/>
-            <Box  sx={{display : 'flex',
+            <Box sx={{display : 'flex',
                 flexDirection : 'column',
                 flexGrow : 1,
                 justifyContent : 'flex-start',
