@@ -27,10 +27,10 @@ jobs:
 
       - name: (Test) Cypress
         uses: cypress-io/github-action@v2
-        with: |
-            npm run build
-            npm run start
-            npm run test --prefix client/
+        with:
+          build: npm run build
+          start: npm run start
+          test: npm run test --prefix client/
 
   
   deployment:
