@@ -190,7 +190,7 @@ export default class BoardStore {
     //push to db
     try {
       console.log("trying fetch");
-      fetch(`http://localhost:5000/api/CreateCard`, {
+      fetch(`http://130.225.170.203/api/CreateCard`, {
         method: "POST", // or 'PUT'
         headers: {
           "Content-Type": "application/json",
@@ -237,7 +237,7 @@ export default class BoardStore {
     //push to db
     try {
       console.log("trying fetch");
-      fetch(`http://localhost:5000/api/UpdateCardStatus`, {
+      fetch(`http://130.225.170.203/api/UpdateCardStatus`, {
         method: "PUT", // or 'PUT'
         headers: {
           "Content-Type": "application/json",
@@ -282,7 +282,7 @@ export default class BoardStore {
     //push to db
     try {
       console.log("trying fetch");
-      fetch(`http://localhost:5000/api/CreateComment`, {
+      fetch(`http://130.225.170.203/api/CreateComment`, {
         method: "POST", // or 'PUT'
         headers: {
           "Content-Type": "application/json",
@@ -317,7 +317,7 @@ export default class BoardStore {
     //push to db
     try {
       console.log("trying fetch");
-      fetch(`http://localhost:5000/api/deleteComment/${commentid}`, {
+      fetch(`http://130.225.170.203/api/deleteComment/${commentid}`, {
         method: "DELETE", // or 'PUT'
         headers: {
           "Content-Type": "application/json",
@@ -358,7 +358,7 @@ export default class BoardStore {
     //push to db
     try {
       console.log("trying fetch");
-      fetch(`http://localhost:5000/api/CreateDay`, {
+      fetch(`http://130.225.170.203/api/CreateDay`, {
         method: "POST", // or 'PUT'
         headers: {
           "Content-Type": "application/json",
@@ -392,7 +392,7 @@ export default class BoardStore {
   async getComments(id) {
     try {
       const res = await fetch(
-        `http://localhost:5000/api/getCommentsForOneCard/${id}`,
+        `http://130.225.170.203/api/getCommentsForOneCard/${id}`,
         {
           method: "GET",
           headers: {
@@ -416,7 +416,7 @@ export default class BoardStore {
   async getCards(id) {
     try {
       const res = await fetch(
-        `http://localhost:5000/api/GetCardsFromdDay/${id}`,
+        `http://130.225.170.203/api/GetCardsFromdDay/${id}`,
         {
           method: "GET",
           headers: {
@@ -442,7 +442,7 @@ export default class BoardStore {
   async getDays(id) {
     try {
       const res = await fetch(
-        `http://localhost:5000/api/getDaysForCourse/${id}`,
+        `http://130.225.170.203/api/getDaysForCourse/${id}`,
         {
           method: "GET",
           headers: {
@@ -466,7 +466,7 @@ export default class BoardStore {
 
   async getCourse(id) {
     try {
-      const res = await fetch(`http://localhost:5000/api/getOneCourse/${id}`, {
+      const res = await fetch(`http://130.225.170.203/api/getOneCourse/${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -488,7 +488,7 @@ export default class BoardStore {
 
   async getCourses() {
     try {
-      const res = await fetch("http://localhost:5000/api/allCourses", {
+      const res = await fetch("http://130.225.170.203/api/allCourses", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

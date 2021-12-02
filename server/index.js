@@ -18,10 +18,6 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-/*
-This is a comment for testing if the server can see if there is any changes to the github repo
-*/
-
 //Routes
 app.get("/login", async(req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -79,11 +75,8 @@ app.get("/redirect", async(req, res) => {
                     )
                 }
                 
-                logger.verbose({message: 'token', data: token});
                 return res.redirect("http://localhost:3000/?token=" + token + "&stdid=" + str[1] + "&role=" + role.rows[0].role);
             }
-
-            
         });
     } catch (error) {
         logger.error({message: error.message, data: error.stack})
@@ -93,17 +86,14 @@ app.get("/redirect", async(req, res) => {
 
 
 app.get("/testAPI", auth, async (req, res) => {
-    console.log(req.user)
-    res.status(200).send(`A user has tested the API with id ${req.user.studentnumber} and role ${req.user.role}`);
+        res.status(200).send(`A user has tested the API with id ${req.user.studentnumber} and role ${req.user.role}`);
 
 
-
-    
 })
 
 // Courses
 //Get All
-app.get("/api/allCourses", async (req,res) => {
+app.get("/api/allCourses", auth, async (req,res) => {
     try {
         var getAll = await pool.query("SELECT * FROM courses");
         res.status(200).json(getAll.rows);
@@ -114,7 +104,7 @@ app.get("/api/allCourses", async (req,res) => {
 })
 
 //Get One
-app.get("/api/getOneCourse/:id", async (req,res) => {
+app.get("/api/getOneCourse/:id", auth, async (req,res) => {
     try {
         var {id} = req.params;
         var getOne = await pool.query(`SELECT * FROM courses WHERE courseId = ${id}`);
@@ -126,7 +116,7 @@ app.get("/api/getOneCourse/:id", async (req,res) => {
 })
 
 //Create
-app.post("/api/createCourse", async (req,res) =>{
+app.post("/api/createCourse", auth, async (req,res) =>{
     try {
         var {courseId, name, number} = req.body;
         const newObj = await pool.query(`INSERT INTO courses (courseId,name,number) VALUES(${courseId},'${name}',${number})`);
@@ -138,7 +128,7 @@ app.post("/api/createCourse", async (req,res) =>{
 })
 
 //Update
-app.put("/api/updateCourse/:id", async (req,res) => {
+app.put("/api/updateCourse/:id", auth, async (req,res) => {
     try {
         var {id} = req.params;
         var updateObj = await pool.query(`UPDATE courses SET number = '65282' WHERE courseId = ${id}`);
@@ -150,10 +140,14 @@ app.put("/api/updateCourse/:id", async (req,res) => {
 })
 
 //Delete
-app.delete("/api/deleteCourse/:id", async (req,res) => {
+app.delete("/api/deleteCourse/:id", auth, async (req,res) => {
+    if(req.user.role != "admin") {
+        res.status(401).send("Only admins are allowed to delete courses");
+    }
     try {
         var {id} = req.params;
         var delPerson = await pool.query(`DELETE FROM courses WHERE courseId = ${id}`);
+        logger.info({message: `Deleted course with id ${id} `})
         res.status(200).send("Object was deleted!");
     } catch (error) {
         logger.error({message: `Error deleting course with id: ${id}`, data: error})
@@ -163,32 +157,37 @@ app.delete("/api/deleteCourse/:id", async (req,res) => {
 
 // Days
 //get days for one coures
-app.get("/api/getDaysForCourse/:id", async (req,res) => {
+app.get("/api/getDaysForCourse/:id", auth, async (req,res) => {
     try {
         var {id} = req.params;
         var getDays = await pool.query(`SELECT * FROM days WHERE courseid = ${id} ORDER BY dayid`);
-        res.json(getDays.rows);
+        res.status(200).json(getDays.rows);
     } catch (error) {
         logger.error({message: `Error while getting days for course ${id}`, data: error})
         res.status(404).send(error.message);
     }
 })
 //create day for course
-app.post("/api/CreateDay", async (req,res) => {
+app.post("/api/CreateDay", auth, async (req,res) => {
+    if(req.user.role != "admin") {
+        logger.warn({message: "Attempted to create tab, without proper autherization"})
+        res.status(401).send("Only admins are allowed to create new tabs");
+    }
     try {
-        console.log("/CreateDay has been reached")
-        var {name} = req.body;
-        var {courseid} = req.body;
-        //var data = JSON.parse(req.body);
+        var {name, courseid} = req.body;
         var createDay = await pool.query(`INSERT INTO days (name,courseid) VALUES('${name}',${courseid});`);
+        logger.info({message: "created tab", data: createDay});
         res.status(200).json(createDay);
     } catch (error) {
-        logger.error({message: `Error while creating day ${id}`, data: error})
+        logger.error({message: `Error while creating tab ${id}`, data: error})
         res.status(500).send(error.message);
     }
 })
 //delete day
-app.delete("/api/deleteDay/:id", async (req,res) =>{
+app.delete("/api/deleteDay/:id", auth, async (req,res) =>{
+    if (req.user.role != "admin") {
+        return res.status(401).send("Only admins can delete tabs");
+    }
     try {
         var {id} = req.params;
         await pool.query(`DELETE FROM days WHERE dayid = ${id}`);
@@ -201,10 +200,11 @@ app.delete("/api/deleteDay/:id", async (req,res) =>{
 
 // Cards
 // Get cardsfrom one day
-app.get("/api/GetCardsFromdDay/:id", async (req,res) => {
+app.get("/api/GetCardsFromdDay/:id", auth, async (req,res) => {
     try {
         var {id} = req.params;
         var getCards = await pool.query(`SELECT * FROM cards WHERE dayid = ${id}`);
+        logger.verbose({message: `Getting cards from tab ${id}`})
         res.status(200).json(getCards.rows);
     } catch (error) {
         logger.error({message: 'Error while getting cards', data: error});
@@ -212,11 +212,11 @@ app.get("/api/GetCardsFromdDay/:id", async (req,res) => {
     }
 })
 //create card
-app.post("/api/CreateCard", async (req,res) => {
+app.post("/api/CreateCard", auth, async (req,res) => {
     try {
         var {desc, title, dayid, username} = req.body;
         var createDay = await pool.query(`INSERT INTO cards ("desc","title","dayid","username") VALUES('${desc}','${title}',${dayid},'${username}');`);
-        logger.info({message: 'Created card for day:', data: { dayid}})
+        logger.info({message: `Created card for day: ${dayid}`, data: { createDay}})
         res.status(200).send('created card');
     } catch (error) {
         logger.error({message: `Error occured while creating card for day ${dayid}`, data: error})
@@ -224,7 +224,11 @@ app.post("/api/CreateCard", async (req,res) => {
     }
 })
 
-app.put("/api/UpdateCardStatus", async (req,res) => {
+app.put("/api/UpdateCardStatus", auth, async (req,res) => {
+    if(req.user.role != "admin") {
+        logger.warn({message: `Unauthorized update of status for card ${req.body.cardid}`})
+        res.send(401).send("Only admins are allowed to update status of cards");
+    }
     try {
         var {cardid, status} = req.body;
         var updateStatus = await pool.query(`UPDATE cards SET status=${status} WHERE cardid = ${cardid}`);
@@ -237,22 +241,22 @@ app.put("/api/UpdateCardStatus", async (req,res) => {
 
 // Comments
 // Create comment for day
-app.post("/api/CreateComment", async (req,res) =>{
+app.post("/api/CreateComment", auth, async (req,res) =>{
     try {
         var {comment, username, cardid} = req.body;
         var createDay = await pool.query(`INSERT INTO comments (comment,username,cardid) VALUES('${comment}','${username}',${cardid});`);
-        res.json(createDay);
+        res.status(200).json(createDay);
     } catch (error) {
         logger.error({message: `An error occured while creating comment for card with id ${cardid}`, data: error})
         res.status(500).send(error.message);
     }
 })
 //get all comments for one card
-app.get("/api/getCommentsForOneCard/:id", async (req,res) =>{
+app.get("/api/getCommentsForOneCard/:id", auth, async (req,res) =>{
     try {
         var {id} = req.params;
         var getCards = await pool.query(`SELECT * FROM comments WHERE cardid = ${id}`);
-        logger.verbose({message: 'cards retrieved'});
+        logger.verbose({message: 'Comments retrieved'});
         res.status(200).json(getCards.rows);
     } catch (error) {
         logger.error({message: `An error occured while retrieving comments for card with id ${id}`, data: error })
@@ -260,7 +264,7 @@ app.get("/api/getCommentsForOneCard/:id", async (req,res) =>{
     }
 })
 //delete comment
-app.delete("/api/deleteComment/:id", async (req,res) => {
+app.delete("/api/deleteComment/:id", auth, async (req,res) => {
     try {
         var {id} = req.params;
         var delPerson = await pool.query(`DELETE FROM comments WHERE commentid = ${id}`);
