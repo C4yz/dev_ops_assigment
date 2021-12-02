@@ -9,6 +9,7 @@ import NewQuestion from "../NewQuestion";
 import {observer, useObserver } from 'mobx-react-lite';
 import {useParams, withRouter } from "react-router-dom";
 import {grey} from "@material-ui/core/colors";
+import NewDay from "../NewDay";
 
 
 function Sidebar (props){
@@ -43,45 +44,37 @@ function Sidebar (props){
         const tabs = props.store.course.tabs;
 
     const buttons = [];
-    const color = [
-        "#463147",
-        "#314147",
-        "#31473a",
-        "#404731",
-        "#473b31",
-        "#473131",
-    ]
 
     const onClickHandler = event =>  {
         history.push(`/courses/${course}/${event}`);
-
         console.log(JSON.stringify(tabs[event].threads));
     }
 
     Object.keys(tabs).forEach((element) => {
         buttons.push(
-            <Box sx={{width : '100%', mb: 0.7 }}>
                 <Button onClick= {() => {onClickHandler(element)}}
                         variant={'outlined'}
                         fullWidth={true}
-                        style={{justifyContent: "flex-start", color: "white"}}
-                        color={"primary"}>{element}</Button>
-            </Box>
+                        style={{width: "100%", marginBottom:"5px", justifyContent: "flex-start", color: "white"}}
+                        color={"primary"}
+                >{element}</Button>
         )
-    })
-    return (
-        <div style = {{background:'#2b2f38', width : '100%', height: '100%', alignItems: "center", display: "flex", flexDirection: "column"}} id="sidebarContainer">
+    });
+
+  return (
+        <div style = {{/*background:'#2b2f38',*/ width : '100%', height: '100%', alignItems: "center", display: "flex", flexDirection: "column"}} id={"sidebarContainer"}>
             <NewQuestion store = {props.store}/>
-            <Box  sx={{display : 'flex',
+            <Box sx={{display : 'flex',
                 flexDirection : 'column',
                 flexGrow : 1,
                 justifyContent : 'flex-start',
-                alignItems : 'flex-start',
+                alignItems : 'center',
                 height: "100%",
                 width: "100%",
                 px:1,
             }}>
                 {buttons}
+                <NewDay store={props.store} />
             </Box>
         </div>
     )

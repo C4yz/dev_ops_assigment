@@ -73,8 +73,7 @@ export default class BoardStore {
 
     runInAction(() => {
       this.course.title = courses[0].name;
-      this.course.courseid = courses[0].id;
-      
+      this.course.courseid = courses[0].courseid;
     })
     let temp = {};
 
@@ -122,9 +121,10 @@ export default class BoardStore {
       if (Object.values(element).includes(name)) {
         console.log("found course in coursenames " + element.name);
         id = element.courseid;
-        this.course.courseid = element.id;
+        this.course.courseid = element.courseid;
         this.course.title = element.name;
-      }})
+      }
+    })
 
     if (!id) {
       console.log("No course with that name was found");
@@ -189,11 +189,13 @@ export default class BoardStore {
             if(!response.ok){
               throw Error ("Could not post the data from ther server. Status: " + response.status + " " + response.statusText)
             }
-            response.json()
+            console.log(response.json());
           })
-          .then(data => {
+          .then(async data => {
+            console.log(data)
             console.log('Success:', data);
-            this.changeStore(course)
+			await this.changeStore(this.course.title);
+
           })
           .catch((error) => {
             console.error('Error:', error);
@@ -201,11 +203,14 @@ export default class BoardStore {
     }catch (e) {
       console.log(e);
     }
-
-    //TODO: update the store cards since new one is in db
-    //this.course.tabs[dayName].threads = this.getCards(this.course.tabs[dayName].dayid);
-
   }
+
+  async moveCardToFinish(cardid, status) {
+    await this.updateCardStatus(cardid, status);
+    await this.changeStore(this.course.title);
+  }
+
+
   async updateCardStatus(cardid, status){
     console.log("updateCardStatus called in store");
     const data = {
@@ -239,6 +244,7 @@ export default class BoardStore {
       console.log(e);
     }
   }
+
   async addComment(comment, username, cardid, cardStatusBefore){
     if(cardStatusBefore == 1 ){
       console.log("cardstatus was " + cardStatusBefore + " so updating to 2");
@@ -267,8 +273,10 @@ export default class BoardStore {
             }
             response.json()
           })
-          .then(data => {
+          .then(async data => {
             console.log('Success:', data);
+    		await this.changeStore(this.course.title);
+
           })
           .catch((error) => {
             console.error( error);
@@ -276,8 +284,75 @@ export default class BoardStore {
     }catch (e) {
       console.log(e);
     }
-    //TODO: update store after updating DB
   }
+  async deleteComment(commentid){
+    console.log("deleteComment called in store")
+    //push to db
+    try {
+      console.log("trying fetch")
+      fetch(`http://130.225.170.203/api/deleteComment/${commentid}`, {
+        method: 'DELETE', // or 'PUT'
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+          .then(response => {
+            if(!response.ok){
+              throw Error ("Could not post the data from ther server. Status: " + response.status + " " + response.statusText)
+            }
+            response.json()
+          })
+          .then(async data => {
+            console.log('Success:', data);
+            await this.changeStore(this.course.title);
+
+          })
+          .catch((error) => {
+            console.error( error);
+          });
+    }catch (e) {
+      console.log(e);
+    }
+  }
+
+
+
+  async addDay(dayName){
+    console.log("addComment called in store")
+    const data = {
+      name: dayName,
+      courseid: this.course.courseid,
+    };
+    console.log("addDay data: " + JSON.stringify(data));
+    console.log("id: " + this.course.courseid)
+    //push to db
+    try {
+      console.log("trying fetch")
+      fetch(`http://130.225.170.203/api/CreateDay`, {
+        method: 'POST', // or 'PUT'
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+          .then(response => {
+            if(!response.ok){
+              throw Error ("Could not post the data from ther server. Status: " + response.status + " " + response.statusText)
+            }
+            response.json()
+          })
+          .then(async data => {
+            console.log('Success:', data);
+            await this.changeStore(this.course.title);
+          })
+          .catch((error) => {
+            console.error( error);
+          });
+    }catch (e) {
+      console.log(e);
+    }
+  }
+
   async getComments(id) {
     try {
       const res = await fetch(`http://130.225.170.203/api/getCommentsForOneCard/${id}`)
@@ -345,7 +420,6 @@ export default class BoardStore {
       console.log(error)
     }
   }
-
   constructor() {
     makeAutoObservable(this)
   }
