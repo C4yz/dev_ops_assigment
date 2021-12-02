@@ -2,7 +2,7 @@ describe("Se if new question renders corectly", () => {
 
     beforeEach(() => {
         cy.visit("courses/DevOps/Day%201")
-        cy.wait(3000)
+        cy.wait(5000)
     })
 
     it("Should post a question to the database", () => {
