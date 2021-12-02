@@ -4,7 +4,7 @@ describe("Se if new question renders corectly", () => {
         cy.get("#sidebarContainer").should("exist")
     });
 
-    /*it("Should ask a new question", () => {
+    it("Should ask a new question", () => {
         cy.contains("Ask a new Question").click()
         cy.contains("New question").should('exist')
 
@@ -12,7 +12,7 @@ describe("Se if new question renders corectly", () => {
         cy.get("textarea[id='DescriptionInput']").type("Testing the post function Desc again")
         cy.get("button[id='postButton']").click()
         cy.contains("Testing the post function Title").should("exist")
-    })*/
+    })
 
     it("Should cancel ask a new question", () => {
         cy.contains("Ask a new Question").click()
