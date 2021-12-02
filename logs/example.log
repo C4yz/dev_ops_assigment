@@ -161,3 +161,5 @@
 {"level":"info","message":"server is running on 5000","timestamp":"2021-12-02T15:39:33.223Z"}
 {"level":"info","message":"server is running on 5000","timestamp":"2021-12-02T15:40:51.918Z"}
 {"level":"info","message":"server is running on 5000","timestamp":"2021-12-02T15:40:57.453Z"}
+{"level":"info","message":"getRole is defined","timestamp":"2021-12-02T15:46:49.693Z"}
+{"level":"info","message":"server is running on 5000","timestamp":"2021-12-02T15:53:31.606Z"}
