@@ -36,11 +36,17 @@ app.get("/redirect", async(req, res) => {
             params: {
                 ticket: req.query.ticket
             }
-        }).then((response) => {
+        }).then(async (response) => {
             var str = response.data.split('\n');
             if(str[0] === 'yes') {
+                const getRole = await pool.query(`SELECT * FROM roles WHERE id = s145861`)
+                console.log(getRole.rows);
+                logger.verbose({message: 'getroles', data: JSON.parse(JSON.stringify(getRole.rows))});
+                const role = getRole.rows
                 const token = jwt.sign(
-                    {studentnumber: str[1]},
+                    {studentnumber: str[1],
+                    role: role[0].role || 'user'
+                    },
                     process.env.JWT_TOKEN,
                     {
                         expiresIn: "2h"
@@ -60,22 +66,11 @@ app.get("/redirect", async(req, res) => {
 
 
 app.get("/testAPI", auth, async (req, res) => {
-    console.log(req.user.studentnumber);
-    try {
-        const getRole = await pool.query(`SELECT * FROM roles WHERE id = '${15999}'`)
-
-        if(!getRole) {
-            console.log("New user detected making new user with ");
-        }
-        const role = getRole.rows;
-        console.log(role[0].role);
-        res.status(200).send("Test succesful");
+    res.status(200).send(`A user has tested the API with id ${req.user.studentnumber} and role ${req.user.role}`);
 
 
 
-    } catch (error) {
-        console.log(error);    
-    }
+    
 })
 
 // Courses
@@ -225,9 +220,12 @@ app.get("/api/getCommentsForOneCard/:id", async (req,res) =>{
     try {
         const {id} = req.params;
         const getCards = await pool.query(`SELECT * FROM comments WHERE cardid = ${id}`);
+        logger.verbose({message: 'cards retrieved'});
         res.json(getCards.rows);
     } catch (error) {
-        console.error(error.message);
+        logger.error({message: `An error occured while retrieving comments for card with id ${id}`, data: error })
+        res.status(error.response.status)
+        return res.send(error.message);
     }
 })
 
