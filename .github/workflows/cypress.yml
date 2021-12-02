@@ -13,3 +13,8 @@ jobs:
           start: npm run start
           wait-on: 'http://localhost:3000'
           browser: chrome
+          recrod:
+            true
+          env:
+            CYPRESS_RECORD_KEY: edb4fbff-bdf8-43fd-a98e-1e23a5a701ff
+            GITHUB_TOKEN:
