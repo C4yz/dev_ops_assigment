@@ -3,6 +3,7 @@ describe("Se if the board component renders", () => {
 
     beforeEach(() => {
         cy.visit("courses/DevOps/Day%201")
+        cy.wait(3000)
     })
 
     it("should render the board correctly", () => {

@@ -2,6 +2,7 @@ describe("Se if the landing page renders", () => {
 
     it("Should render correctly", () =>{
         cy.visit("/")
+        cy.wait(3000)
         cy.get("#container").should("exist")
     });
 

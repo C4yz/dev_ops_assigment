@@ -4,6 +4,7 @@ describe("Se if the topbar reders correcly", () => {
     
     beforeEach(() =>{
         cy.visit("courses/DevOps/Day%201")
+        cy.wait(3000)
         cy.get("#topbarContainer").should("exist")
 
         cy.intercept(
