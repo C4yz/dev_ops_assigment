@@ -42,10 +42,9 @@ function NewQuestion (props){
 
     return (
         <div>
-            <Button style={{color: "white",
-                background:"#3373ff",
-                padding:15,
-                margin:15}}
+            <Button color={"primary"}
+                    variant={'contained'}
+                    style={{color: "white", padding:15, margin:15}}
                     onClick={handleClickOpen}>
                 Ask a new Question
             </Button>
@@ -56,29 +55,25 @@ function NewQuestion (props){
                         Your question might have been answered already.<br/>
                         Remember to check board before asking.
                     </DialogContentText>
-                    <form noValidate autoComplete="off" onSubmit={handlePost} >
-                        <TextField
-                            id="TitleInput"
-                            label="Title"
-                            fullWidth
-                            onChange={(e) => setTitle(e.target.value)}
-                        />
-                        <TextField
-                            id="DescriptionInput"
-                            label="Description"
-                            multiline
-                            maxRows={5}
-                            fullWidth
-                            onChange={(e) => setDesc(e.target.value)}
-                        />
-                        <Button onClick={handleClose} id="cancelButton" >Cancel</Button>
-                        <Button onClick={handlePost} id="postButton" >Post</Button>
-
-                    </form>
-
+                    <TextField
+                        autoComplete={false}
+                        id="TitleInput"
+                        label="Title"
+                        fullWidth
+                        onChange={(e) => setTitle(e.target.value)}
+                    />
+                    <TextField
+                        id="DescriptionInput"
+                        label="Description"
+                        multiline
+                        maxRows={5}
+                        fullWidth
+                        onChange={(e) => setDesc(e.target.value)}
+                    />
                 </DialogContent>
                 <DialogActions>
-
+                    <Button onClick={handleClose} id="cancelButton" >Cancel</Button>
+                    <Button onClick={handlePost} id="postButton" >Post</Button>
                 </DialogActions>
             </Dialog>
         </div>
