@@ -8,5 +8,6 @@ jobs:
         uses: actions/checkout@v2
       - name: Cypress run
         uses: cypress-io/github-action@v2
-          start: npm run dev
+          build: npm run build
+          start: npm run start
           #wait-on: 'http://localhost:3000'
