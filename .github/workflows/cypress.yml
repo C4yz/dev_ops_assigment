@@ -15,4 +15,4 @@ jobs:
           browser: chrome
           recrod: true
           env:
-            CYPRESS_RECORD_KEY: ${{process.env.CYPRESS_RECORD_KEY}}
+            CYPRESS_RECORD_KEY: ${{secret.CYPRESS_RECORD_KEY}}
