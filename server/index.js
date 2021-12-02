@@ -46,7 +46,7 @@ app.get("/redirect", async(req, res) => {
                 } catch (error) {
                     logger.error({message: 'Error getting roles from server', data: error})
                 }
-                if(typeof role !== 'undefined') {
+                if(role.rows.length !== 0) {
                     logger.info({message: 'getRole is defined'})
                     token = jwt.sign(
                         {studentnumber: str[1],
@@ -70,7 +70,7 @@ app.get("/redirect", async(req, res) => {
                     }
                     token = jwt.sign(
                         {studentnumber: str[1],
-                        role: role.rows[0].role || 'user'
+                        role: 'user'
                         },
                         process.env.JWT_TOKEN,
                         {

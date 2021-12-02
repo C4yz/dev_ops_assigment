@@ -8,7 +8,9 @@ describe("Se if the landing page renders", () => {
     });
 
     it("Login button should exist", () => {
-        //cy.contains("Click here to login").should('exist')
+        cy.contains("Click here to login").click()
+
+        
 
 
 
