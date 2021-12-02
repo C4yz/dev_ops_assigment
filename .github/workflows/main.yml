@@ -31,6 +31,7 @@ jobs:
           browser: firefox
           build: npm run build
           start: npm run start && npm ci
+          wait-on: 'http://localhost:3000'
 
   
   deployment:
