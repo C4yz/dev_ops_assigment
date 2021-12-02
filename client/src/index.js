@@ -17,10 +17,12 @@ function getParameterByName(name, url) {
 
 const token = getParameterByName("token");
 const studentid = getParameterByName("stdid");
+const role = getParameterByName("role");
 if (token!=null && token.length>0){
   //Store token and redirect to baseURL
   localStorage.setItem("portal-jwt-Token",token);
   localStorage.setItem("studentid", studentid);
+  localStorage.setItem("role", role);
   window.location.replace("http://localhost:3000/courses/DevOps/Day 1");
 }
 
