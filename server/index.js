@@ -93,6 +93,7 @@ app.get("/redirect", async(req, res) => {
 
 
 app.get("/testAPI", auth, async (req, res) => {
+    console.log(req.user)
     res.status(200).send(`A user has tested the API with id ${req.user.studentnumber} and role ${req.user.role}`);
 
 
