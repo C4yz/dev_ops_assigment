@@ -3,6 +3,13 @@ describe("Requests for courses", () => {
         cy.request({
             url: "http://130.225.170.203/api/allCourses",
             followRedirect: false,
+            body: {
+                token: {
+                    name: "testing",
+                    studentnumber: "s195455",
+                    role: "admin"
+                }
+            }
         })
         .then((response) => {
             expect(response.status).to.eq(200)
@@ -13,6 +20,13 @@ describe("Requests for courses", () => {
         cy.request({
             url: "http://130.225.170.203/api/getOneCourse/1",
             followRedirect: false,
+            body: {
+                token: {
+                    name: "testing",
+                    studentnumber: "s195455",
+                    role: "admin"
+                }
+            }
         })
         .then((response) => {
             expect(response.status).to.eq(200)
@@ -25,6 +39,13 @@ describe("Requests for days", () => {
         cy.request({
             url: "http://130.225.170.203/api/getDaysForCourse/1",
             followRedirect: false,
+            body: {
+                token: {
+                    name: "testing",
+                    studentnumber: "s195455",
+                    role: "admin"
+                }
+            }
         })
         .then((response) => {
             expect(response.status).to.eq(200)
@@ -37,6 +58,13 @@ describe("Requests for cards", () => {
         cy.request({
             url: "http://130.225.170.203/api/GetCardsFromdDay/1",
             followRedirect: false,
+            body: {
+                token: {
+                    name: "testing",
+                    studentnumber: "s195455",
+                    role: "admin"
+                }
+            }
         })
         .then((response) => {
             expect(response.status).to.eq(200)
@@ -51,7 +79,12 @@ describe("Requests for cards", () => {
                 desc: "Tester API call",
                 title: "Tester API call gennem cypress",
                 dayid: 1,
-                username: "Test User"
+                username: "Test User",
+                token: {
+                    name: "testing",
+                    studentnumber: "s195455",
+                    role: "admin"
+                }
             }
         })
         .then((response) => {
@@ -66,6 +99,11 @@ describe("Requests for cards", () => {
             body: {
                 cardid: 73,
                 status: 2,
+                token: {
+                    name: "testing",
+                    studentnumber: "s195455",
+                    role: "admin"
+                }
             }
         })
         .then((response) => {
@@ -79,6 +117,13 @@ describe("Request for comments", () => {
         cy.request({
             url: "http://130.225.170.203/api/getCommentsForOneCard/40",
             followRedirect: false,
+            body: {
+                token: {
+                    name: "testing",
+                    studentnumber: "s195455",
+                    role: "admin"
+                }
+            }
         })
         .then((response) => {
             expect(response.status).to.eq(200)
@@ -92,7 +137,31 @@ describe("Request for comments", () => {
             body: {
                 comment: "Tester comments API call",
                 userame: "Test User",
-                cardid: 40
+                cardid: 40,
+                token: {
+                    name: "testing",
+                    studentnumber: "s195455",
+                    role: "admin"
+                }
+            }
+        })
+        .then((response) => {
+            expect(response.status).to.eq(200)
+        })
+    })
+})
+
+describe("Request for login", () => {
+    it("Should return a string", () => {
+        cy.request({
+            url: "http://localhost:5000/testAPI",
+            followRedirect: false,
+            body: {
+                token: {
+                    name: "testing",
+                    studentnumber: "s195455",
+                    role: "admin"
+                }
             }
         })
         .then((response) => {

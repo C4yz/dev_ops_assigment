@@ -8,12 +8,7 @@ describe("Se if the landing page renders", () => {
     });
 
     it("Login button should exist", () => {
-        cy.contains("Click here to login").click()
-
-        
-
-
-
+        cy.contains("Click here to login").should("exist")
     });
 
     it("Should not validte if the token is wrong", () => {
