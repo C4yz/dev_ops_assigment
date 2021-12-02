@@ -5,7 +5,7 @@ describe("Se if the board component renders", () => {
         cy.visit("courses/DevOps/Day%201")
     })
 
-    it("should render correctly", () => {
+    it("should render the board correctly", () => {
         cy.wait(2000)
         cy.get("#boardContainer").should("exist")
     })

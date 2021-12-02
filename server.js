@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const app = express();
 const helmet = require('helmet'); // creates headers that protect from attacks (security)
-const cors = require('cors');  // allows/disallows cross-site communication
+const cors = require('cors');  // allows/disallows cross-site communications
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); 
 
