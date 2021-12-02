@@ -10,7 +10,7 @@
     "start-server": "npm start",
     "ci": "start-server-and-test start-server http://localhost:3000 test",
     "start": "concurrently \"npm run server\" \"npm run client\"",
-    "build": "concurrently \"npm install --prefix server\" \"npm install --prefix client\"",
+    "build": "concurrently \"npm install --prefix server\" \"npm install --prefix client\" \" npm install\"" ,
     "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
   },
   "author": "",
