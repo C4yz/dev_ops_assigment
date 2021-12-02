@@ -26,7 +26,7 @@ function Topbar(props){
                         allowScrollButtonsMobile
                         aria-label="scrollable force tabs example"
                     >
-                        {store.courseNames.map((element) => (<Tab wrapped label={element.name}/>))}
+                        {store.courseNames.map((element) => (<Tab label={element.name}/>))}
                     </Tabs>
                 </Box>
                 <Box style={{background: "#7a3131", borderRadius: 20}} sx={{ alignContent: "center", display: "flex", flexDirection:"column" }}>

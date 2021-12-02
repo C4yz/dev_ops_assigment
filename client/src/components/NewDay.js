@@ -29,20 +29,15 @@ function NewDay (props){
         props.store.addDay(name);
     };
 
-    const onClickAddDay = () => {
-        console.log("clicked add day button");
-        /*TODO: add day through store*/
-    }
-
     const addDayButton = () => {
-        /*TODO: if role: admin*/
-        let isNotAdmin = false;
-
-        return <Button onClick= {handleClickOpen}
-                       variant={'contained'}
-                       style={{borderRadius: 20, margin:"5px", justifyContent: "center", color: "white"}}
-                       color={"primary"}
-        >Add tab</Button>
+        if(localStorage.getItem("role")==="admin") {
+            return <Button onClick={handleClickOpen}
+                           variant={'contained'}
+                           style={{borderRadius: 20, margin: "5px", justifyContent: "center", color: "white"}}
+                           color={"primary"}
+                    >Add tab</Button>
+        }
+        return <div></div>
     }
     return (
         <div>

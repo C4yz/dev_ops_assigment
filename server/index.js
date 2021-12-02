@@ -259,6 +259,17 @@ app.get("/api/getCommentsForOneCard/:id", async (req,res) =>{
         res.status(404).send(error.message);
     }
 })
+//delete comment
+app.delete("/api/deleteComment/:id", async (req,res) => {
+    try {
+        var {id} = req.params;
+        var delPerson = await pool.query(`DELETE FROM comments WHERE commentid = ${id}`);
+        res.status(200).send("Object was deleted!");
+    } catch (error) {
+        logger.error({message: `Error deleting comment with id: ${id}`, data: error})
+        res.status(500).send(error.message);
+    }
+})
 
 app.listen(PORT, ()=>{
     logger.info(`server is running on ${PORT}`);

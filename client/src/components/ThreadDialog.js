@@ -41,7 +41,7 @@ function ThreadDialog (props){
     };
 
     const moveToFinishedButton = () => {
-        if(props.props.status === 2){
+        if(props.props.status === 2 && localStorage.getItem("role") === "admin"){
             return <Button onClick={handleMoveToFinish}>Move to finished questions</Button>
         }
         return <div></div>;
@@ -67,6 +67,19 @@ function ThreadDialog (props){
         }
         return <div></div>;
     }
+    const deleteCommentButton = (tempComment) => {
+        if(localStorage.getItem("role") === "admin")
+            return <Button onClick={() => onClickDeleteButton(tempComment)} style={{fontSize:"xx-small", height:"fit-content"}}>Delete Comment</Button>
+        if(localStorage.getItem("studentid") === tempComment.username)
+            return <Button onClick={() => onClickDeleteButton(tempComment)} style={{fontSize:"xx-small", height:"fit-content"}}>Delete Comment</Button>
+
+        return <div></div>
+    }
+
+    const onClickDeleteButton = (comment) => {
+        console.log("onclickDeleteComment id:" + comment.commentid)
+        props.props.store.deleteComment(comment.commentid)
+    }
 
     return (
         <Dialog open={open} onClose={handleClose} fullWidth>
@@ -81,11 +94,16 @@ function ThreadDialog (props){
             <DialogContent dividers={true}>
                 <DialogContentText>
                     {props.props.comments.map((tempComment) => (
-                        <Box borderBottom={1} borderColor="primary.second">
-                            <Typography variant={"body1"} color={"textPrimary"}>{tempComment.username}</Typography>
-                            <Typography variant={"caption"}>{tempComment.date.substring(0,10)}</Typography>
-                            <Typography variant={"body1"}>{tempComment.comment}</Typography>
+                        <Box sx={{display: "flex", width:"100%", flexDirection:"row", justifyContent:"space-between", alignItems:"center" }} borderBottom={1} borderColor="primary.second">
+                            <Box >
+                                <Typography variant={"body1"} color={"textPrimary"}>{tempComment.username}</Typography>
+                                <Typography variant={"caption"}>{tempComment.date.substring(0,10)}</Typography>
+                                <Typography variant={"body1"}>{tempComment.comment}</Typography>
+                            </Box>
+                            {deleteCommentButton(tempComment)}
+
                         </Box>
+
                     ))}
                 </DialogContentText>
             </DialogContent>

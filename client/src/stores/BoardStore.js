@@ -285,6 +285,38 @@ export default class BoardStore {
       console.log(e);
     }
   }
+  async deleteComment(commentid){
+    console.log("deleteComment called in store")
+    //push to db
+    try {
+      console.log("trying fetch")
+      fetch(`http://130.225.170.203/api/deleteComment/${commentid}`, {
+        method: 'DELETE', // or 'PUT'
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+          .then(response => {
+            if(!response.ok){
+              throw Error ("Could not post the data from ther server. Status: " + response.status + " " + response.statusText)
+            }
+            response.json()
+          })
+          .then(async data => {
+            console.log('Success:', data);
+            await this.changeStore(this.course.title);
+
+          })
+          .catch((error) => {
+            console.error( error);
+          });
+    }catch (e) {
+      console.log(e);
+    }
+  }
+
+
+
   async addDay(dayName){
     console.log("addComment called in store")
     const data = {
