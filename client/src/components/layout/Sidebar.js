@@ -47,7 +47,6 @@ function Sidebar (props){
 
     const onClickHandler = event =>  {
         history.push(`/courses/${course}/${event}`);
-        console.log(JSON.stringify(tabs[event].threads));
     }
 
     Object.keys(tabs).forEach((element) => {
