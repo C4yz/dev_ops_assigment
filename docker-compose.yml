@@ -8,6 +8,7 @@ services:
     image: "mocompres/devops_server"
     volumes:
       - ./.env:/app/.env:ro
+      - ./logs/server_alpha.log:/app/logs/server.log
   
   server2:
     build:
@@ -16,6 +17,7 @@ services:
     image: "mocompres/devops_server"
     volumes:
       - ./.env:/app/.env:ro
+      - ./logs/server_bravo.log:/app/logs/server.log
   
 
 
@@ -31,7 +33,7 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/certbot/www:/var/www/certbot/:ro
       - ./nginx/certbot/conf/:/etc/nginx/ssl/:ro
-      - /var/log/nginx/:/var/log/nginx/
+      - ./logs/nginx/:/var/log/nginx/
     ports:
       - "80:80"
       - "443:443"

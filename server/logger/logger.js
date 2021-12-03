@@ -15,7 +15,7 @@ const logger = createLogger({
             level: 'verbose'
         }),
         new transports.File({
-            filename: 'logs/example.log',
+            filename: 'logs/server.log',
             level: 'info',
             format: combine(timestamp(), json()),
             defaultMeta: {service: 'user-service'},
