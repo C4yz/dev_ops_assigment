@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
+    "test": "cypress run --record --key edb4fbff-bdf8-43fd-a98e-1e23a5a701ff",
     "server": "nodemon ./server/index.js",
     "client": "npm start --prefix client",
-    "build": "concurrently \"npm install --prefix server\" \"npm install --prefix client\"",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "build": "concurrently \"npm install --prefix server\" \"npm install --prefix client\"",
+
     "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
   },
   "author": "",
@@ -21,6 +22,7 @@
     "axios": "^0.24.0",
     "concurrently": "^6.2.1",
     "cors": "^2.8.5",
+    "cypress": "^9.1.0",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "helmet": "^4.6.0",

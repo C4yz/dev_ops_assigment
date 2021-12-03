@@ -41,7 +41,7 @@ function ThreadDialog (props){
     };
 
     const moveToFinishedButton = () => {
-        if(props.props.status === 2){
+        if(props.props.status === 2 && localStorage.getItem("role") === "admin"){
             return <Button onClick={handleMoveToFinish}>Move to finished questions</Button>
         }
         return <div></div>;
