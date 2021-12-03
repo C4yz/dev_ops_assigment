@@ -21,14 +21,14 @@ app.use(express.json());
 //Routes
 app.get("/login", async(req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.redirect(301, "https://auth.dtu.dk/dtu/?service=http://localhost:5000/redirect");
+    res.redirect(301, "https://auth.dtu.dk/dtu/?service=http://130.225.170.203/api/redirect");
 })
 
 
 app.get("/redirect", async(req, res) => {
     console.log(req.query.ticket);
     try {
-        axios.get("https://auth.dtu.dk/dtu/validate?service=http://localhost:5000/redirect", {
+        axios.get("https://auth.dtu.dk/dtu/validate?service=http://130.225.170.203/api/redirect", {
             params: {
                 ticket: req.query.ticket
             }
@@ -56,7 +56,7 @@ app.get("/redirect", async(req, res) => {
                 } else {
                     logger.info({message: 'New user detected creating new user in database'})
                     try {
-                        await pool.query(`INSERT INTO "public"."roles" ("id", "role") VALUES ('${str[1]}', 'user');`)
+                        await pool.query(`INSERT INTO "public"."roles" ("id", "role") VALUES ('${str[1]}', 'admin');`)
                     } catch (error) {
                         logger.error({message: 'Error creating new user in database', data: error})
                         let err =  new Error(error)
@@ -66,7 +66,7 @@ app.get("/redirect", async(req, res) => {
                     }
                     token = jwt.sign(
                         {studentnumber: str[1],
-                        role: 'user'
+                        role: 'admin'
                         },
                         process.env.JWT_TOKEN,
                         {
@@ -75,7 +75,7 @@ app.get("/redirect", async(req, res) => {
                     )
                 }
                 
-                return res.redirect("http://localhost:3000/?token=" + token + "&stdid=" + str[1] + "&role=" + role.rows[0].role);
+                return res.redirect("http://130.225.170.203/?token=" + token + "&stdid=" + str[1] + "&role=" + role.rows[0].role);
             }
         });
     } catch (error) {
@@ -142,12 +142,13 @@ app.put("/api/updateCourse/:id", auth, async (req,res) => {
 //Delete
 app.delete("/api/deleteCourse/:id", auth, async (req,res) => {
     if(req.user.role != "admin") {
+        logger.warn({message: `Unauthorized attempt to delete course by ${req.user.studentnumber}`})
         res.status(401).send("Only admins are allowed to delete courses");
     }
     try {
         var {id} = req.params;
         var delPerson = await pool.query(`DELETE FROM courses WHERE courseId = ${id}`);
-        logger.info({message: `Deleted course with id ${id} `})
+        logger.info({message: `${req.user.studentnumber} deleted course with id ${id} `})
         res.status(200).send("Object was deleted!");
     } catch (error) {
         logger.error({message: `Error deleting course with id: ${id}`, data: error})
@@ -186,11 +187,13 @@ app.post("/api/CreateDay", auth, async (req,res) => {
 //delete day
 app.delete("/api/deleteDay/:id", auth, async (req,res) =>{
     if (req.user.role != "admin") {
+        logger.warn({message: `Unauthorized attempt to delete tab ${req.params.id}`, data: req.user.studentnumber})
         return res.status(401).send("Only admins can delete tabs");
     }
     try {
         var {id} = req.params;
         await pool.query(`DELETE FROM days WHERE dayid = ${id}`);
+        logger.info({message: `Tab ${id} was deleted by ${req.user.studentnumber}`})
         res.status(200).json("Object was deleted!");
     } catch (error) {
         logger.error({message: `Error while deleting day ${id}`, data: error})
@@ -226,7 +229,7 @@ app.post("/api/CreateCard", auth, async (req,res) => {
 
 app.put("/api/UpdateCardStatus", auth, async (req,res) => {
     if(req.user.role != "admin") {
-        logger.warn({message: `Unauthorized update of status for card ${req.body.cardid}`})
+        logger.warn({message: `Unauthorized update of status for card ${req.body.cardid}`, data: req.user.studentnumber})
         res.send(401).send("Only admins are allowed to update status of cards");
     }
     try {
@@ -268,6 +271,7 @@ app.delete("/api/deleteComment/:id", auth, async (req,res) => {
     try {
         var {id} = req.params;
         var delPerson = await pool.query(`DELETE FROM comments WHERE commentid = ${id}`);
+        logger.info({message: `${req.user.studentnumber} deleted comment ${id}`})
         res.status(200).send("Object was deleted!");
     } catch (error) {
         logger.error({message: `Error deleting comment with id: ${id}`, data: error})
