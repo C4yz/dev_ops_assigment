@@ -19,13 +19,13 @@ app.use(cors());
 app.use(express.json());
 
 //Routes
-app.get("/login", async(req, res) => {
+app.get("/api/login", async(req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.redirect(301, "https://auth.dtu.dk/dtu/?service=http://130.225.170.203/api/redirect");
 })
 
 
-app.get("/redirect", async(req, res) => {
+app.get("/api/redirect", async(req, res) => {
     console.log(req.query.ticket);
     try {
         axios.get("https://auth.dtu.dk/dtu/validate?service=http://130.225.170.203/api/redirect", {
