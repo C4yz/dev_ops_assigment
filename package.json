@@ -7,10 +7,11 @@
     "test": "cypress run --record --key edb4fbff-bdf8-43fd-a98e-1e23a5a701ff",
     "server": "nodemon ./server/index.js",
     "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "build": "concurrently \"npm install --prefix server\" \"npm install --prefix client\"",
     "start-server": "npm start",
     "ci": "start-server-and-test start-server http://localhost:3000 test",
-    "start": "concurrently \"npm run server\" \"npm run client\"",
-    "build": "concurrently \"npm install --prefix server\" \"npm install --prefix client\" \" npm install\"" ,
     "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
   },
   "author": "",
