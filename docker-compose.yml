@@ -6,12 +6,16 @@ services:
       context: ./server
       dockerfile: ./Dockerfile
     image: "mocompres/devops_server"
+    volumes:
+      - ./.env:/:/app/.env
   
   server2:
     build:
       context: ./server
       dockerfile: ./Dockerfile
     image: "mocompres/devops_server"
+      volumes:
+      - ./.env:/:/app/.env
   
 
 
