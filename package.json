@@ -10,7 +10,8 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "start": "concurrently \"npm run server\" \"npm run client\"",
     "build": "concurrently \"npm install --prefix server\" \"npm install --prefix client\"",
-
+    "start-server": "npm start",
+    "ci": "start-server-and-test start-server http://localhost:3000 test",
     "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
   },
   "author": "",
@@ -34,5 +35,8 @@
     "pg": "^8.7.1",
     "react-toastify": "^8.1.0",
     "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "start-server-and-test": "^1.14.0"
   }
 }
