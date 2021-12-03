@@ -7,8 +7,10 @@ Then run the command "npm run start" to run the client and server concurrently
 
 case specific commands. 
 
-Run the command "npm run client" to only run the client.
-Run the command "npm run server" to only run the server.
+Run the command "npm run build" to build both server and client
+Wait for the application to build
+Run the commadn "npm run start" to start both the client and server
 
-To run the test suite run the command "npm run test"
-
+If you want to run the test you need another terminal.
+In the first termianl you need to build and start the application
+In the scond terminal you need to run "npm run test" to run the cypress test application
