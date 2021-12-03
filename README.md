@@ -7,7 +7,7 @@ Then run the command "npm run start" to run the client and server concurrently
 
 case specific commands. 
 
-Run the command "npm run build" to build both server and client
+Run the command "npm run build" to install the dependencies both server and client
 
 Wait for the application to build
 
