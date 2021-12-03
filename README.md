@@ -9,12 +9,16 @@ case specific commands.
 
 Run the command "npm run build" to install the dependencies both server and client
 
-Wait for the application to build
+- npm run build
 
-Run the command "npm run start" to start both the client and server
+Wait for the application to build. Then run the command "npm run start" to start both the client and server
+
+- npm run start
 
 If you want to run the test you need another terminal.
 
 In the first termianl you need to build and start the application
 
 In the scond terminal you need to run "npm run test" to run the cypress test application
+
+- npm run test
