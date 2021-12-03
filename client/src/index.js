@@ -23,7 +23,7 @@ if (token!=null && token.length>0){
   localStorage.setItem("portal-jwt-Token",token);
   localStorage.setItem("studentid", studentid);
   localStorage.setItem("role", role);
-  window.location.replace("http://bubber.devops.diplomportal.dk/courses/DevOps/Day 1");
+  window.location.replace("http://130.225.170.203/courses/DevOps/Day 1");
 }
 
 ReactDOM.render(
