@@ -11,7 +11,7 @@ function LoginPage(props){
 
     return  (
         <div className="LoginPage" style={{display: "flex", flexDirection: "column", justifyContent : "center", alignItems :'center', height : "100vh"}} id="container">
-            <Typography variant={"h1"} style={{color: "white"}}>WELCOME</Typography>
+            <Typography variant={"h1"} style={{color: "red"}}>WELCOME EXAM</Typography>
 
             <Button style={{alignItems : "center", background: "white"}} onClick={(e) => onClickHandler(e)} >Click here to login</Button>
         </div>
